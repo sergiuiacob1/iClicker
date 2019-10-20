@@ -1,18 +1,23 @@
 from mouse_listener import MouseListener
 from webcam_capturer import WebcamCapturer
+import logging
 
 
 class TrainingDataCollector:
     def __init__(self):
         self.mouseListener = MouseListener(self.onMouseClick)
+        self.webcamCapturer = WebcamCapturer()
+        logging.basicConfig(filename=("mouse_logs.txt"), level=logging.DEBUG,
+                            format='%(asctime)s: %(message)s')
 
     def startCollecting(self):
-        print ('Started collecting training data...')
+        print('Started collecting training data...')
         self.mouseListener.startListening()
-        print ('DACA A AJUNS AICI E BINE BINE')
+        self.webcamCapturer.startCapturing()
 
     def onMouseClick(self, x, y, button, pressed):
         if pressed:
-            print ('BUTTON PRESSEEEEEEEEEED')
-            logging.info(
-                'Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
+            logging.info(f'{button} pressed at ({x}, {y})')
+            a, webcamImage = self.webcamCapturer.getWebcamImage()
+            print(a)
+            

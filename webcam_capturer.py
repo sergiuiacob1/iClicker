@@ -1,8 +1,16 @@
 import cv2
 
+
 class WebcamCapturer:
     def __init__(self):
+        self.cam = cv2.VideoCapture(0)
+
+    def startCapturing(self):
         ...
+
+    def getWebcamImage(self):
+        ret, frame = self.cam.read()
+        return ret, frame
 
     def previewWebcam(self):
         with open('config.json') as configFile:
@@ -34,5 +42,3 @@ class WebcamCapturer:
     def __del__(self):
         self.cam.release()
         cv2.destroyAllWindows()
-
-

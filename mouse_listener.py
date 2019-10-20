@@ -1,14 +1,14 @@
 from pynput.mouse import Listener
-import logging
-import asyncio
 
 
 class MouseListener:
     def __init__(self, onClickFunction):
+        self._listener = Listener(on_click=onClickFunction)
         self.onClickFunction = onClickFunction
-        logging.basicConfig(filename=("mouse_logs.txt"), level=logging.DEBUG,
-                            format='%(asctime)s: %(message)s')
 
     def startListening(self):
-        with Listener(on_click=self.onClickFunction) as listener:
-            listener.join()
+        # non-blocking
+        self._listener.start()
+
+    def stopListening(self):
+        self._listener.stop()
