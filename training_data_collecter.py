@@ -2,6 +2,10 @@ from mouse_listener import MouseListener
 from webcam_capturer import WebcamCapturer
 import logging
 
+class DataObject:
+    def __init__(self, image, mousePosition):
+        self.image = image
+        self.mousePosition = mousePosition
 
 class TrainingDataCollector:
     def __init__(self):
@@ -18,6 +22,8 @@ class TrainingDataCollector:
     def onMouseClick(self, x, y, button, pressed):
         if pressed:
             logging.info(f'{button} pressed at ({x}, {y})')
-            a, webcamImage = self.webcamCapturer.getWebcamImage()
-            print(a)
+            success, webcamImage = self.webcamCapturer.getWebcamImage()
+            dataObject = DataObject(webcamImage, (x, y))
+            self.webcamCapturer.saveCurrentWebcamImage('data')
+
             

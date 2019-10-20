@@ -4,7 +4,6 @@ from pynput.mouse import Listener
 class MouseListener:
     def __init__(self, onClickFunction):
         self._listener = Listener(on_click=onClickFunction)
-        self.onClickFunction = onClickFunction
 
     def startListening(self):
         # non-blocking
