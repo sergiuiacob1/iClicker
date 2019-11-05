@@ -1,16 +1,21 @@
-import asyncio
 import cv2
 import time
-import json
 from pynput.mouse import Listener
 import logging
-from app import App
+from app import App, AppOptions
 
 
 def main():
     app = App()
-    app.collectTrainingData()
-    input("Press Enter to continue...")
+    # option = int(input(app.getAppInstructions()))
+    option = AppOptions.collectData
+    if option == AppOptions.collectData:
+        app.collectTrainingData()
+        input('Press Enter when you are done')
+        app.endDataCollection()
+        app.displaySampleFromCollectedData()
+    if option == AppOptions.predict:
+        app.predictData()
 
 
 if __name__ == '__main__':

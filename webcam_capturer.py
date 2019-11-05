@@ -16,18 +16,18 @@ class WebcamCapturer:
         ret, frame = self.cam.read()
         return ret, frame
 
-    def saveCurrentWebcamImage(self, path):
-        if hasattr(self, 'cam') == False:
-            print('Webcam not started, cannot save current image!')
-            return
-        success, image = self.getWebcamImage()
-        if success is not True:
-            print('Could not read current image from webcam!')
-            return
+    # def saveCurrentWebcamImage(self, path):
+    #     if hasattr(self, 'cam') == False:
+    #         print('Webcam not started, cannot save current image!')
+    #         return
+    #     success, image = self.getWebcamImage()
+    #     if success is not True:
+    #         print('Could not read current image from webcam!')
+    #         return
 
-        os.makedirs(path, exist_ok=True)
-        secondsSinceEpoch = time.time()
-        cv2.imwrite(f'{path}/{secondsSinceEpoch}.png', image)
+    #     os.makedirs(path, exist_ok=True)
+    #     secondsSinceEpoch = time.time()
+    #     cv2.imwrite(f'{path}/{secondsSinceEpoch}.png', image)
 
     def previewWebcam(self):
         windowName = 'Webcam Preview'
