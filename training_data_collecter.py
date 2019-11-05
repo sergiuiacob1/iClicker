@@ -7,6 +7,8 @@ import json
 import os
 import time
 import random
+from typing import List
+
 
 
 def getScreenDimensions():
@@ -33,10 +35,10 @@ class DataObject:
 
 
 class TrainingDataCollector:
-    def __init__(self):
+    def __init__(self, webcamCapturer):
         self.collectedData = []
         self.mouseListener = MouseListener(self.onMouseClick)
-        self.webcamCapturer = WebcamCapturer()
+        self.webcamCapturer = webcamCapturer
         logging.basicConfig(filename=("mouse_logs.txt"), level=logging.DEBUG,
                             format='%(asctime)s: %(message)s')
 
@@ -46,12 +48,9 @@ class TrainingDataCollector:
         self.webcamCapturer.startCapturing()
 
     def endDataCollection(self):
-        with open('config.json', 'r') as f:
-            config = json.load(f)
-        dataDirectoryPath = config['dataDirectoryPath']
         secondsSinceEpoch = time.time()
-        dataDirectoryPath = os.path.abspath(os.path.join(
-            os.getcwd(), dataDirectoryPath, f'{secondsSinceEpoch}.pkl'))
+        dataDirectoryPath = os.path.join(
+            self._getDataDirectoryPath(), f'{secondsSinceEpoch}.pkl')
         print(f'Saving collected data in {dataDirectoryPath}')
         joblib.dump(self.collectedData, dataDirectoryPath)
 
@@ -67,3 +66,21 @@ class TrainingDataCollector:
     def displaySampleFromCollectedData(self):
         sample = random.choice(self.collectedData)
         print(sample)
+
+    def _getDataDirectoryPath(self):
+        with open('config.json', 'r') as f:
+            config = json.load(f)
+        dataDirectoryPath = config['dataDirectoryPath']
+        dataDirectoryPath = os.path.abspath(
+            os.path.join(os.getcwd(), dataDirectoryPath))
+        return dataDirectoryPath
+
+    def getCollectedData(self)->List[DataObject]:
+        dataPath = self._getDataDirectoryPath()
+        data = []
+        for r, _, f in os.walk(dataPath):
+            for file in f:
+                if file.endswith('.pkl'):
+                    currentData = joblib.load(os.path.join(r, file))
+                    data += currentData
+        return data

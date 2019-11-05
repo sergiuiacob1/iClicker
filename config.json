@@ -1,3 +1,4 @@
 {
-    "dataDirectoryPath": "./data"
+    "dataDirectoryPath": "./data",
+    "modelsDirectoryPath": "./models"
 }
