@@ -1,4 +1,5 @@
 import enum
+import time
 import json
 import os
 import numpy as np
@@ -65,7 +66,16 @@ class App:
     def predictData(self):
         print('Loading trained model...')
         model = self._getTrainedModel()
-        self.webcamCapturer.previewWebcam()
+        # self.webcamCapturer.previewWebcam()
+        while True:
+            success, image = self.webcamCapturer.getWebcamImage()
+            if success is False:
+                continue
+            X = np.array(image).flatten()
+            X = X.reshape(1, -1)
+            print ('Predicting...')
+            print(model.predict(X))
+            
         
 
     def _getTrainedModel(self):

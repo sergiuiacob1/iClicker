@@ -8,7 +8,7 @@ from app import App, AppOptions
 def main():
     app = App()
     # option = int(input(app.getAppInstructions()))
-    option = AppOptions.predict
+    option = AppOptions.trainModel
     if option == AppOptions.collectData:
         app.collectTrainingData()
         input('Press Enter when you are done')
