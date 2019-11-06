@@ -1,12 +1,10 @@
 import enum
+import time
 import json
 import os
 import numpy as np
 import joblib
-from sklearn.datasets import make_classification
-from sklearn.multioutput import MultiOutputClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.utils import shuffle
+from train import trainModel
 from training_data_collecter import TrainingDataCollector
 from webcam_capturer import WebcamCapturer
 
@@ -26,19 +24,11 @@ class App:
         # first get data
         data = self.trainingDataCollector.getCollectedData()
         print(f'Loaded {len(data)} items')
-        X = np.array(list(map(lambda x: np.array(x.image).flatten(), data)))
-        Y = np.array(list(map(lambda x: (x.horizontal, x.vertical), data)))
-        print('Training neural network...')
-        forest = RandomForestClassifier(
-            n_estimators=100, random_state=1, verbose=1)
-        multi_target_forest = MultiOutputClassifier(forest, n_jobs=-1)
-        predictions = multi_target_forest.fit(X, Y).predict(X)
-        accuracy = sum([1 if x[0] == y[0] and x[1] == y[1] else 0 for x,
-                        y in zip(Y, predictions)])/len(Y)
+        model, accuracy = trainModel(data)
         print(f'Accuracy: {accuracy}')
         path = os.path.join(self._getModelsDirectoryPath(), 'model.pkl')
         print(f'Saving model in {path}')
-        joblib.dump(multi_target_forest, path)
+        joblib.dump(model, path)
 
     def _getModelsDirectoryPath(self):
         with open('config.json', 'r') as f:
@@ -65,8 +55,16 @@ class App:
     def predictData(self):
         print('Loading trained model...')
         model = self._getTrainedModel()
-        self.webcamCapturer.previewWebcam()
-        
+        # self.webcamCapturer.previewWebcam()
+        while True:
+            success, image = self.webcamCapturer.getWebcamImage()
+            if success is False:
+                print('Failed capturing image')
+                continue
+            X = np.array(image).flatten()
+            X = X.reshape(1, -1)
+            print(model.predict(X))
+            time.sleep(1)
 
     def _getTrainedModel(self):
         path = self._getModelsDirectoryPath()

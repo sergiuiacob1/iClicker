@@ -1,4 +1,4 @@
-import cv2
+from cv2 import cv2
 import time
 import os
 import threading
@@ -6,15 +6,19 @@ from multiprocessing import Process
 
 
 class WebcamCapturer:
-    def __init__(self):
+    def startCapturing(self):
         self.cam = cv2.VideoCapture(0)
 
-    def startCapturing(self):
-        ...
-
     def getWebcamImage(self):
+        if hasattr(self, 'cam') == False:
+            self.startCapturing()
         ret, frame = self.cam.read()
         return ret, frame
+        # except Exception as e:
+        #     print (f'Exception: {str(e)}')
+        #     print ('Maybe the webcam is not started?')
+        #     return False, None
+
 
     # def saveCurrentWebcamImage(self, path):
     #     if hasattr(self, 'cam') == False:
