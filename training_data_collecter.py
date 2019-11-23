@@ -10,9 +10,9 @@ import random
 from typing import List
 
 
-
 def getScreenDimensions():
     root = tk.Tk()
+    root.withdraw() # don't display the root window
     return root.winfo_screenwidth(), root.winfo_screenheight()
 
 
@@ -23,7 +23,6 @@ class DataObject:
     def __init__(self, image, mousePosition):
         self.image = image
         self.mousePosition = mousePosition
-        self.isCorrect = True
         self.screenSize = (screenWidth, screenHeight)
         # x is for width, y is for height
         # (x, y) = mousePosition
@@ -42,6 +41,10 @@ class TrainingDataCollector:
         logging.basicConfig(filename=("mouse_logs.txt"), level=logging.DEBUG,
                             format='%(asctime)s: %(message)s')
 
+    def viewData(self):
+        print('Getting collected data...')
+        data = self.getCollectedData()
+
     def startCollecting(self):
         print('Started collecting training data...')
         self.mouseListener.startListening()
@@ -58,10 +61,9 @@ class TrainingDataCollector:
         if pressed:
             logging.info(f'{button} pressed at ({x}, {y})')
             success, webcamImage = self.webcamCapturer.getWebcamImage()
-            if success:
+            if success is True:
                 dataObject = DataObject(webcamImage, (x, y))
                 self.collectedData.append(dataObject)
-                # self.webcamCapturer.saveCurrentWebcamImage('data')
 
     def displaySampleFromCollectedData(self):
         sample = random.choice(self.collectedData)
@@ -75,7 +77,7 @@ class TrainingDataCollector:
             os.path.join(os.getcwd(), dataDirectoryPath))
         return dataDirectoryPath
 
-    def getCollectedData(self)->List[DataObject]:
+    def getCollectedData(self) -> List[DataObject]:
         dataPath = self._getDataDirectoryPath()
         data = []
         for r, _, f in os.walk(dataPath):
@@ -84,3 +86,7 @@ class TrainingDataCollector:
                     currentData = joblib.load(os.path.join(r, file))
                     data += currentData
         return data
+
+
+if __name__ == '__main__':
+    input('...')

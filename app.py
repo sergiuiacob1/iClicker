@@ -13,12 +13,18 @@ class AppOptions(enum.Enum):
     collectData = 1
     predict = 2
     trainModel = 3
+    viewData = 4
 
 
 class App:
     def __init__(self):
-        self.webcamCapturer = WebcamCapturer()
-        self.trainingDataCollector = TrainingDataCollector(self.webcamCapturer)
+        # self.webcamCapturer = WebcamCapturer()
+        self.webcamCapturer = None
+        self.trainingDataCollector = None
+        # self.trainingDataCollector = TrainingDataCollector(self.webcamCapturer)
+
+    def viewData(self):
+        self.trainingDataCollector.viewData()
 
     def trainModel(self):
         # first get data
@@ -40,8 +46,8 @@ class App:
 
     def getAppInstructions(self):
         instructions = "The following options are available:\n"
-        for index, option in enumerate(AppOptions):
-            instructions += str(index) + ': ' + str(option) + "\n"
+        for option in AppOptions:
+            instructions += repr(option) + "\n"
         instructions += "Enter your choice: "
         return instructions
 
@@ -79,3 +85,7 @@ class App:
 
     def displaySampleFromCollectedData(self):
         self.trainingDataCollector.displaySampleFromCollectedData()
+
+
+if __name__ == '__main__':
+    app = App()

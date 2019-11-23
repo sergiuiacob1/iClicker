@@ -1,4 +1,3 @@
-import cv2
 import time
 from pynput.mouse import Listener
 import logging
@@ -7,8 +6,7 @@ from app import App, AppOptions
 
 def main():
     app = App()
-    # option = int(input(app.getAppInstructions()))
-    option = AppOptions.trainModel
+    option = int(input(app.getAppInstructions()))
     if option == AppOptions.collectData:
         app.collectTrainingData()
         input('Press Enter when you are done')
@@ -18,7 +16,9 @@ def main():
         app.trainModel()
     if option == AppOptions.predict:
         app.predictData()
-        input ('Press Enter when you are done')
+        input('Press Enter when you are done')
+    if option == AppOptions.viewData:
+        app.viewData()
 
 
 if __name__ == '__main__':
