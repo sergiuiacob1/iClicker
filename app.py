@@ -18,10 +18,8 @@ class AppOptions(enum.Enum):
 
 class App:
     def __init__(self):
-        # self.webcamCapturer = WebcamCapturer()
-        self.webcamCapturer = None
-        self.trainingDataCollector = None
-        # self.trainingDataCollector = TrainingDataCollector(self.webcamCapturer)
+        self.webcamCapturer = WebcamCapturer()
+        self.trainingDataCollector = TrainingDataCollector(self.webcamCapturer)
 
     def viewData(self):
         self.trainingDataCollector.viewData()

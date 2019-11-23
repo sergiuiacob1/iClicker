@@ -1,3 +1,4 @@
+from cv2 import cv2
 from mouse_listener import MouseListener
 from webcam_capturer import WebcamCapturer
 import logging
@@ -8,11 +9,13 @@ import os
 import time
 import random
 from typing import List
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def getScreenDimensions():
     root = tk.Tk()
-    root.withdraw() # don't display the root window
+    root.withdraw()  # don't display the root window
     return root.winfo_screenwidth(), root.winfo_screenheight()
 
 
@@ -44,6 +47,17 @@ class TrainingDataCollector:
     def viewData(self):
         print('Getting collected data...')
         data = self.getCollectedData()
+        print(f'Displaying random photos from {len(data)} samples')
+        while True:
+            item = random.choice(data)
+            # convert image from BGR to RGB
+            rgb_image = cv2.cvtColor(item.image, cv2.COLOR_RGB2BGR)
+            # display image
+            plt.imshow(np.array(rgb_image))
+            # display cursor
+            cursor = plt.Circle(item.mousePosition, 20.0, color='r')
+            plt.gcf().gca().add_artist(cursor)
+            plt.show()
 
     def startCollecting(self):
         print('Started collecting training data...')
@@ -78,6 +92,7 @@ class TrainingDataCollector:
         return dataDirectoryPath
 
     def getCollectedData(self) -> List[DataObject]:
+        # TODO save somewhere how many items I have in order to avoid list appendings
         dataPath = self._getDataDirectoryPath()
         data = []
         for r, _, f in os.walk(dataPath):
@@ -89,4 +104,5 @@ class TrainingDataCollector:
 
 
 if __name__ == '__main__':
-    input('...')
+    collector = TrainingDataCollector(WebcamCapturer())
+    collector.viewData()
