@@ -28,8 +28,7 @@ class App():
         print('Getting collected data...')
         data = self.trainingDataCollector.getCollectedData()
         print(f'Displaying random photos from {len(data)} samples')
-        item = random.choice(data)
-        self.data_viewer.displaySample(item)
+        self.data_viewer.view_data(data)
 
     def trainModel(self):
         # first get data
