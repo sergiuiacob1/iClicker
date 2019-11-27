@@ -1,3 +1,4 @@
+import random
 import enum
 import time
 import json
@@ -7,6 +8,7 @@ import joblib
 from train import trainModel
 from training_data_collecter import TrainingDataCollector
 from webcam_capturer import WebcamCapturer
+from data_viewer import DataViewer
 
 
 class AppOptions(enum.Enum):
@@ -16,13 +18,18 @@ class AppOptions(enum.Enum):
     viewData = 4
 
 
-class App:
+class App():
     def __init__(self):
         self.webcamCapturer = WebcamCapturer()
         self.trainingDataCollector = TrainingDataCollector(self.webcamCapturer)
+        self.data_viewer = DataViewer()
 
     def viewData(self):
-        self.trainingDataCollector.viewData()
+        print('Getting collected data...')
+        data = self.trainingDataCollector.getCollectedData()
+        print(f'Displaying random photos from {len(data)} samples')
+        item = random.choice(data)
+        self.data_viewer.displaySample(item)
 
     def trainModel(self):
         # first get data

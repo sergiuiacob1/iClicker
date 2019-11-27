@@ -1,15 +1,14 @@
-from cv2 import cv2
+import tkinter as tk
 from mouse_listener import MouseListener
 from webcam_capturer import WebcamCapturer
+from data_viewer import DataViewer
 import logging
-import tkinter as tk
 import joblib
 import json
 import os
 import time
 import random
 from typing import List
-import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -43,21 +42,6 @@ class TrainingDataCollector:
         self.webcamCapturer = webcamCapturer
         logging.basicConfig(filename=("mouse_logs.txt"), level=logging.DEBUG,
                             format='%(asctime)s: %(message)s')
-
-    def viewData(self):
-        print('Getting collected data...')
-        data = self.getCollectedData()
-        print(f'Displaying random photos from {len(data)} samples')
-        while True:
-            item = random.choice(data)
-            # convert image from BGR to RGB
-            rgb_image = cv2.cvtColor(item.image, cv2.COLOR_RGB2BGR)
-            # display image
-            plt.imshow(np.array(rgb_image))
-            # display cursor
-            cursor = plt.Circle(item.mousePosition, 20.0, color='r')
-            plt.gcf().gca().add_artist(cursor)
-            plt.show()
 
     def startCollecting(self):
         print('Started collecting training data...')
