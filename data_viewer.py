@@ -1,4 +1,5 @@
 import random
+import datetime
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5 import QtGui
@@ -17,6 +18,8 @@ class DataViewer(QtWidgets.QWidget):
         # placeholder for images
         self.main_layout.addWidget(QtWidgets.QLabel())
         self.main_layout.addWidget(self.next_button)
+        # initialise random so it doesn't give the same output
+        random.seed(datetime.datetime.now())
 
     def view_data(self, data):
         self.data = data

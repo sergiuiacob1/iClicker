@@ -83,10 +83,5 @@ class TrainingDataCollector:
             for file in f:
                 if file.endswith('.pkl'):
                     currentData = joblib.load(os.path.join(r, file))
-                    data += currentData
+                    data.extend(currentData)
         return data
-
-
-if __name__ == '__main__':
-    collector = TrainingDataCollector(WebcamCapturer())
-    collector.viewData()
