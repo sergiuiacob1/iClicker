@@ -6,18 +6,22 @@ from PyQt5 import QtGui
 from cv2 import cv2
 
 
+widget_positions = {
+    "image": 0,
+}
+
+
 class DataViewer(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Data Viewer')
-        self.main_layout = QtWidgets.QVBoxLayout()
-        self.setLayout(self.main_layout)
-        self.main_window = QtWidgets.QMainWindow()
-        self.next_button = self.build_next_button()
-        self.main_layout.addWidget(self.main_window)
+        self.setLayout(QtWidgets.QVBoxLayout())
+        image_label = QtWidgets.QLabel()
         # placeholder for images
-        self.main_layout.addWidget(QtWidgets.QLabel())
-        self.main_layout.addWidget(self.next_button)
+        self.layout().addWidget(image_label)
+        # next button
+        self.layout().addWidget(self.build_next_button())
+
         # initialise random so it doesn't give the same output
         random.seed(datetime.datetime.now())
 
@@ -34,12 +38,15 @@ class DataViewer(QtWidgets.QWidget):
     def display_sample(self):
         """Chooses a different item from the sample data and displays it to the user"""
         item = random.choice(self.data)
-        label = QtWidgets.QLabel()
+        image_label = QtWidgets.QLabel()
         sample_image = self.build_sample_image(item.image)
-        label.setPixmap(QtGui.QPixmap.fromImage(sample_image))
+        image_label.setPixmap(QtGui.QPixmap.fromImage(sample_image))
 
-        self.main_layout.replaceWidget(
-            self.main_layout.itemAt(1).widget(), label)
+        text_label = QtWidgets.QLabel(image_label)
+        text_label.setText(f'{str(item.mousePosition)}\nVertical: {item.vertical}\nHorizontal: {item.horizontal}')
+
+        self.layout().replaceWidget(
+            self.layout().itemAt(widget_positions["image"]).widget(), image_label)
         self.show()
 
     def build_sample_image(self, cv2_image):

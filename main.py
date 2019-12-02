@@ -7,8 +7,8 @@ def main():
     q_app = QtWidgets.QApplication(sys.argv)
     app = App()
 
-    option = int(input(app.getAppInstructions()))
-    # option = AppOptions.viewData.value
+    # option = int(input(app.getAppInstructions()))
+    option = AppOptions.viewData.value
     if option == AppOptions.collectData.value:
         app.collectTrainingData()
         input('Press Enter when you are done')
