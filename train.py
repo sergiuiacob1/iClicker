@@ -11,7 +11,7 @@ def trainModel(data):
     X, Y = getData(data)
     print('Training neural network...')
     model = MLPClassifier(hidden_layer_sizes=(
-        20, 2), random_state=1, verbose=True, max_iter=30)
+        32, 16, 4), random_state=1, verbose=True, max_iter=30, learning_rate='constant', learning_rate_init=0.01)
     predictions = model.fit(X, Y).predict(X)
     accuracy = sum([1 if x[0] == y[0] and x[1] == y[1] else 0 for x,
                     y in zip(Y, predictions)])/len(Y)

@@ -14,14 +14,12 @@ class DataViewer(QtWidgets.QWidget):
         self.main_window = QtWidgets.QMainWindow()
         self.next_button = self.build_next_button()
         self.main_layout.addWidget(self.main_window)
-        self.main_layout.addWidget(QtWidgets.QLabel()) # placeholder for images
+        # placeholder for images
+        self.main_layout.addWidget(QtWidgets.QLabel())
         self.main_layout.addWidget(self.next_button)
 
     def view_data(self, data):
         self.data = data
-        # self.main_layout.addWidget(self.main_window)
-        # self.main_layout.addWidget(self.next_button)
-        # self.show()
         self.display_sample()
 
     def build_next_button(self):
@@ -30,17 +28,15 @@ class DataViewer(QtWidgets.QWidget):
         button.clicked.connect(lambda: self.display_sample())
         return button
 
-    @QtCore.pyqtSlot()
-    def on_click(self):
-        self.display_sample
-
     def display_sample(self):
+        """Chooses a different item from the sample data and displays it to the user"""
         item = random.choice(self.data)
         label = QtWidgets.QLabel()
         sample_image = self.build_sample_image(item.image)
         label.setPixmap(QtGui.QPixmap.fromImage(sample_image))
 
-        self.main_layout.replaceWidget(self.main_layout.itemAt(1).widget(), label)
+        self.main_layout.replaceWidget(
+            self.main_layout.itemAt(1).widget(), label)
         self.show()
 
     def build_sample_image(self, cv2_image):
