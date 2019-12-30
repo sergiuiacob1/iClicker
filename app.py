@@ -1,3 +1,4 @@
+from PyQt5 import QtWidgets
 import random
 import enum
 import time
@@ -9,22 +10,62 @@ from train import trainModel
 from training_data_collecter import TrainingDataCollector
 from webcam_capturer import WebcamCapturer
 from data_viewer import DataViewer
+from utils import get_screen_dimensions
 
 
 class AppOptions(enum.Enum):
     collectData = 1
     predict = 2
     trainModel = 3
-    viewData = 4
+    view_data = 4
 
 
-class App():
+class App(QtWidgets.QWidget):
     def __init__(self):
+        super().__init__()
         self.webcamCapturer = WebcamCapturer()
         self.trainingDataCollector = TrainingDataCollector(self.webcamCapturer)
         self.data_viewer = DataViewer()
 
-    def viewData(self):
+    def display_main_menu(self):
+        self.setWindowTitle('iClicker')
+        self.resize(*get_screen_dimensions())
+        # creating layout
+        self.setLayout(QtWidgets.QVBoxLayout())
+        self.top_menu_part = QtWidgets.QLabel('iClicker')
+        self.bottom_menu_part = QtWidgets.QWidget()
+        self.layout().addWidget(self.top_menu_part)
+        self.layout().addWidget(self.bottom_menu_part)
+        self.add_control_buttons()
+        self.show()
+
+
+    def add_control_buttons(self):
+        self.bottom_menu_part.setLayout(QtWidgets.QGridLayout())
+        collect_data_button = QtWidgets.QPushButton('Collect data')
+        collect_data_button.setToolTip('Collect training data')
+        collect_data_button.clicked.connect(
+            self.trainingDataCollector.startCollecting)
+
+        train_button = QtWidgets.QPushButton('Train model')
+        train_button.setToolTip('Train model based on collected data')
+        train_button.clicked.connect(self.trainModel)
+
+        predict_button = QtWidgets.QPushButton('Predict')
+        predict_button.setToolTip('Predict cursor position')
+        predict_button.clicked.connect(self.predictData)
+
+        view_data_button = QtWidgets.QPushButton('View data')
+        view_data_button.setToolTip('View collected data')
+        view_data_button.clicked.connect(self.view_data)
+
+        buttons = [collect_data_button, train_button,
+                   predict_button, view_data_button]
+        for i in range(0, 2):
+            for j in range(0, 2):
+                self.bottom_menu_part.layout().addWidget(buttons[i * 2 + j], i, j)
+
+    def view_data(self):
         print('Getting collected data...')
         data = self.trainingDataCollector.getCollectedData()
         print(f'Displaying random photos from {len(data)} samples')

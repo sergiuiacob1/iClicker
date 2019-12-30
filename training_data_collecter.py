@@ -1,7 +1,7 @@
-import tkinter as tk
 from mouse_listener import MouseListener
 from webcam_capturer import WebcamCapturer
 from data_viewer import DataViewer
+from utils import get_screen_dimensions
 import logging
 import joblib
 import json
@@ -12,13 +12,7 @@ from typing import List
 import numpy as np
 
 
-def getScreenDimensions():
-    root = tk.Tk()
-    root.withdraw()  # don't display the root window
-    return root.winfo_screenwidth(), root.winfo_screenheight()
-
-
-screenWidth, screenHeight = getScreenDimensions()
+screenWidth, screenHeight = get_screen_dimensions()
 
 
 class DataObject:

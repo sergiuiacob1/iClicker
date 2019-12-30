@@ -16,8 +16,6 @@ class CircleOverlay(QtWidgets.QWidget):
         QtWidgets.QWidget.__init__(self, parent)
         self.center = center
         self.setFixedSize(parent.size())
-        # self.setAttribute(QtCore.Qt.WA_NoSystemBackground)
-        # self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)
 
     def paintEvent(self, event):
         painter = QtGui.QPainter(self)
@@ -43,6 +41,8 @@ class DataViewer(QtWidgets.QWidget):
     def view_data(self, data):
         self.data = data
         self.display_sample()
+        # focus the window
+        self.raise_()
 
     def build_next_button(self):
         button = QtWidgets.QPushButton('Next')
@@ -63,13 +63,13 @@ class DataViewer(QtWidgets.QWidget):
             f'{str(item.mousePosition)}\nVertical: {item.vertical}\nHorizontal: {item.horizontal}')
 
         # Builds this widget as a child of image_label
-        center = self.get_scaled_mouse_position(item, (image_label.width(), image_label.height()))
+        center = self.get_scaled_mouse_position(
+            item, (image_label.width(), image_label.height()))
         _ = CircleOverlay(center=center, parent=image_label)
 
         self.layout().replaceWidget(
             self.layout().itemAt(widget_positions["image"]).widget(), image_label)
 
-        print(image_label.width())
         self.show()
 
     def get_scaled_mouse_position(self, item, size):
