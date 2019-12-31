@@ -1,8 +1,9 @@
 from mouse_listener import MouseListener
 from webcam_capturer import WebcamCapturer
 from data_viewer import DataViewer
-from utils import get_screen_dimensions
+from utils import get_screen_dimensions, build_button, build_sample_image
 import logging
+import threading
 import joblib
 import json
 import os
@@ -10,6 +11,8 @@ import time
 import random
 from typing import List
 import numpy as np
+from PyQt5 import QtWidgets
+from PyQt5 import QtGui
 
 
 screenWidth, screenHeight = get_screen_dimensions()
@@ -29,25 +32,68 @@ class DataObject:
         return f'Image Size: {len(self.image)}, mouse position: {self.mousePosition}, screen size: {self.screenSize}, (vertical, horizontal): {self.vertical, self.horizontal}'
 
 
-class TrainingDataCollector:
+class TrainingDataCollector(QtWidgets.QMainWindow):
     def __init__(self, webcamCapturer):
+        super().__init__()
         self.collectedData = []
         self.mouseListener = MouseListener(self.onMouseClick)
         self.webcamCapturer = webcamCapturer
+        self.create_window()
         logging.basicConfig(filename=("mouse_logs.txt"), level=logging.DEBUG,
                             format='%(asctime)s: %(message)s')
+        self.collect_data_lock = threading.Lock()
 
-    def startCollecting(self):
+    def create_window(self):
+        self.setWindowTitle('Data Collector')
+        self.webcam_image = QtWidgets.QLabel()
+        self.stop_button = build_button(
+            'Stop', 'Stop Collecting Data', self.end_data_collection)
+        self.stop_button.setParent(self.webcam_image)
+        self.setCentralWidget(self.webcam_image)
+
+    def start_collecting(self):
         print('Started collecting training data...')
+        self.show()
+        self._webcam_image_thread = threading.Thread(
+            target=self.show_webcam_images)
+        self._webcam_image_thread.start()
         self.mouseListener.startListening()
         self.webcamCapturer.startCapturing()
 
-    def endDataCollection(self):
-        secondsSinceEpoch = time.time()
-        dataDirectoryPath = os.path.join(
-            self._getDataDirectoryPath(), f'{secondsSinceEpoch}.pkl')
-        print(f'Saving collected data in {dataDirectoryPath}')
-        joblib.dump(self.collectedData, dataDirectoryPath)
+    def show_webcam_images(self):
+        # Only do this as long as the window is visible
+        print('Displaying images from webcam...')
+        fps = 30
+        while self.isVisible():
+            success, image = self.webcamCapturer.getWebcamImage(start_if_not_started=False)
+            if success is False:
+                continue
+            qt_image = build_sample_image(image)
+            self.webcam_image.setPixmap(QtGui.QPixmap.fromImage(qt_image))
+            # time.sleep(1/fps)
+        print('Stop displaying images from the webcam')
+
+    def save_collected_data(self):
+        self.collect_data_lock.acquire()
+        try:
+            if len(self.collectedData) == 0:
+                print('No data collected')
+                return
+            secondsSinceEpoch = time.time()
+            path = os.path.join(
+                self._getDataDirectoryPath(), f'{secondsSinceEpoch}.pkl')
+            print(f'Saving collected data in {path}')
+            joblib.dump(self.collectedData, path)
+        except:
+            print('Could not save data')
+        self.collect_data_lock.release()
+
+    def end_data_collection(self):
+        threading.Thread(target=self.save_collected_data).start()
+        # close the Qt window
+        self.close()
+        self.mouseListener.stopListening()
+        self.webcamCapturer.stopCapturing()
 
     def onMouseClick(self, x, y, button, pressed):
         if pressed:
@@ -55,7 +101,9 @@ class TrainingDataCollector:
             success, webcamImage = self.webcamCapturer.getWebcamImage()
             if success is True:
                 dataObject = DataObject(webcamImage, (x, y))
+                self.collect_data_lock.acquire()
                 self.collectedData.append(dataObject)
+                self.collect_data_lock.release()
 
     def displaySampleFromCollectedData(self):
         sample = random.choice(self.collectedData)
@@ -67,6 +115,7 @@ class TrainingDataCollector:
         dataDirectoryPath = config['dataDirectoryPath']
         dataDirectoryPath = os.path.abspath(
             os.path.join(os.getcwd(), dataDirectoryPath))
+        os.makedirs(dataDirectoryPath, exist_ok=True)
         return dataDirectoryPath
 
     def getCollectedData(self) -> List[DataObject]:

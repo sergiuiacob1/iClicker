@@ -6,7 +6,7 @@ import json
 import os
 import numpy as np
 import joblib
-from train import trainModel
+from train import train_model
 from training_data_collecter import TrainingDataCollector
 from webcam_capturer import WebcamCapturer
 from data_viewer import DataViewer
@@ -16,40 +16,42 @@ from utils import get_screen_dimensions
 class AppOptions(enum.Enum):
     collectData = 1
     predict = 2
-    trainModel = 3
+    train_model = 3
     view_data = 4
 
 
-class App(QtWidgets.QWidget):
+class App(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.webcamCapturer = WebcamCapturer()
-        self.trainingDataCollector = TrainingDataCollector(self.webcamCapturer)
+        self.training_data_collector = TrainingDataCollector(
+            self.webcamCapturer)
         self.data_viewer = DataViewer()
 
     def display_main_menu(self):
         self.setWindowTitle('iClicker')
-        self.resize(*get_screen_dimensions())
+        # self.resize(*get_screen_dimensions())
+        self.resize(800, 600)
         # creating layout
-        self.setLayout(QtWidgets.QVBoxLayout())
+        main_widget = QtWidgets.QWidget()
+        main_widget.setLayout(QtWidgets.QVBoxLayout())
         self.top_menu_part = QtWidgets.QLabel('iClicker')
         self.bottom_menu_part = QtWidgets.QWidget()
-        self.layout().addWidget(self.top_menu_part)
-        self.layout().addWidget(self.bottom_menu_part)
+        main_widget.layout().addWidget(self.top_menu_part)
+        main_widget.layout().addWidget(self.bottom_menu_part)
         self.add_control_buttons()
+        self.setCentralWidget(main_widget)
         self.show()
-
 
     def add_control_buttons(self):
         self.bottom_menu_part.setLayout(QtWidgets.QGridLayout())
         collect_data_button = QtWidgets.QPushButton('Collect data')
         collect_data_button.setToolTip('Collect training data')
-        collect_data_button.clicked.connect(
-            self.trainingDataCollector.startCollecting)
+        collect_data_button.clicked.connect(self.collect_training_data)
 
         train_button = QtWidgets.QPushButton('Train model')
         train_button.setToolTip('Train model based on collected data')
-        train_button.clicked.connect(self.trainModel)
+        train_button.clicked.connect(self.train_model)
 
         predict_button = QtWidgets.QPushButton('Predict')
         predict_button.setToolTip('Predict cursor position')
@@ -63,19 +65,20 @@ class App(QtWidgets.QWidget):
                    predict_button, view_data_button]
         for i in range(0, 2):
             for j in range(0, 2):
-                self.bottom_menu_part.layout().addWidget(buttons[i * 2 + j], i, j)
+                self.bottom_menu_part.layout().addWidget(
+                    buttons[i * 2 + j], i, j)
 
     def view_data(self):
         print('Getting collected data...')
-        data = self.trainingDataCollector.getCollectedData()
+        data = self.training_data_collector.getCollectedData()
         print(f'Displaying random photos from {len(data)} samples')
         self.data_viewer.view_data(data)
 
-    def trainModel(self):
+    def train_model(self):
         # first get data
-        data = self.trainingDataCollector.getCollectedData()
+        data = self.training_data_collector.getCollectedData()
         print(f'Loaded {len(data)} items')
-        model, accuracy = trainModel(data)
+        model, accuracy = train_model(data)
         print(f'Accuracy: {accuracy}')
         path = os.path.join(self._getModelsDirectoryPath(), 'model.pkl')
         print(f'Saving model in {path}')
@@ -89,19 +92,12 @@ class App(QtWidgets.QWidget):
             os.path.join(os.getcwd(), path))
         return path
 
-    def getAppInstructions(self):
+    def get_app_instructions(self):
         instructions = "The following options are available:\n"
         for option in AppOptions:
             instructions += repr(option) + "\n"
         instructions += "Enter your choice: "
         return instructions
-
-    # def processUserOption(self, option):
-    #     print (f'Got option: {option}')
-    #     if option == AppOptions.collectData:
-    #         self.collectTrainingData()
-    #     if option == AppOptions.predict:
-    #         self.predictData()
 
     def predictData(self):
         print('Loading trained model...')
@@ -122,15 +118,5 @@ class App(QtWidgets.QWidget):
         model = joblib.load(os.path.join(path, 'model.pkl'))
         return model
 
-    def collectTrainingData(self):
-        self.trainingDataCollector.startCollecting()
-
-    def endDataCollection(self):
-        self.trainingDataCollector.endDataCollection()
-
-    def displaySampleFromCollectedData(self):
-        self.trainingDataCollector.displaySampleFromCollectedData()
-
-
-if __name__ == '__main__':
-    app = App()
+    def collect_training_data(self):
+        self.training_data_collector.start_collecting()

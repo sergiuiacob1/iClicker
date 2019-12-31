@@ -6,16 +6,32 @@ from multiprocessing import Process
 
 
 class WebcamCapturer:
+    def __init__(self):
+        self.webcam_lock = threading.Lock()
+
     def startCapturing(self):
+        self.webcam_lock.acquire()
         self.cam = cv2.VideoCapture(0)
+        self.webcam_lock.release()
 
-    def webcamIsStarted(self):
-        return hasattr(self, 'cam')
+    def stopCapturing(self):
+        self.webcam_lock.acquire()
+        self.cam.release()
+        del self.cam
+        self.webcam_lock.release()
 
-    def getWebcamImage(self):
-        if self.webcamIsStarted() is False:
-            self.startCapturing()
+    def webcam_is_started(self):
+        return hasattr(self, 'cam') and self.cam.isOpened()
+
+    def getWebcamImage(self, start_if_not_started=True):
+        if self.webcam_is_started() is False:
+            if start_if_not_started:
+                self.startCapturing()
+            else:
+                return False, None
+        self.webcam_lock.acquire()
         ret, frame = self.cam.read()
+        self.webcam_lock.release()
         return ret, frame
 
     def previewWebcam(self):
@@ -23,7 +39,7 @@ class WebcamCapturer:
         fps = 60
         cv2.namedWindow(windowName)
 
-        if self.webcamIsStarted() is False:
+        if self.webcam_is_started() is False:
             self.startCapturing()
 
         while True:
@@ -47,6 +63,10 @@ class WebcamCapturer:
 
 if __name__ == '__main__':
     web = WebcamCapturer()
-    web.previewWebcam()
+    # web.previewWebcam()
+    web.startCapturing()
+    web.getWebcamImage()
+    web.stopCapturing()
+    web.getWebcamImage()
     # web.startCapturing()
     # web.saveCurrentWebcamImage('data')

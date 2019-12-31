@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from cv2 import cv2
+from utils import build_sample_image
 
 
 widget_positions = {
@@ -39,6 +40,9 @@ class DataViewer(QtWidgets.QWidget):
         random.seed(datetime.datetime.now())
 
     def view_data(self, data):
+        if len(data) == 0:
+            print("No data to view")
+            return
         self.data = data
         self.display_sample()
         # focus the window
@@ -54,7 +58,7 @@ class DataViewer(QtWidgets.QWidget):
         """Chooses a different item from the sample data and displays it to the user"""
         item = random.choice(self.data)
         image_label = QtWidgets.QLabel()
-        sample_image = self.build_sample_image(item.image)
+        sample_image = build_sample_image(item.image)
         image_label.setPixmap(QtGui.QPixmap.fromImage(sample_image))
 
         # Builds this widget as a child of image_label
@@ -67,8 +71,8 @@ class DataViewer(QtWidgets.QWidget):
             item, (image_label.width(), image_label.height()))
         _ = CircleOverlay(center=center, parent=image_label)
 
-        self.layout().replaceWidget(
-            self.layout().itemAt(widget_positions["image"]).widget(), image_label)
+        self.layout().replaceWidget(self.layout().itemAt(
+            widget_positions["image"]).widget(), image_label)
 
         self.show()
 
@@ -77,13 +81,3 @@ class DataViewer(QtWidgets.QWidget):
         scaleW = item.mousePosition[0] / item.screenSize[0]
         scaleH = item.mousePosition[1] / item.screenSize[1]
         return (width * scaleW, height * scaleH)
-
-    def build_sample_image(self, cv2_image):
-        """Receives an image that was captured using OpenCV.
-
-        Returns a `QImage`
-        """
-        rgb_array = cv2.cvtColor(cv2_image, cv2.COLOR_BGR2RGB)
-        h, w, ch = rgb_array.shape
-        bytesPerLine = ch * w
-        return QtGui.QImage(rgb_array.data, w, h, bytesPerLine, QtGui.QImage.Format_RGB888)

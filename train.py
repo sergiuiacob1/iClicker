@@ -7,8 +7,8 @@ from sklearn.utils import shuffle
 from sklearn.preprocessing import MinMaxScaler
 
 
-def trainModel(data):
-    X, Y = getData(data)
+def train_model(data):
+    X, Y = get_data(data)
     print('Training neural network...')
     model = MLPClassifier(hidden_layer_sizes=(
         32, 16, 4), random_state=1, verbose=True, max_iter=30, learning_rate='constant', learning_rate_init=0.01)
@@ -22,7 +22,7 @@ def trainModel(data):
     return model, accuracy
 
 
-def getData(data):
+def get_data(data):
     print('Getting X and Y...')
     X = np.array(list(map(lambda x: np.array(x.image).flatten(), data)))
     Y = np.array(list(map(lambda x: (x.horizontal, x.vertical), data)))
