@@ -5,6 +5,7 @@ import threading
 from multiprocessing import Process
 
 
+# TODO make this a Singleton instead?
 class WebcamCapturer:
     def __init__(self):
         self.webcam_lock = threading.Lock()

@@ -7,12 +7,14 @@ import json
 import os
 import numpy as np
 import joblib
+import sys
+
 from train import train_model
 from training_data_collecter import TrainingDataCollector
 from webcam_capturer import WebcamCapturer
 from data_viewer import DataViewer
 from utils import get_screen_dimensions, run_function_on_thread
-import sys
+import config as Config
 
 
 class App(QtWidgets.QMainWindow):
@@ -82,9 +84,7 @@ class App(QtWidgets.QMainWindow):
         joblib.dump(model, path)
 
     def _get_models_directory_path(self):
-        with open('config.json', 'r') as f:
-            config = json.load(f)
-        path = config['modelsDirectoryPath']
+        path = Config.models_directory_path
         path = os.path.abspath(
             os.path.join(os.getcwd(), path))
         os.makedirs(path, exist_ok=True)
