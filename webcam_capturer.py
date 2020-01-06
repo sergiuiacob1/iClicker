@@ -12,9 +12,13 @@ class WebcamCapturer:
     def startCapturing(self):
         self.webcam_lock.acquire()
         self.cam = cv2.VideoCapture(0)
+        self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+        self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
         self.webcam_lock.release()
 
     def stopCapturing(self):
+        if hasattr(self, "cam") is False:
+            return
         self.webcam_lock.acquire()
         self.cam.release()
         del self.cam

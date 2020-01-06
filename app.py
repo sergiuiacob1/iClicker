@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets
+import threading
 import random
 import enum
 import time
@@ -10,14 +11,8 @@ from train import train_model
 from training_data_collecter import TrainingDataCollector
 from webcam_capturer import WebcamCapturer
 from data_viewer import DataViewer
-from utils import get_screen_dimensions
-
-
-class AppOptions(enum.Enum):
-    collectData = 1
-    predict = 2
-    train_model = 3
-    view_data = 4
+from utils import get_screen_dimensions, run_function_on_thread
+import sys
 
 
 class App(QtWidgets.QMainWindow):
@@ -51,11 +46,12 @@ class App(QtWidgets.QMainWindow):
 
         train_button = QtWidgets.QPushButton('Train model')
         train_button.setToolTip('Train model based on collected data')
-        train_button.clicked.connect(self.train_model)
+        train_button.clicked.connect(
+            lambda: run_function_on_thread(self.train_model))
 
         predict_button = QtWidgets.QPushButton('Predict')
         predict_button.setToolTip('Predict cursor position')
-        predict_button.clicked.connect(self.predictData)
+        predict_button.clicked.connect(lambda: run_function_on_thread(self.predictData))
 
         view_data_button = QtWidgets.QPushButton('View data')
         view_data_button.setToolTip('View collected data')
@@ -69,40 +65,34 @@ class App(QtWidgets.QMainWindow):
                     buttons[i * 2 + j], i, j)
 
     def view_data(self):
+        # TODO put this on a thread?
         print('Getting collected data...')
-        data = self.training_data_collector.getCollectedData()
+        data = self.training_data_collector.get_collected_data()
         print(f'Displaying random photos from {len(data)} samples')
         self.data_viewer.view_data(data)
 
     def train_model(self):
         # first get data
-        data = self.training_data_collector.getCollectedData()
+        data = self.training_data_collector.get_collected_data()
         print(f'Loaded {len(data)} items')
         model, accuracy = train_model(data)
         print(f'Accuracy: {accuracy}')
-        path = os.path.join(self._getModelsDirectoryPath(), 'model.pkl')
+        path = os.path.join(self._get_models_directory_path(), 'model.pkl')
         print(f'Saving model in {path}')
         joblib.dump(model, path)
 
-    def _getModelsDirectoryPath(self):
+    def _get_models_directory_path(self):
         with open('config.json', 'r') as f:
             config = json.load(f)
         path = config['modelsDirectoryPath']
         path = os.path.abspath(
             os.path.join(os.getcwd(), path))
+        os.makedirs(path, exist_ok=True)
         return path
-
-    def get_app_instructions(self):
-        instructions = "The following options are available:\n"
-        for option in AppOptions:
-            instructions += repr(option) + "\n"
-        instructions += "Enter your choice: "
-        return instructions
 
     def predictData(self):
         print('Loading trained model...')
-        model = self._getTrainedModel()
-        # self.webcamCapturer.previewWebcam()
+        model = self._get_trained_model()
         while True:
             success, image = self.webcamCapturer.getWebcamImage()
             if success is False:
@@ -113,8 +103,8 @@ class App(QtWidgets.QMainWindow):
             print(model.predict(X))
             time.sleep(1)
 
-    def _getTrainedModel(self):
-        path = self._getModelsDirectoryPath()
+    def _get_trained_model(self):
+        path = self._get_models_directory_path()
         model = joblib.load(os.path.join(path, 'model.pkl'))
         return model
 

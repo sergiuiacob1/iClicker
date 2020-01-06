@@ -1,4 +1,5 @@
 import tkinter as tk
+import threading
 from PyQt5 import QtWidgets
 from cv2 import cv2
 from PyQt5 import QtGui
@@ -29,3 +30,7 @@ def build_sample_image(cv2_image):
     h, w, ch = rgb_array.shape
     bytesPerLine = ch * w
     return QtGui.QImage(rgb_array.data, w, h, bytesPerLine, QtGui.QImage.Format_RGB888)
+
+
+def run_function_on_thread(function, f_args=tuple()):
+    threading.Thread(target=function, args=f_args).start()

@@ -35,7 +35,7 @@ class DataObject:
 class TrainingDataCollector(QtWidgets.QMainWindow):
     def __init__(self, webcamCapturer):
         super().__init__()
-        self.collectedData = []
+        self.collected_data = []
         self.mouseListener = MouseListener(self.onMouseClick)
         self.webcamCapturer = webcamCapturer
         self.create_window()
@@ -43,49 +43,55 @@ class TrainingDataCollector(QtWidgets.QMainWindow):
                             format='%(asctime)s: %(message)s')
         self.collect_data_lock = threading.Lock()
 
+    def closeEvent(self, event):
+        """This function is ran when the training data window is closed"""
+        self.end_data_collection()
+
     def create_window(self):
         self.setWindowTitle('Data Collector')
         self.webcam_image = QtWidgets.QLabel()
-        self.stop_button = build_button(
-            'Stop', 'Stop Collecting Data', self.end_data_collection)
-        self.stop_button.setParent(self.webcam_image)
+        # self.stop_button = build_button(
+        #     'Stop', 'Stop Collecting Data', self.end_data_collection)
+        # self.stop_button.setParent(self.webcam_image)
         self.setCentralWidget(self.webcam_image)
 
     def start_collecting(self):
         print('Started collecting training data...')
         self.show()
-        self._webcam_image_thread = threading.Thread(
-            target=self.show_webcam_images)
-        self._webcam_image_thread.start()
+        threading.Thread(target=self.show_webcam_images).start()
         self.mouseListener.startListening()
         self.webcamCapturer.startCapturing()
 
     def show_webcam_images(self):
+        """Target function for a thread showing images from webcam.
+
+        Automatically stops when the training data window is closed
+        """
         # Only do this as long as the window is visible
         print('Displaying images from webcam...')
         fps = 30
         while self.isVisible():
-            success, image = self.webcamCapturer.getWebcamImage(start_if_not_started=False)
+            success, image = self.webcamCapturer.getWebcamImage(
+                start_if_not_started=False)
             if success is False:
                 continue
             qt_image = build_sample_image(image)
             self.webcam_image.setPixmap(QtGui.QPixmap.fromImage(qt_image))
-            # time.sleep(1/fps)
+            time.sleep(1/fps)
         print('Stop displaying images from the webcam')
 
     def save_collected_data(self):
         self.collect_data_lock.acquire()
         try:
-            if len(self.collectedData) == 0:
-                print('No data collected')
-                return
-            secondsSinceEpoch = time.time()
-            path = os.path.join(
-                self._getDataDirectoryPath(), f'{secondsSinceEpoch}.pkl')
-            print(f'Saving collected data in {path}')
-            joblib.dump(self.collectedData, path)
-        except:
-            print('Could not save data')
+            if len(self.collected_data) > 0:
+                secondsSinceEpoch = time.time()
+                path = os.path.join(
+                    self._get_data_directory_path(), f'{secondsSinceEpoch}.pkl')
+                print(f'Saving {len(self.collected_data)} samples in {path}')
+                joblib.dump(self.collected_data, path)
+                self.collected_data = []
+        except Exception as e:
+            print(f'Could not save data: {e}')
         self.collect_data_lock.release()
 
     def end_data_collection(self):
@@ -102,14 +108,14 @@ class TrainingDataCollector(QtWidgets.QMainWindow):
             if success is True:
                 dataObject = DataObject(webcamImage, (x, y))
                 self.collect_data_lock.acquire()
-                self.collectedData.append(dataObject)
+                self.collected_data.append(dataObject)
                 self.collect_data_lock.release()
 
     def displaySampleFromCollectedData(self):
-        sample = random.choice(self.collectedData)
+        sample = random.choice(self.collected_data)
         print(sample)
 
-    def _getDataDirectoryPath(self):
+    def _get_data_directory_path(self):
         with open('config.json', 'r') as f:
             config = json.load(f)
         dataDirectoryPath = config['dataDirectoryPath']
@@ -118,9 +124,9 @@ class TrainingDataCollector(QtWidgets.QMainWindow):
         os.makedirs(dataDirectoryPath, exist_ok=True)
         return dataDirectoryPath
 
-    def getCollectedData(self) -> List[DataObject]:
+    def get_collected_data(self) -> List[DataObject]:
         # TODO save somewhere how many items I have in order to avoid list appendings
-        dataPath = self._getDataDirectoryPath()
+        dataPath = self._get_data_directory_path()
         data = []
         for r, _, f in os.walk(dataPath):
             for file in f:
