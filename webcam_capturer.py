@@ -2,7 +2,9 @@ from cv2 import cv2
 import time
 import os
 import threading
-from multiprocessing import Process
+
+import config as Config
+
 
 
 # TODO make this a Singleton instead?
@@ -13,8 +15,8 @@ class WebcamCapturer:
     def startCapturing(self):
         self.webcam_lock.acquire()
         self.cam = cv2.VideoCapture(0)
-        self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, Config.WEBCAM_IMAGE_WIDTH)
+        self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, Config.WEBCAM_IMAGE_HEIGHT)
         self.webcam_lock.release()
 
     def stopCapturing(self):

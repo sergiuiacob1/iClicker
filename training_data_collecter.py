@@ -166,10 +166,6 @@ class TrainingDataCollector(QtWidgets.QMainWindow):
                 self.collected_data.append(dataObject)
                 self.collect_data_lock.release()
 
-    def displaySampleFromCollectedData(self):
-        sample = random.choice(self.collected_data)
-        print(sample)
-
     def _get_data_directory_path(self):
         dataDirectoryPath = Config.data_directory_path
         dataDirectoryPath = os.path.abspath(

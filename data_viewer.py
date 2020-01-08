@@ -5,7 +5,8 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from cv2 import cv2
 from utils import build_sample_image
-
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 widget_positions = {
     "image": 0,
@@ -25,6 +26,14 @@ class CircleOverlay(QtWidgets.QWidget):
         painter.drawEllipse(self.center[0], self.center[1], 20, 20)
 
 
+class StatisticsViewer():
+    def show_statistics(self, data):
+        x = [x.mousePosition[0] for x in data]
+        y = [x.mousePosition[1] for x in data]
+        ax = sns.jointplot(x=x, y=y)
+        plt.show()
+
+
 class DataViewer(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
@@ -36,6 +45,8 @@ class DataViewer(QtWidgets.QWidget):
         # next button
         self.layout().addWidget(self.build_next_button())
 
+        self.statistics_viewer = StatisticsViewer()
+
         # initialise random so it doesn't give the same output
         random.seed(datetime.datetime.now())
 
@@ -44,6 +55,7 @@ class DataViewer(QtWidgets.QWidget):
             print("No data to view")
             return
         self.data = data
+        self.statistics_viewer.show_statistics(data)
         self.display_sample()
         # focus the window
         self.raise_()
