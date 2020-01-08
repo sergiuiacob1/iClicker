@@ -43,6 +43,8 @@ def convert_to_gray_image(image):
 
 
 def sort_points_counter_clockwise(points):
+    if len(points) == 0:
+        return []
     def point_comparator(a, b):
         a1 = (math.degrees(math.atan2(
             a[0] - x_center, a[1] - y_center)) + 360) % 360
@@ -60,7 +62,7 @@ def resize_cv2_image(cv2_image, scale=None, fixed_dim=None):
     if scale is None and fixed_dim is None:
         return cv2_image
     if fixed_dim is not None:
-        res = cv2.resize(cv2_image, dim, interpolation=cv2.INTER_AREA)
+        res = cv2.resize(cv2_image, fixed_dim, interpolation=cv2.INTER_AREA)
     else:
         height, width, _ = cv2_image.shape
         res = cv2.resize(cv2_image, (width*scale, height*scale),
