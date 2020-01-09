@@ -6,20 +6,19 @@ import joblib
 
 def train_model():
     from keras.models import Sequential
-    from keras.layers import Dense, ReLU, Dropout, InputLayer
+    from keras.layers import Dense, ReLU, Dropout
     print('Loading train data...')
     X, y = get_data()
     X = np.array(X)
     print('Training neural network...')
     model = Sequential([
-        InputLayer(input_shape=(len(X[0]), )),
-        Dense(100),
+        Dense(100, input_shape=(len(X[0]),)),
         Dropout(0.25),
         ReLU(),
         Dense(1, activation='sigmoid')
     ])
     model.compile(optimizer='adam', loss='binary_crossentropy')
-    model.fit(X, y, epochs=500, verbose=1)
+    model.fit(X, y, epochs=5, verbose=1)
     print('Training done')
     return model
 
@@ -42,3 +41,6 @@ def get_data():
 
 if __name__ == '__main__':
     model = train_model()
+    model.save('./models/model.pkl')
+    from keras.models import load_model
+    same_model = load_model('./models/model.pkl')

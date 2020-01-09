@@ -59,8 +59,8 @@ def process_data(input_data):
     normalize_data(data)
     # returning a list of tuples [(X, y), (X, y)] where X is a tuple with the eye images
     print ('Creating final train data...')
-    train_data = [(X, y) for X, y in zip (data, [x.horizontal for x in input_data])]
-    return train_data
+    processed_data = [(X, y) for X, y in zip (data, [x.horizontal for x in input_data])]
+    return processed_data
 
 
 def normalize_data(data):
@@ -71,7 +71,7 @@ def normalize_data(data):
 def save_processed_data(data):
     os.makedirs(os.path.join(os.getcwd(), train_data_path), exist_ok=True)
     joblib.dump(data, os.path.join(
-        os.getcwd(), train_data_path, 'train_data.pkl'))
+        os.getcwd(), train_data_path, 'processed_data.pkl'))
 
 
 def main():

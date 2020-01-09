@@ -10,10 +10,11 @@ import joblib
 import sys
 
 from train import train_model
-from training_data_collecter import TrainingDataCollector
+from training_data_collecter import TrainingDataCollector, DataObject
 from webcam_capturer import WebcamCapturer
 from data_viewer import DataViewer
 from utils import get_screen_dimensions, run_function_on_thread
+from data_processing import process_data
 import config as Config
 
 
@@ -54,7 +55,7 @@ class App(QtWidgets.QMainWindow):
         predict_button = QtWidgets.QPushButton('Predict')
         predict_button.setToolTip('Predict cursor position')
         predict_button.clicked.connect(
-            lambda: run_function_on_thread(self.predictData))
+            lambda: run_function_on_thread(self.predict_data))
 
         view_data_button = QtWidgets.QPushButton('View data')
         view_data_button.setToolTip('View collected data')
@@ -78,7 +79,9 @@ class App(QtWidgets.QMainWindow):
         model = train_model()
         path = os.path.join(self._get_models_directory_path(), 'model.pkl')
         print(f'Saving model in {path}')
-        joblib.dump(model, path)
+        # TODO remove joblib if not used
+        model.save(path)
+        # joblib.dump(model, path)
 
     def _get_models_directory_path(self):
         path = Config.models_directory_path
@@ -87,22 +90,35 @@ class App(QtWidgets.QMainWindow):
         os.makedirs(path, exist_ok=True)
         return path
 
-    def predictData(self):
+    def predict_data(self):
         print('Loading trained model...')
+        fps = 30
         model = self._get_trained_model()
         while True:
+            time.sleep(1)
             success, image = self.webcamCapturer.getWebcamImage()
             if success is False:
                 print('Failed capturing image')
                 continue
-            X = np.array(image).flatten()
-            X = X.reshape(1, -1)
-            print(model.predict(X))
-            time.sleep(1)
+            data = [DataObject(image, (0, 0))]
+            data = process_data(data)
+            if len(data) == 0:
+                continue
+            X = [(d[0][0] + d[0][1]).flatten() for d in data]
+            X = np.array(X)
+            prediction = model.predict(X)[0][0]
+            if prediction < 0.5:
+                print ('LEFT')
+            else
+                print ('RIGHT')
 
     def _get_trained_model(self):
         path = self._get_models_directory_path()
-        model = joblib.load(os.path.join(path, 'model.pkl'))
+        path = os.path.join(path, 'model.pkl')
+        import keras
+        model = keras.models.load_model(path)
+        # TODO cleanup
+        # model = joblib.load(os.path.join(path, 'model.pkl'))
         return model
 
     def collect_training_data(self):

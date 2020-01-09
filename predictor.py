@@ -1,13 +1,14 @@
 from PyQt5 import QtWidgets
-from webcam_capturer import WebcamCapturer
 from utils import get_screen_dimensions
 
 
-class Predictor(QtWidgets.QWidget):
-    def __init__(self, model):
+class Predictor(QtWidgets.QMainWindow):
+    def __init__(self, webcam):
         super().__init__()
+        self.webcam = webcam
         self.create_window()
 
     def create_window(self):
-        self.resize(*get_screen_dimensions())
-        # self.setLayout(QtWidgets.)
+        self.setWindowTitle('Predictor')
+        self.webcam_image = QtWidgets.QLabel()
+        self.setCentralWidget(self.webcam_image)
