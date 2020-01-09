@@ -52,8 +52,20 @@ def get_eye_images(data):
     return eye_images
 
 
-def process_data(data):
-    return get_eye_images(data)
+def process_data(input_data):
+    print('Extracting eye data...')
+    data = get_eye_images(input_data)
+    print('Normalizing...')
+    normalize_data(data)
+    # returning a list of tuples [(X, y), (X, y)] where X is a tuple with the eye images
+    print ('Creating final train data...')
+    train_data = [(X, y) for X, y in zip (data, [x.horizontal for x in input_data])]
+    return train_data
+
+
+def normalize_data(data):
+    for i in range(0, len(data)):
+        data[i] = (np.array(data[i][0])/255, np.array(data[i][1])/255)
 
 
 def save_processed_data(data):

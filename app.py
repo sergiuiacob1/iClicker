@@ -53,7 +53,8 @@ class App(QtWidgets.QMainWindow):
 
         predict_button = QtWidgets.QPushButton('Predict')
         predict_button.setToolTip('Predict cursor position')
-        predict_button.clicked.connect(lambda: run_function_on_thread(self.predictData))
+        predict_button.clicked.connect(
+            lambda: run_function_on_thread(self.predictData))
 
         view_data_button = QtWidgets.QPushButton('View data')
         view_data_button.setToolTip('View collected data')
@@ -74,11 +75,7 @@ class App(QtWidgets.QMainWindow):
         self.data_viewer.view_data(data)
 
     def train_model(self):
-        # first get data
-        data = self.training_data_collector.get_collected_data()
-        print(f'Loaded {len(data)} items')
-        model, accuracy = train_model(data)
-        print(f'Accuracy: {accuracy}')
+        model = train_model()
         path = os.path.join(self._get_models_directory_path(), 'model.pkl')
         print(f'Saving model in {path}')
         joblib.dump(model, path)
