@@ -1,15 +1,13 @@
-from PyQt5 import QtWidgets
-import threading
+from PyQt5 import QtWidgets, QtCore
 import random
-import enum
-import time
-import json
 import os
 import numpy as np
 import joblib
 import sys
 
-from train import train_model
+
+# My files
+import trainer as Trainer
 from training_data_collecter import TrainingDataCollector, DataObject
 from webcam_capturer import WebcamCapturer
 from data_viewer import DataViewer
@@ -21,10 +19,14 @@ import config as Config
 class App(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.webcamCapturer = WebcamCapturer()
+        self.webcam_capturer = WebcamCapturer()
         self.training_data_collector = TrainingDataCollector(
-            self.webcamCapturer)
+            self.webcam_capturer)
         self.data_viewer = DataViewer()
+
+    def keyPressEvent(self, e):
+        if e.key() == QtCore.Qt.Key_Escape:
+            self.close()
 
     def display_main_menu(self):
         self.setWindowTitle('iClicker')
@@ -76,27 +78,18 @@ class App(QtWidgets.QMainWindow):
         self.data_viewer.view_data(data)
 
     def train_model(self):
-        model = train_model()
-        path = os.path.join(self._get_models_directory_path(), 'model.pkl')
-        print(f'Saving model in {path}')
-        # TODO remove joblib if not used
-        model.save(path)
-        # joblib.dump(model, path)
-
-    def _get_models_directory_path(self):
-        path = Config.models_directory_path
-        path = os.path.abspath(
-            os.path.join(os.getcwd(), path))
-        os.makedirs(path, exist_ok=True)
-        return path
+        model = Trainer.train_model()
+        Trainer.save_model(model)
 
     def predict_data(self):
-        print('Loading trained model...')
-        fps = 30
-        model = self._get_trained_model()
+        print('Loading best trained model...')
+        model = Trainer.get_best_trained_model()
+        if model is None:
+            print('No trained models')
+            return
+
         while True:
-            time.sleep(1)
-            success, image = self.webcamCapturer.getWebcamImage()
+            success, image = self.webcam_capturer.getWebcamImage()
             if success is False:
                 print('Failed capturing image')
                 continue
@@ -111,15 +104,6 @@ class App(QtWidgets.QMainWindow):
                 print('LEFT')
             else:
                 print('RIGHT')
-
-    def _get_trained_model(self):
-        path = self._get_models_directory_path()
-        path = os.path.join(path, 'model.pkl')
-        import keras
-        model = keras.models.load_model(path)
-        # TODO cleanup
-        # model = joblib.load(os.path.join(path, 'model.pkl'))
-        return model
 
     def collect_training_data(self):
         self.training_data_collector.start_collecting()
