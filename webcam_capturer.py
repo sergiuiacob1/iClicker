@@ -6,20 +6,19 @@ import threading
 import config as Config
 
 
-
 # TODO make this a Singleton instead?
 class WebcamCapturer:
     def __init__(self):
         self.webcam_lock = threading.Lock()
 
-    def startCapturing(self):
+    def start_capturing(self):
         self.webcam_lock.acquire()
         self.cam = cv2.VideoCapture(0)
         self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, Config.WEBCAM_IMAGE_WIDTH)
         self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, Config.WEBCAM_IMAGE_HEIGHT)
         self.webcam_lock.release()
 
-    def stopCapturing(self):
+    def stop_capturing(self):
         if hasattr(self, "cam") is False:
             return
         self.webcam_lock.acquire()
@@ -30,10 +29,10 @@ class WebcamCapturer:
     def webcam_is_started(self):
         return hasattr(self, 'cam') and self.cam.isOpened()
 
-    def getWebcamImage(self, start_if_not_started=True):
+    def get_webcam_image(self, start_if_not_started=True):
         if self.webcam_is_started() is False:
             if start_if_not_started:
-                self.startCapturing()
+                self.start_capturing()
             else:
                 return False, None
         self.webcam_lock.acquire()
@@ -41,13 +40,13 @@ class WebcamCapturer:
         self.webcam_lock.release()
         return ret, frame
 
-    def previewWebcam(self):
+    def preview_webcam(self):
         windowName = 'Webcam Preview'
         fps = 60
         cv2.namedWindow(windowName)
 
         if self.webcam_is_started() is False:
-            self.startCapturing()
+            self.start_capturing()
 
         while True:
             ret, frame = self.cam.read()
@@ -70,10 +69,10 @@ class WebcamCapturer:
 
 if __name__ == '__main__':
     web = WebcamCapturer()
-    # web.previewWebcam()
-    web.startCapturing()
-    web.getWebcamImage()
-    web.stopCapturing()
-    web.getWebcamImage()
-    # web.startCapturing()
+    # web.preview_webcam()
+    web.start_capturing()
+    web.get_webcam_image()
+    web.stop_capturing()
+    web.get_webcam_image()
+    # web.start_capturing()
     # web.saveCurrentWebcamImage('data')

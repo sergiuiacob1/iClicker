@@ -47,6 +47,7 @@ def sort_points_counter_clockwise(points):
     return points
     if len(points) == 0:
         return []
+
     def point_comparator(a, b):
         a1 = (math.degrees(math.atan2(
             a[0] - x_center, a[1] - y_center)) + 360) % 360
@@ -71,8 +72,10 @@ def resize_cv2_image(cv2_image, scale=None, fixed_dim=None):
                          interpolation=cv2.INTER_AREA)
     return res
 
+
 def get_binary_thresholded_image(cv2_image):
     img = convert_to_gray_image(cv2_image)
     img = cv2.medianBlur(img, 5)
-    img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+    img = cv2.adaptiveThreshold(
+        img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
     return img

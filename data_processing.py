@@ -2,7 +2,8 @@ import numpy as np
 import os
 import joblib
 
-from face_detector import get_eye_contours
+# My files
+from face_detector import FaceDetector
 from config import EYE_WIDTH, EYE_HEIGHT, data_directory_path, train_data_path
 from utils import resize_cv2_image, get_binary_thresholded_image
 
@@ -30,7 +31,7 @@ def get_eye_images(data):
         if i % 10 == 0:
             print(f'Processed eyes for {i}/{n} images')
         img = data[i].image
-        eye_contours = get_eye_contours(img)
+        eye_contours = FaceDetector().get_eye_contours(img)
         if len(eye_contours) == 0 or len(eye_contours[0]) == 0 or len(eye_contours[1]) == 0:
             continue
 
@@ -43,7 +44,8 @@ def get_eye_images(data):
             y_max = max([x[1] for x in eye_contour])
 
             eye_image = img[y_min:y_max, x_min:x_max]
-            resized_eye_image = resize_cv2_image(eye_image, fixed_dim=(EYE_WIDTH, EYE_HEIGHT))
+            resized_eye_image = resize_cv2_image(
+                eye_image, fixed_dim=(EYE_WIDTH, EYE_HEIGHT))
             resized_eye_image = get_binary_thresholded_image(resized_eye_image)
             current_eye_images.append(resized_eye_image)
 
