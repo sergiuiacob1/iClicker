@@ -4,10 +4,9 @@ import joblib
 import json
 import os
 import time
-import random
 from typing import List
 import numpy as np
-from PyQt5 import QtWidgets, QtGui, QtCore
+from cv2 import cv2
 
 # My files
 from mouse_listener import MouseListener
@@ -16,13 +15,13 @@ from data_object import DataObject
 import config as Config
 import utils as Utils
 # ui
-from ui.data_collector_viewer import DataCollectorViewer
+from ui.data_collector_gui import DataCollectorGUI
 
 
-screenWidth, screenHeight = Utils.get_screen_dimensions()
+screen_width, screen_height = Utils.get_screen_dimensions()
 
 
-class DataCollector(QtWidgets.QMainWindow):
+class DataCollector():
     def __init__(self, webcam_capturer: WebcamCapturer):
         super().__init__()
         self.collected_data = []
@@ -31,15 +30,11 @@ class DataCollector(QtWidgets.QMainWindow):
         logging.basicConfig(filename=("mouse_logs.txt"), level=logging.DEBUG,
                             format='%(asctime)s: %(message)s')
         self.collect_data_lock = threading.Lock()
-        self.viewer = DataCollectorViewer(webcam_capturer)
-
-    def closeEvent(self, event):
-        """This function is ran when the training data window is closed"""
-        self.end_data_collection()
+        self.gui = DataCollectorGUI(self, webcam_capturer)
 
     def start_collecting(self):
         print('Started collecting training data...')
-        self.viewer.start()
+        self.gui.start()
         self.mouse_listener.start_listening()
         self.webcam_capturer.start_capturing()
 
@@ -47,22 +42,64 @@ class DataCollector(QtWidgets.QMainWindow):
         if len(self.collected_data) == 0:
             return
         self.collect_data_lock.acquire()
-
-        try:
-            secondsSinceEpoch = time.time()
-            path = os.path.join(
-                self._get_data_directory_path(), f'{secondsSinceEpoch}.pkl')
-            print(f'Saving {len(self.collected_data)} samples in {path}')
-            joblib.dump(self.collected_data, path)
-            self.collected_data = []
-        except Exception as e:
-            print(f'Could not save data: {e}')
+        session_no = self.get_session_number()
+        self.save_session_info(session_no)
+        self.save_images_info(session_no)
+        self.save_images(session_no)
         self.collect_data_lock.release()
 
+    def save_images(self, session_no):
+        dir_path = os.path.join(Config.data_directory_path, 'images')
+        os.makedirs(dir_path, exist_ok=True)
+        for (index, obj) in enumerate(self.collected_data):
+            path = os.path.join(dir_path, f'{session_no}_{index}.png')
+            cv2.imwrite(path, obj.image)
+
+    def save_images_info(self, session_no):
+        """Saves the info about each captured image"""
+        path = os.path.join(Config.data_directory_path, "sessions")
+        os.makedirs(path, exist_ok=True)
+
+        data = {}
+        for (index, obj) in enumerate(self.collected_data):
+            data[index] = {
+                "mouse_position": list(obj.mouse_position),
+                "horizontal": 0 if obj.mouse_position[0] < screen_width/2 else 1,
+                "vertical": 0 if obj.mouse_position[1] < screen_height/2 else 1,
+            }
+        with open(os.path.join(path, f'session_{session_no}.json'), 'w') as f:
+            json.dump(data, f)
+
+    def save_session_info(self, session_no):
+        path = os.path.join(Config.data_directory_path, 'sessions.json')
+
+        if os.path.exists(path) is False:
+            open(path, 'w').write('{}')
+        with open(path, 'r') as f:
+            data = json.load(f)
+
+        data['total_sessions'] = data.get('total_sessions', 0) + 1
+        data[f'session_{session_no}'] = {
+            "items": len(self.collected_data),
+            "timestamp": time.time(),
+            "screen_size": [screen_width, screen_height],
+            "webcam_size": [Config.WEBCAM_IMAGE_WIDTH, Config.WEBCAM_IMAGE_HEIGHT],
+        }
+        with open(path, 'w') as f:
+            json.dump(data, f)
+
+    def get_session_number(self):
+        path = self._get_data_directory_path()
+        path = os.path.join(path, 'sessions.json')
+        if os.path.exists(path) is False:
+            return 1
+        with open(path, 'r') as f:
+            data = json.load(f)
+        return data.get('total_sessions', 0) + 1
+
     def end_data_collection(self):
+        print('Saving collected data...')
         threading.Thread(target=self.save_collected_data).start()
-        # close the Qt window
-        self.viewer.stop()
         self.mouse_listener.stop_listening()
         self.webcam_capturer.stop_capturing()
 

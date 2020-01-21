@@ -8,8 +8,8 @@ from app import App
 # TODO use binary threshold for eye images?
 # TODO glob ocular extins
 
+# TODO LBP (Local Binary Patterns)z
 
-# TODO LBP (Local Binary Patterns)
 
 def main():
     q_app = QtWidgets.QApplication(sys.argv)

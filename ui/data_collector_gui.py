@@ -11,9 +11,10 @@ from ui.eye_widget import EyeWidget
 from ui.ui_utils import get_qimage_from_cv2
 
 
-class DataCollectorViewer(QtWidgets.QMainWindow):
-    def __init__(self, webcam_capturer: WebcamCapturer):
+class DataCollectorGUI(QtWidgets.QMainWindow):
+    def __init__(self, data_collector, webcam_capturer: WebcamCapturer):
         super().__init__()
+        self.data_collector = data_collector
         self.webcam_capturer = webcam_capturer
         self.eye_widget = EyeWidget()
         self.create_window()
@@ -24,8 +25,11 @@ class DataCollectorViewer(QtWidgets.QMainWindow):
         self.face_detector = FaceDetector()
         threading.Thread(target=self.show_webcam_images).start()
 
-    def stop(self):
-        ...
+    def closeEvent(self, event):
+        """This function is ran when the training data window is closed"""
+        self.eye_widget.close()
+        self.close()
+        self.data_collector.end_data_collection()
 
     def create_window(self):
         self.setWindowTitle('Data Collector')

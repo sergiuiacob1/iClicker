@@ -88,6 +88,7 @@ class DataViewer(QtWidgets.QWidget):
 
         self.show()
 
+    # TODO this is broken
     def get_scaled_mouse_position(self, item, size):
         width, height = size
         scaleW = item.mousePosition[0] / item.screenSize[0]
