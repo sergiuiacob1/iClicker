@@ -6,7 +6,7 @@ import threading
 import config as Config
 
 
-# TODO make this a Singleton instead?
+# TODO make this a Singleton
 class WebcamCapturer:
     def __init__(self):
         self.webcam_lock = threading.Lock()

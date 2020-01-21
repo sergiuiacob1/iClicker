@@ -1,8 +1,7 @@
 import tkinter as tk
 import threading
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from cv2 import cv2
-from PyQt5 import QtGui
 import math
 import functools
 
@@ -40,25 +39,6 @@ def run_function_on_thread(function, f_args=tuple()):
 
 def convert_to_gray_image(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-
-def sort_points_counter_clockwise(points):
-    # TODO why this works
-    return points
-    if len(points) == 0:
-        return []
-
-    def point_comparator(a, b):
-        a1 = (math.degrees(math.atan2(
-            a[0] - x_center, a[1] - y_center)) + 360) % 360
-        a2 = (math.degrees(math.atan2(
-            b[0] - x_center, b[1] - y_center)) + 360) % 360
-        return (int)(a1 - a2)
-
-    x_center = sum([x[0] for x in points])/len(points)
-    y_center = sum([x[1] for x in points])/len(points)
-
-    return sorted(points, key=functools.cmp_to_key(point_comparator))
 
 
 def resize_cv2_image(cv2_image, scale=None, fixed_dim=None):

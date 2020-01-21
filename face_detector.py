@@ -22,7 +22,6 @@ class FaceDetector(metaclass=Singleton):
         self._face_detector = dlib.get_frontal_face_detector()
         self._face_predictor = dlib.shape_predictor(
             Config.face_landmarks_path)
-        print ('-------------------------------------------')
 
     def get_eye_contours(self, cv2_image):
         """Returns a list of eye contours from a cv2_image. First contour is for the left eye"""
