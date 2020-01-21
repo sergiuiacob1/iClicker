@@ -4,7 +4,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from cv2 import cv2
-from utils import build_sample_image
+from ui.ui_utils import get_qimage_from_cv2
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -70,7 +70,7 @@ class DataViewer(QtWidgets.QWidget):
         """Chooses a different item from the sample data and displays it to the user"""
         item = random.choice(self.data)
         image_label = QtWidgets.QLabel()
-        sample_image = build_sample_image(item.image)
+        sample_image = get_qimage_from_cv2(item.image)
         image_label.setPixmap(QtGui.QPixmap.fromImage(sample_image))
 
         # Builds this widget as a child of image_label

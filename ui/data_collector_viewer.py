@@ -1,34 +1,31 @@
-# TODO delete what's not necessary
-import logging
 import threading
-import joblib
-import json
-import os
 import time
-import random
-from typing import List
-import numpy as np
-from PyQt5 import QtWidgets, QtGui, QtCore
+from PyQt5 import QtWidgets, QtGui
 
 # My files
-from mouse_listener import MouseListener
 from webcam_capturer import WebcamCapturer
-from data_viewer import DataViewer
 from face_detector import FaceDetector
-from data_object import DataObject
-import utils as Utils
-import config as Config
 # ui
 from ui.eye_contour import EyeContour
 from ui.eye_widget import EyeWidget
+from ui.ui_utils import get_qimage_from_cv2
 
 
-class TrainingDataCollectorViewer(QtWidgets.QMainWindow):
-    def __init__(self, webcam_capturer):
+class DataCollectorViewer(QtWidgets.QMainWindow):
+    def __init__(self, webcam_capturer: WebcamCapturer):
         super().__init__()
         self.webcam_capturer = webcam_capturer
-        self.create_window()
         self.eye_widget = EyeWidget()
+        self.create_window()
+
+    def start(self):
+        self.show()
+        self.eye_widget.show()
+        self.face_detector = FaceDetector()
+        threading.Thread(target=self.show_webcam_images).start()
+
+    def stop(self):
+        ...
 
     def create_window(self):
         self.setWindowTitle('Data Collector')
@@ -57,7 +54,7 @@ class TrainingDataCollectorViewer(QtWidgets.QMainWindow):
             # draw eye contours
             threading.Thread(target=self.update_eye_contours,
                              args=(image,)).start()
-            qt_image = Utils.build_sample_image(image)
+            qt_image = get_qimage_from_cv2(image)
             self.webcam_image_widget.setPixmap(
                 QtGui.QPixmap.fromImage(qt_image))
             time.sleep(1/fps)

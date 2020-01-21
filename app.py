@@ -8,7 +8,7 @@ import sys
 
 # My files
 import trainer as Trainer
-from training_data_collecter import TrainingDataCollector, DataObject
+from data_collector import DataCollector, DataObject
 from webcam_capturer import WebcamCapturer
 from data_viewer import DataViewer
 from utils import get_screen_dimensions, run_function_on_thread
@@ -20,7 +20,7 @@ class App(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.webcam_capturer = WebcamCapturer()
-        self.training_data_collector = TrainingDataCollector(
+        self.data_collector = DataCollector(
             self.webcam_capturer)
         self.data_viewer = DataViewer()
 
@@ -47,7 +47,7 @@ class App(QtWidgets.QMainWindow):
         self.bottom_menu_part.setLayout(QtWidgets.QGridLayout())
         collect_data_button = QtWidgets.QPushButton('Collect data')
         collect_data_button.setToolTip('Collect training data')
-        collect_data_button.clicked.connect(self.collect_training_data)
+        collect_data_button.clicked.connect(self.collect_data)
 
         train_button = QtWidgets.QPushButton('Train model')
         train_button.setToolTip('Train model based on collected data')
@@ -73,7 +73,7 @@ class App(QtWidgets.QMainWindow):
     def view_data(self):
         # TODO put this on a thread?
         print('Getting collected data...')
-        data = self.training_data_collector.get_collected_data()
+        data = self.data_collector.get_collected_data()
         print(f'Displaying random photos from {len(data)} samples')
         self.data_viewer.view_data(data)
 
@@ -105,5 +105,5 @@ class App(QtWidgets.QMainWindow):
             else:
                 print('RIGHT')
 
-    def collect_training_data(self):
-        self.training_data_collector.start_collecting()
+    def collect_data(self):
+        self.data_collector.start_collecting()
