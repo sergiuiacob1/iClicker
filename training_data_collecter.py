@@ -61,7 +61,9 @@ class EyeWidget(QtWidgets.QWidget):
         y_max = max([x[1] for x in eye_contour])
 
         eye_portion = cv2_image[y_min:y_max, x_min:x_max]
-        eye_portion = Utils.resize_cv2_image(eye_portion, fixed_dim=(Config.EYE_WIDTH, Config.EYE_HEIGHT))
+        eye_portion = Utils.resize_cv2_image(
+            eye_portion, fixed_dim=(Config.EYE_WIDTH, Config.EYE_HEIGHT))
+        eye_portion = Utils.get_binary_thresholded_image(eye_portion)
         q_image = Utils.build_sample_image(eye_portion)
         self.eye.setPixmap(QtGui.QPixmap.fromImage(q_image))
 

@@ -4,7 +4,7 @@ import joblib
 
 from face_detector import get_eye_contours
 from config import EYE_WIDTH, EYE_HEIGHT, data_directory_path, train_data_path
-from utils import resize_cv2_image
+from utils import resize_cv2_image, get_binary_thresholded_image
 
 
 def load_collected_data():
@@ -41,8 +41,10 @@ def get_eye_images(data):
             x_max = max([x[0] for x in eye_contour])
             y_min = min([x[1] for x in eye_contour])
             y_max = max([x[1] for x in eye_contour])
-            resized_eye_image = resize_cv2_image(
-                img[y_min:y_max, x_min:x_max], fixed_dim=(EYE_WIDTH, EYE_HEIGHT))
+
+            eye_image = img[y_min:y_max, x_min:x_max]
+            resized_eye_image = resize_cv2_image(eye_image, fixed_dim=(EYE_WIDTH, EYE_HEIGHT))
+            resized_eye_image = get_binary_thresholded_image(resized_eye_image)
             current_eye_images.append(resized_eye_image)
 
         eye_images[last_valid_image] = tuple(current_eye_images)
@@ -58,8 +60,9 @@ def process_data(input_data):
     print('Normalizing...')
     normalize_data(data)
     # returning a list of tuples [(X, y), (X, y)] where X is a tuple with the eye images
-    print ('Creating final train data...')
-    processed_data = [(X, y) for X, y in zip (data, [x.horizontal for x in input_data])]
+    print('Creating final train data...')
+    processed_data = [(X, y) for X, y in zip(
+        data, [x.horizontal for x in input_data])]
     return processed_data
 
 

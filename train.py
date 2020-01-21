@@ -12,13 +12,16 @@ def train_model():
     X = np.array(X)
     print('Training neural network...')
     model = Sequential([
-        Dense(100, input_shape=(len(X[0]),)),
-        Dropout(0.25),
+        Dense(100, input_shape=(len(X[0]),),
+              kernel_initializer='glorot_uniform'),
+        # Dropout(0.5),
         ReLU(),
+        Dense(16, kernel_initializer='lecun_uniform', activation='relu'),
         Dense(1, activation='sigmoid')
     ])
-    model.compile(optimizer='adam', loss='binary_crossentropy')
-    model.fit(X, y, epochs=5, verbose=1)
+    model.compile(optimizer='rmsprop',
+                  loss='binary_crossentropy', metrics=['accuracy'])
+    model.fit(X, y, epochs=200, verbose=1)
     print('Training done')
     return model
 
@@ -34,6 +37,7 @@ def train_model():
 def get_data():
     path = os.path.join(os.getcwd(), train_data_path, 'train_data.pkl')
     data = joblib.load(path)
+    print(f'Loaded {len(data)} items')
     X = [(d[0][0] + d[0][1]).flatten() for d in data]
     y = [d[1] for d in data]
     return X, y

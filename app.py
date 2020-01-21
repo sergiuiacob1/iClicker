@@ -107,10 +107,10 @@ class App(QtWidgets.QMainWindow):
             X = [(d[0][0] + d[0][1]).flatten() for d in data]
             X = np.array(X)
             prediction = model.predict(X)[0][0]
-            if prediction < 0.5:
-                print ('LEFT')
-            else
-                print ('RIGHT')
+            if prediction > 0.5:
+                print('LEFT')
+            else:
+                print('RIGHT')
 
     def _get_trained_model(self):
         path = self._get_models_directory_path()

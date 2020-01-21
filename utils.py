@@ -43,6 +43,8 @@ def convert_to_gray_image(image):
 
 
 def sort_points_counter_clockwise(points):
+    # TODO why this works
+    return points
     if len(points) == 0:
         return []
     def point_comparator(a, b):
@@ -68,3 +70,9 @@ def resize_cv2_image(cv2_image, scale=None, fixed_dim=None):
         res = cv2.resize(cv2_image, (width*scale, height*scale),
                          interpolation=cv2.INTER_AREA)
     return res
+
+def get_binary_thresholded_image(cv2_image):
+    img = convert_to_gray_image(cv2_image)
+    img = cv2.medianBlur(img, 5)
+    img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+    return img
