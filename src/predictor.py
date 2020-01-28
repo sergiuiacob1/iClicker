@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets
-from utils import get_screen_dimensions
+from src.utils import get_screen_dimensions
 
 
 class Predictor(QtWidgets.QMainWindow):

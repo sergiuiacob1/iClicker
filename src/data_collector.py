@@ -9,13 +9,13 @@ import numpy as np
 from cv2 import cv2
 
 # My files
-from mouse_listener import MouseListener
-from webcam_capturer import WebcamCapturer
-from data_object import DataObject
-import config as Config
-import utils as Utils
+from src.mouse_listener import MouseListener
+from src.webcam_capturer import WebcamCapturer
+from src.data_object import DataObject
+import src.config as Config
+import src.utils as Utils
 # ui
-from ui.data_collector_gui import DataCollectorGUI
+from src.ui.data_collector_gui import DataCollectorGUI
 
 
 screen_width, screen_height = Utils.get_screen_dimensions()

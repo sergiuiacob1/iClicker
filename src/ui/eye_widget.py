@@ -1,8 +1,7 @@
 from PyQt5 import QtWidgets, QtGui
-import config as Config
-import utils as Utils
-from ui.ui_utils import get_qimage_from_cv2
-from utils import get_binary_thresholded_image
+import src.config as Config
+from src.ui.ui_utils import get_qimage_from_cv2
+from src.utils import get_binary_thresholded_image, resize_cv2_image
 
 
 class EyeWidget(QtWidgets.QWidget):
@@ -22,7 +21,7 @@ class EyeWidget(QtWidgets.QWidget):
         y_max = max([x[1] for x in eye_contour])
 
         eye_portion = cv2_image[y_min:y_max, x_min:x_max]
-        eye_portion = Utils.resize_cv2_image(
+        eye_portion = resize_cv2_image(
             eye_portion, fixed_dim=(Config.EYE_WIDTH, Config.EYE_HEIGHT))
         eye_portion = get_binary_thresholded_image(eye_portion)
         q_image = get_qimage_from_cv2(eye_portion)

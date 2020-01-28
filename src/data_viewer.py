@@ -4,7 +4,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from cv2 import cv2
-from ui.ui_utils import get_qimage_from_cv2
+from src.ui.ui_utils import get_qimage_from_cv2
 import seaborn as sns
 import matplotlib.pyplot as plt
 

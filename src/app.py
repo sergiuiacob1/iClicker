@@ -7,13 +7,13 @@ import sys
 
 
 # My files
-import trainer as Trainer
-from data_collector import DataCollector, DataObject
-from webcam_capturer import WebcamCapturer
-from data_viewer import DataViewer
-from utils import get_screen_dimensions, run_function_on_thread
-from data_processing import process_data
-import config as Config
+from src import trainer as Trainer
+from src.data_collector import DataCollector, DataObject
+from src.webcam_capturer import WebcamCapturer
+from src.data_viewer import DataViewer
+from src.utils import get_screen_dimensions, run_function_on_thread
+from src.data_processing import process_data
+from src import config as Config
 
 
 class App(QtWidgets.QMainWindow):

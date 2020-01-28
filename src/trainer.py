@@ -4,7 +4,7 @@ import joblib
 from threading import Lock
 
 # My files
-import config as Config
+import src.config as Config
 
 
 def get_last_model_number():

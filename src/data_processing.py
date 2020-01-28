@@ -3,18 +3,14 @@ import os
 import joblib
 
 # My files
-from face_detector import FaceDetector
-from config import EYE_WIDTH, EYE_HEIGHT, data_directory_path, train_data_path
-from utils import resize_cv2_image, get_binary_thresholded_image
+from src.face_detector import FaceDetector
+from src.config import EYE_WIDTH, EYE_HEIGHT, data_directory_path, train_data_path
+from src.utils import resize_cv2_image, get_binary_thresholded_image
+from src.data_object import DataObject
 
 
 def load_collected_data():
     data = []
-    for r, _, files in os.walk(data_directory_path):
-        for file in files:
-            if file.endswith('.pkl'):
-                current_data = joblib.load(os.path.join(r, file))
-                data.extend(current_data)
     return data
 
 

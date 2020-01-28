@@ -3,12 +3,12 @@ import time
 from PyQt5 import QtWidgets, QtGui
 
 # My files
-from webcam_capturer import WebcamCapturer
-from face_detector import FaceDetector
+from src.webcam_capturer import WebcamCapturer
+from src.face_detector import FaceDetector
 # ui
-from ui.eye_contour import EyeContour
-from ui.eye_widget import EyeWidget
-from ui.ui_utils import get_qimage_from_cv2
+from src.ui.eye_contour import EyeContour
+from src.ui.eye_widget import EyeWidget
+from src.ui.ui_utils import get_qimage_from_cv2
 
 
 class DataCollectorGUI(QtWidgets.QMainWindow):
