@@ -13,7 +13,7 @@ from src.webcam_capturer import WebcamCapturer
 from src.data_viewer import DataViewer
 from src.utils import get_screen_dimensions, run_function_on_thread
 from src.data_processing import process_data
-from src import config as Config
+import config as Config
 
 
 class App(QtWidgets.QMainWindow):

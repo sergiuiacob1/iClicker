@@ -3,7 +3,7 @@ import time
 import os
 import threading
 
-import src.config as Config
+import config as Config
 
 
 # TODO make this a Singleton

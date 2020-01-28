@@ -1,6 +1,6 @@
 import dlib
 from imutils import face_utils
-import src.config as Config
+import config as Config
 import src.utils as Utils
 
 # TODO make a singleton here with lazy loading and threaded responses

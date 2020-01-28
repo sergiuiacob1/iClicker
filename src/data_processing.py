@@ -1,16 +1,66 @@
 import numpy as np
 import os
 import joblib
+import re
+import json
+from cv2 import imread
 
 # My files
+from config import EYE_WIDTH, EYE_HEIGHT, data_directory_path, train_data_path
 from src.face_detector import FaceDetector
-from src.config import EYE_WIDTH, EYE_HEIGHT, data_directory_path, train_data_path
 from src.utils import resize_cv2_image, get_binary_thresholded_image
 from src.data_object import DataObject
 
 
+# class DataCollectionSession:
+#     def __init__(self, session_info, session_number):
+#         self.screen_size = session_info["screen_size"]
+#         self.data = self._get_data(session_number)
+
+#     def _get_data(self, session_number):
+#         data_path = os.path.join(os.getcwd(), data_directory_path)
+#         sessions_path = os.path.join(data_path, "sessions")
+#         images_path = os.path.join(data_path, "images")
+
+#         with open(os.path.join(sessions_path, f"session_{session_number}.json")) as f:
+#             session_items = json.load(f)
+
+#         data = [None] * len(session_items)
+
+#         for (index, x) in enumerate(session_items):
+#             img_name = os.path.join(images_path, f'{session_number}_{x}.png')
+#             img = imread(img_name)
+#             mouse_position = session_items[x]["mouse_position"]
+#             obj = build_data_object(img, mouse_position, self.screen_size)
+#             data[index] = obj
+#         return data
+
+
 def load_collected_data():
     data = []
+    data_path = os.path.join(os.getcwd(), data_directory_path)
+    sessions_path = os.path.join(data_path, "sessions")
+    images_path = os.path.join(data_path, "images")
+
+    if os.path.exists(os.path.join(data_path, "sessions.json")) is False:
+        return []
+
+    with open(os.path.join(data_path, "sessions.json")) as f:
+        sessions_info = json.load(f)
+
+    for i in range(1, sessions_info["total_sessions"] + 1):
+        session_info = sessions_info[f"session_{i}"]
+        screen_size = session_info["screen_size"]
+
+        with open(os.path.join(sessions_path, f"session_{i}.json")) as f:
+            session_items = json.load(f)
+
+        for x in session_items:
+            img_name = f"{i}_{x}.png"
+            img = imread(os.path.join(images_path, img_name))
+            mouse_position = session_items[x]["mouse_position"]
+            data.append(DataObject(img, mouse_position, screen_size))
+        # sessions.append(DataCollectionSession(session_info, i))
     return data
 
 
@@ -53,15 +103,11 @@ def get_eye_images(data):
 
 
 def process_data(input_data):
+    data = [x for x in input_data if x.is_close_to_corner is True]
     print('Extracting eye data...')
-    data = get_eye_images(input_data)
-    print('Normalizing...')
-    normalize_data(data)
-    # returning a list of tuples [(X, y), (X, y)] where X is a tuple with the eye images
-    print('Creating final train data...')
-    processed_data = [(X, y) for X, y in zip(
-        data, [x.horizontal for x in input_data])]
-    return processed_data
+    data = get_eye_images(data)
+    # TODO is normalisation necessary if I'm using binary thresholded images?
+    return data
 
 
 def normalize_data(data):
@@ -79,6 +125,7 @@ def main():
     # load the data
     print('Loading collected data...')
     data = load_collected_data()
+    print(f'Loaded {len(data)} items')
     # process it
     print('Processing data...')
     processed_data = process_data(data)

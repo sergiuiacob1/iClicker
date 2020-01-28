@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtGui
-import src.config as Config
+import config as Config
 from src.ui.ui_utils import get_qimage_from_cv2
 from src.utils import get_binary_thresholded_image, resize_cv2_image
 

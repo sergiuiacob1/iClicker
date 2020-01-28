@@ -4,7 +4,6 @@ import joblib
 import json
 import os
 import time
-from typing import List
 import numpy as np
 from cv2 import cv2
 
@@ -12,7 +11,7 @@ from cv2 import cv2
 from src.mouse_listener import MouseListener
 from src.webcam_capturer import WebcamCapturer
 from src.data_object import DataObject
-import src.config as Config
+import config as Config
 import src.utils as Utils
 # ui
 from src.ui.data_collector_gui import DataCollectorGUI
@@ -35,14 +34,18 @@ class DataCollector():
     def start_collecting(self):
         print('Started collecting training data...')
         self.gui.start()
+        print ('GUI started')
         self.mouse_listener.start_listening()
+        print ('Mouse listener started')
         self.webcam_capturer.start_capturing()
+        print ('Webcam capturer started')
 
     def save_collected_data(self):
         if len(self.collected_data) == 0:
             return
         self.collect_data_lock.acquire()
         session_no = self.get_session_number()
+        print (f"Saving data for session_{session_no}")
         self.save_session_info(session_no)
         self.save_images_info(session_no)
         self.save_images(session_no)
@@ -64,8 +67,6 @@ class DataCollector():
         for (index, obj) in enumerate(self.collected_data):
             data[index] = {
                 "mouse_position": list(obj.mouse_position),
-                "horizontal": 0 if obj.mouse_position[0] < screen_width/2 else 1,
-                "vertical": 0 if obj.mouse_position[1] < screen_height/2 else 1,
             }
         with open(os.path.join(path, f'session_{session_no}.json'), 'w') as f:
             json.dump(data, f)
@@ -108,7 +109,8 @@ class DataCollector():
             logging.info(f'{button} pressed at ({x}, {y})')
             success, webcamImage = self.webcam_capturer.get_webcam_image()
             if success is True:
-                dataObject = DataObject(webcamImage, (x, y))
+                dataObject = DataObject(
+                    webcamImage, (x, y), (screen_width, screen_height))
                 self.collect_data_lock.acquire()
                 self.collected_data.append(dataObject)
                 self.collect_data_lock.release()
@@ -119,14 +121,3 @@ class DataCollector():
             os.path.join(os.getcwd(), dataDirectoryPath))
         os.makedirs(dataDirectoryPath, exist_ok=True)
         return dataDirectoryPath
-
-    def get_collected_data(self) -> List[DataObject]:
-        # TODO save somewhere how many items I have in order to avoid list appendings
-        dataPath = self._get_data_directory_path()
-        data = []
-        for r, _, f in os.walk(dataPath):
-            for file in f:
-                if file.endswith('.pkl'):
-                    currentData = joblib.load(os.path.join(r, file))
-                    data.extend(currentData)
-        return data
