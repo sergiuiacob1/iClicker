@@ -1,5 +1,11 @@
-# IDEAS
-1. batches of training data
-2. greyscale?
-3. perceptron with divide et impera
-4. periodic async unifying data
+# iClicker
+
+## Technical requirements
+Install the Conda environment necessary to run this project:
+
+`conda env create -f environment.yml`
+
+## Run the application
+Execute the following command in the project's main directory:
+
+`python -m main`
