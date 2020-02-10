@@ -4,6 +4,7 @@ import os
 import numpy as np
 import joblib
 import sys
+import time
 
 
 # My files
@@ -12,7 +13,7 @@ from src.data_collector import DataCollector, DataObject
 from src.webcam_capturer import WebcamCapturer
 from src.data_viewer import DataViewer
 from src.utils import get_screen_dimensions, run_function_on_thread
-from src.data_processing import process_data
+from src.data_processing import process_images
 import config as Config
 
 
@@ -82,6 +83,8 @@ class App(QtWidgets.QMainWindow):
         Trainer.save_model(model)
 
     def predict_data(self):
+        screen_size = get_screen_dimensions()
+
         print('Loading best trained model...')
         model = Trainer.get_best_trained_model()
         if model is None:
@@ -89,21 +92,21 @@ class App(QtWidgets.QMainWindow):
             return
 
         while True:
-            success, image = self.webcam_capturer.getWebcamImage()
+            success, image = self.webcam_capturer.get_webcam_image()
             if success is False:
                 print('Failed capturing image')
                 continue
-            data = [DataObject(image, (0, 0))]
-            data = process_data(data)
-            if len(data) == 0:
-                continue
-            X = [(d[0][0] + d[0][1]).flatten() for d in data]
+
+            X = process_images([image])
+            X = [(x[0].flatten(), x[1].flatten()) for x in X]
+            X = [np.concatenate(x) for x in X]
             X = np.array(X)
+            if len(X) == 0:
+                continue
             prediction = model.predict(X)[0][0]
-            if prediction > 0.5:
-                print('LEFT')
-            else:
-                print('RIGHT')
+            prediction = prediction.argmin()
+            print (prediction)
+            time.sleep(0.5)
 
     def collect_data(self):
         self.data_collector.start_collecting()

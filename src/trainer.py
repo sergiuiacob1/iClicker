@@ -3,6 +3,8 @@ import os
 import joblib
 from threading import Lock
 import json
+import math
+import time
 
 # My files
 import config as Config
@@ -25,10 +27,11 @@ last_model_number = get_last_model_number()
 last_model_number_lock = Lock()
 
 
-def train_model():
+def train_model(train_parameters):
     # Lazy import so the app starts faster
     from keras.models import Sequential
     from keras.layers import Dense, ReLU, Dropout
+    from keras.optimizers import RMSprop
 
     print('Loading train data...')
     X, y = get_data()
@@ -40,13 +43,21 @@ def train_model():
               kernel_initializer='glorot_uniform'),
         ReLU(),
         Dense(16, kernel_initializer='lecun_uniform', activation='relu'),
+        ReLU(),
         Dense(4, activation='softmax')
     ])
-    model.compile(optimizer='rmsprop',
+    rmsprop = RMSprop(lr=0.001)
+    model.compile(optimizer='adam',
                   loss='categorical_crossentropy', metrics=['accuracy'])
-    model.fit(X, y, epochs=100000, verbose=1)
+    start_time = time.time()
+    fit_history = model.fit(X, y, epochs=train_parameters["epochs"], verbose=1)
+    end_time = time.time()
     print('Training done')
-    return model
+    return {
+        "model": model,
+        "fit_history": fit_history,
+        "training_time": math.floor(end_time - start_time)
+    }
 
 
 def get_data():
@@ -62,6 +73,7 @@ def get_data():
 
 
 # TODO check if these parameters should be None
+# TODO make sure that I'm saving models with score on validation data (not on train data)
 def save_model(model, train_parameters=None, score=None, training_time=None):
     print(model)
     print('Saving model...')
@@ -84,7 +96,7 @@ def save_model_configuration(file_path, train_parameters, score, training_time):
     file_path = file_path.split('.pkl')[0] + '.json'
     config = {
         "train_parameters": train_parameters,
-        "mse_score": score,
+        "score": score,
         "training_time": training_time
     }
     try:
@@ -126,6 +138,8 @@ def get_best_trained_model():
         model_info_path = os.path.join(path, x)
         with open(model_info_path, 'r') as f:
             data = json.load(f)
+        if data['score'] is None:
+            continue
         if data['score'][-1] < min_score:
             min_score = data['score'][-1]
             best_model_name = x.split('.json')[0] + '.pkl'
@@ -144,5 +158,9 @@ def get_best_trained_model():
 
 
 if __name__ == '__main__':
-    model = train_model()
-    save_model(model)
+    train_parameters = {
+        "epochs": 100
+    }
+    res = train_model(train_parameters)
+    save_model(res["model"], train_parameters={
+    }, score=res["fit_history"].history['loss'], training_time=res["training_time"])

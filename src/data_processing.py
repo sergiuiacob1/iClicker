@@ -60,12 +60,13 @@ def load_collected_data():
             img = imread(os.path.join(images_path, img_name))
             mouse_position = session_items[x]["mouse_position"]
             data.append(DataObject(img, mouse_position, screen_size))
-        # sessions.append(DataCollectionSession(session_info, i))
     return data
 
 
 def get_eye_images(data):
-    """Returns a list of tuples from collected data. The returned list is not necessarily the same length, because some data can be useless.
+    """Returns a list of tuples from `data`.
+
+    The returned list is not necessarily the same length, because some data can be useless.
 
     The result looks like: `[(left_eye_cv2_image, right_eye_cv2_image), ...]`
     """
@@ -76,7 +77,7 @@ def get_eye_images(data):
     for i in range(0, n):
         if i % 10 == 0:
             print(f'Processed eyes for {i}/{n} images')
-        img = data[i].image
+        img = data[i]
         eye_contours = FaceDetector().get_eye_contours(img)
         if len(eye_contours) == 0 or len(eye_contours[0]) == 0 or len(eye_contours[1]) == 0:
             continue
@@ -103,27 +104,34 @@ def get_eye_images(data):
     return eye_images
 
 
-def process_data(input_data):
-    """
-    Returns a tuple of 2 items: (`X`, `y`)
+# def process_data(input_data):
+#     """
+#     Returns a tuple of 2 items: (`X`, `y`)
 
-    Both `X` and `y` are lists of train instances.
-    """
-    corner_data = [x for x in input_data if x.is_close_to_corner is True]
-    print(f'Only selected {len(corner_data)} items (close_to_corner == True)')
+#     Both `X` and `y` are lists of train instances.
+#     """
+#     corner_data = [x for x in input_data if x.is_close_to_corner is True]
+#     print(f'Only selected {len(corner_data)} items (close_to_corner == True)')
+#     print('Extracting eye data...')
+#     X = get_eye_images(corner_data)
+#     normalize_data(X)
+#     y = [[1 if (i + 1) == x.square else 0 for i in range(0, 4)]
+#          for x in corner_data]
+
+#     # TODO this below only happens in some cases, so make sure it's okay to stick around
+#     # It's possible that X is shorter than y
+#     if len(X) < len(y):
+#         y = y[:len(X)]
+
+#     processed_data = (X, y)
+#     return processed_data
+
+
+def process_images(images):
     print('Extracting eye data...')
-    X = get_eye_images(corner_data)
+    X = get_eye_images(images)
     normalize_data(X)
-    y = [[1 if (i + 1) == x.square else 0 for i in range(0, 4)]
-         for x in corner_data]
-
-    # TODO this below only happens in some cases, so make sure it's okay to stick around
-    # It's possible that X is shorter than y
-    if len(X) < len(y):
-        y = y[:len(X)]
-
-    processed_data = (X, y)
-    return processed_data
+    return X
 
 
 def normalize_data(data):
@@ -143,11 +151,24 @@ def main():
     print('Loading collected data...')
     data = load_collected_data()
     print(f'Loaded {len(data)} items')
+
+    data = [x for x in data if x.is_close_to_corner is True]
+    print(f'Only selected corner data: {len(data)} items')
+
     # process it
     print('Processing data...')
-    processed_data = process_data(data)
+    X = process_images([x.image for x in data])
+    y = [[1 if (i + 1) == x.square else 0 for i in range(0, 4)]
+         for x in data]
+
+    # TODO this below only happens in some cases, so make sure it's okay to stick around
+    # this below can happen because some of the images might be useless, and therefore not returned in the "processing" part
+    if len(X) < len(y):
+        y = y[:len(X)]
+    processed_data = (X, y)
+
     # save the result
-    print(f'Saving processed data: {len(processed_data[0])} items')
+    print('Saving processed data')
     save_processed_data(processed_data)
 
 
