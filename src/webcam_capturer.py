@@ -36,8 +36,13 @@ class WebcamCapturer:
             else:
                 return False, None
         self.webcam_lock.acquire()
-        ret, frame = self.cam.read()
-        self.webcam_lock.release()
+        try:
+            ret, frame = self.cam.read()
+        except:
+            ret, frame = False, None
+        finally:
+            self.webcam_lock.release()
+            
         return ret, frame
 
     def preview_webcam(self):

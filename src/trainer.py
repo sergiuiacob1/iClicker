@@ -2,6 +2,7 @@ import numpy as np
 import os
 import joblib
 from threading import Lock
+import json
 
 # My files
 import config as Config
@@ -14,7 +15,6 @@ def get_last_model_number():
     files = [x for x in files if x.endswith('.pkl')]
     if len(files) == 0:
         return 0
-    print(files)
     numbers = [int(x.split('_')[1].split('.pkl')[0]) for x in files]
     if len(numbers) == 0:
         return 0
@@ -33,18 +33,18 @@ def train_model():
     print('Loading train data...')
     X, y = get_data()
     X = np.array(X)
-
+    y = np.array(y)
     print('Training neural network...')
     model = Sequential([
         Dense(100, input_shape=(len(X[0]),),
               kernel_initializer='glorot_uniform'),
         ReLU(),
         Dense(16, kernel_initializer='lecun_uniform', activation='relu'),
-        Dense(1, activation='sigmoid')
+        Dense(4, activation='softmax')
     ])
     model.compile(optimizer='rmsprop',
-                  loss='binary_crossentropy', metrics=['accuracy'])
-    model.fit(X, y, epochs=2, verbose=1)
+                  loss='categorical_crossentropy', metrics=['accuracy'])
+    model.fit(X, y, epochs=100000, verbose=1)
     print('Training done')
     return model
 
@@ -52,9 +52,12 @@ def train_model():
 def get_data():
     path = os.path.join(os.getcwd(), Config.train_data_path, 'train_data.pkl')
     data = joblib.load(path)
-    print(f'Loaded {len(data)} items')
-    X = [(d[0][0] + d[0][1]).flatten() for d in data]
-    y = [d[1] for d in data]
+
+    # X contains tuples of form (left_eye_data, right_eye_data)
+    X = data[0]
+    X = [(x[0].flatten(), x[1].flatten()) for x in X]
+    X = [np.concatenate(x) for x in X]
+    y = data[1]
     return X, y
 
 
@@ -142,7 +145,4 @@ def get_best_trained_model():
 
 if __name__ == '__main__':
     model = train_model()
-
-    model.save('./models/model.pkl')
-    from keras.models import load_model
-    same_model = load_model('./models/model.pkl')
+    save_model(model)

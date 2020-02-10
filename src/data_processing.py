@@ -98,19 +98,36 @@ def get_eye_images(data):
         eye_images[last_valid_image] = tuple(current_eye_images)
         last_valid_image += 1
 
+    print(f'Recognized eye images for {last_valid_image}/{n} images')
     eye_images = eye_images[:last_valid_image]
     return eye_images
 
 
 def process_data(input_data):
-    data = [x for x in input_data if x.is_close_to_corner is True]
+    """
+    Returns a tuple of 2 items: (`X`, `y`)
+
+    Both `X` and `y` are lists of train instances.
+    """
+    corner_data = [x for x in input_data if x.is_close_to_corner is True]
+    print(f'Only selected {len(corner_data)} items (close_to_corner == True)')
     print('Extracting eye data...')
-    data = get_eye_images(data)
-    # TODO is normalisation necessary if I'm using binary thresholded images?
-    return data
+    X = get_eye_images(corner_data)
+    normalize_data(X)
+    y = [[1 if (i + 1) == x.square else 0 for i in range(0, 4)]
+         for x in corner_data]
+
+    # TODO this below only happens in some cases, so make sure it's okay to stick around
+    # It's possible that X is shorter than y
+    if len(X) < len(y):
+        y = y[:len(X)]
+
+    processed_data = (X, y)
+    return processed_data
 
 
 def normalize_data(data):
+    # TODO watch out, this uses fixed values
     for i in range(0, len(data)):
         data[i] = (np.array(data[i][0])/255, np.array(data[i][1])/255)
 
@@ -118,7 +135,7 @@ def normalize_data(data):
 def save_processed_data(data):
     os.makedirs(os.path.join(os.getcwd(), train_data_path), exist_ok=True)
     joblib.dump(data, os.path.join(
-        os.getcwd(), train_data_path, 'processed_data.pkl'))
+        os.getcwd(), train_data_path, 'train_data.pkl'))
 
 
 def main():
@@ -130,7 +147,7 @@ def main():
     print('Processing data...')
     processed_data = process_data(data)
     # save the result
-    print('Saving processed data...')
+    print(f'Saving processed data: {len(processed_data[0])} items')
     save_processed_data(processed_data)
 
 

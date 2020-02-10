@@ -17,3 +17,6 @@ class DataObject:
         distanceY = abs(mouse_position[1] - points[self.square][1])
         self.is_close_to_corner = True if (
             distanceX <= screen_size[0]/4 and distanceY <= screen_size[1]/4) else False
+
+    def __str__(self):
+        return f"Cursor: {self.mouse_position}, square: {self.square}"
