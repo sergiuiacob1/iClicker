@@ -158,7 +158,7 @@ def main():
     # process it
     print('Processing data...')
     X = process_images([x.image for x in data])
-    y = [[1 if (i + 1) == x.square else 0 for i in range(0, 4)]
+    y = [[1 if i == x.square else 0 for i in range(0, 4)]
          for x in data]
 
     # TODO this below only happens in some cases, so make sure it's okay to stick around

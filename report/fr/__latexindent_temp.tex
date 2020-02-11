@@ -1,0 +1,68 @@
+\documentclass[11pt,titlepage]{report}
+\usepackage{Preamble}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{bibliography.bib}
+
+
+\author{Iacob Sergiu}
+\title{iClicker}
+\graphicspath{ {./../images/} }
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+ 
+
+\begin{document}
+\begin{titlepage}
+    \newgeometry{margin=3cm}
+	\centering
+    \includegraphics[width=0.75\linewidth]{images/universite_de_lille.png}\\[0.25cm] 	% University Logo
+    \vspace{\fill}
+    \textbf{\textsc{\fontsize{50}{50}\selectfont Shape Contours}}\\ \vspace{\fill}		
+	\textsc{\LARGE Reconnaissance des Formes}\\[0.4cm]
+	\rule{\linewidth}{0.2 mm} \\[0.5 cm]
+    Iacob Sergiu \\[2cm]
+	\today
+\end{titlepage}
+\restoregeometry
+
+\tableofcontents
+
+\chapter{Introduction}
+\subfile{1-Introduction}
+
+\chapter{Experiments}
+\subfile{2-Experiments}
+
+\chapter{Conclusion}
+\subfile{3-Conclusion}
+
+\clearpage
+\pagestyle{numberonly}
+
+\printbibliography
+
+\end{document}

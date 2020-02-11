@@ -23,7 +23,6 @@ def get_last_model_number():
     return max(numbers)
 
 
-last_model_number = get_last_model_number()
 last_model_number_lock = Lock()
 
 
@@ -41,13 +40,14 @@ def train_model(train_parameters):
     model = Sequential([
         Dense(100, input_shape=(len(X[0]),),
               kernel_initializer='glorot_uniform'),
+        Dropout(0.5),
         ReLU(),
-        Dense(16, kernel_initializer='lecun_uniform', activation='relu'),
+        Dense(16, kernel_initializer='glorot_uniform'),
         ReLU(),
         Dense(4, activation='softmax')
     ])
     rmsprop = RMSprop(lr=0.001)
-    model.compile(optimizer='adam',
+    model.compile(optimizer='adagrad',
                   loss='categorical_crossentropy', metrics=['accuracy'])
     start_time = time.time()
     fit_history = model.fit(X, y, epochs=train_parameters["epochs"], verbose=1)
@@ -111,6 +111,7 @@ def get_next_model_name():
     global last_model_number, last_model_number_lock
     last_model_number_lock.acquire()
 
+    last_model_number = get_last_model_number()
     last_model_number += 1
     model_name = f'model_{last_model_number}.pkl'
 
@@ -120,7 +121,6 @@ def get_next_model_name():
 
 def get_best_trained_model():
     # Lazy library loading so app starts faster
-    from keras.models import load_model
     from keras.backend import clear_session
 
     # Check that the directory with models exists
@@ -145,7 +145,6 @@ def get_best_trained_model():
             best_model_name = x.split('.json')[0] + '.pkl'
 
     try:
-        # keras.backend.clear_session()
         # This is necessary if I want to load a model multiple times
         clear_session()
         model = joblib.load(os.path.join(path, best_model_name))
@@ -159,8 +158,8 @@ def get_best_trained_model():
 
 if __name__ == '__main__':
     train_parameters = {
-        "epochs": 100
+        "epochs": 2000
     }
     res = train_model(train_parameters)
-    save_model(res["model"], train_parameters={
-    }, score=res["fit_history"].history['loss'], training_time=res["training_time"])
+    save_model(res["model"], train_parameters={},
+               score=res["fit_history"].history['loss'], training_time=res["training_time"])

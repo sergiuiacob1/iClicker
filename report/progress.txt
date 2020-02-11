@@ -1,0 +1,30 @@
+So far:
+    - adunare de date:
+        - per sesiuni, pt fiecare sesiune:
+            - screen size, numar de iteme adunate, timestamp, webcam size
+        - pt fiecare item din sesiune:
+            - sesiunea la care apartine, pozitia cursorului
+    
+    - primul pas: prezicere daca ma uit stanga/dreapta
+    - incercare MLP direct pe imagini: esec; prea mult background noise, invata mult prea greu
+    - extragere ochi folosind dlib
+        - sectiunea ochiului poate varia in marime in functie de distanta de la ochi la webcam
+        - resize la o dimensiune fixa
+        - feeding that to the neural network
+    
+    - to continue with:
+    - prezicere doar colturi imagine
+    - Binary threshold
+    - LPT
+    - ajunge un ochi sau trebuie amanadoi?
+
+
+Probleme:
+    - momentan, aplicatia functioneaza doar cu un ecran
+    - nu te uiti intotdeauna unde dai click
+    - fata iti poate fi acoperita uneori
+    - imaginile ochilor pe care le extragem nu au intotdeauna aceeasi dimensiune
+
+
+Idei:
+    - daca ochiul o sa fie redimensionat la o dimensiune fixa, foloseste proportia ochiului, care e ~1.87

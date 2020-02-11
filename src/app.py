@@ -103,9 +103,10 @@ class App(QtWidgets.QMainWindow):
             X = np.array(X)
             if len(X) == 0:
                 continue
-            prediction = model.predict(X)[0][0]
-            prediction = prediction.argmin()
-            print (prediction)
+            prediction = model.predict(X)[0]
+            # For some reason, they're reversed
+            prediction = 3 - prediction.argmin()
+            print(prediction)
             time.sleep(0.5)
 
     def collect_data(self):
