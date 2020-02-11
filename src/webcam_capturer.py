@@ -7,6 +7,8 @@ import config as Config
 
 
 # TODO make this a Singleton
+
+# TODO better idea: keep a `last_captured_image` and update that every *FPS* if the webcam is on (webcam_on_requests > 0)
 class WebcamCapturer:
     def __init__(self):
         self.webcam_lock = threading.Lock()

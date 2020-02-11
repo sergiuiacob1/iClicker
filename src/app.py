@@ -14,6 +14,7 @@ from src.webcam_capturer import WebcamCapturer
 from src.data_viewer import DataViewer
 from src.utils import get_screen_dimensions, run_function_on_thread
 from src.data_processing import process_images
+from src.predictor import Predictor
 import config as Config
 
 
@@ -21,9 +22,9 @@ class App(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.webcam_capturer = WebcamCapturer()
-        self.data_collector = DataCollector(
-            self.webcam_capturer)
+        self.data_collector = DataCollector(self.webcam_capturer)
         self.data_viewer = DataViewer()
+        self.predictor = Predictor(self.webcam_capturer)
 
     def keyPressEvent(self, e):
         if e.key() == QtCore.Qt.Key_Escape:
@@ -57,8 +58,7 @@ class App(QtWidgets.QMainWindow):
 
         predict_button = QtWidgets.QPushButton('Predict')
         predict_button.setToolTip('Predict cursor position')
-        predict_button.clicked.connect(
-            lambda: run_function_on_thread(self.predict_data))
+        predict_button.clicked.connect(self.predict_data)
 
         view_data_button = QtWidgets.QPushButton('View data')
         view_data_button.setToolTip('View collected data')
@@ -83,6 +83,8 @@ class App(QtWidgets.QMainWindow):
         Trainer.save_model(model)
 
     def predict_data(self):
+        self.predictor.start()
+        return
         screen_size = get_screen_dimensions()
 
         print('Loading best trained model...')
