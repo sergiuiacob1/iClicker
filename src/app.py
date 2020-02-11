@@ -112,4 +112,4 @@ class App(QtWidgets.QMainWindow):
             time.sleep(0.5)
 
     def collect_data(self):
-        self.data_collector.start_collecting()
+        self.data_collector.start_collecting("active")

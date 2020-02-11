@@ -6,6 +6,7 @@ import os
 import time
 import numpy as np
 from cv2 import cv2
+import pynput
 
 # My files
 from src.mouse_listener import MouseListener
@@ -29,23 +30,86 @@ class DataCollector():
         logging.basicConfig(filename=("mouse_logs.txt"), level=logging.DEBUG,
                             format='%(asctime)s: %(message)s')
         self.collect_data_lock = threading.Lock()
+        self.cursor_move_delay = 0.1
+        self.is_paused = False
+        self.pause_event = threading.Lock()
         self.gui = DataCollectorGUI(self, webcam_capturer)
 
-    def start_collecting(self):
+    def start_collecting(self, collection_type="background"):
+        # TODO document background/active
         print('Started collecting training data...')
         self.gui.start()
-        print ('GUI started')
-        self.mouse_listener.start_listening()
-        print ('Mouse listener started')
+        print('GUI started')
         self.webcam_capturer.start_capturing()
-        print ('Webcam capturer started')
+        print('Webcam capturer started')
+        if collection_type == "background":
+            self.mouse_listener.start_listening()
+            print('Mouse listener started')
+        else:
+            threading.Thread(target=self.start_active_collection).start()
+
+    def start_active_collection(self):
+        mouse_controller = pynput.mouse.Controller()
+        step_x = int(screen_width/200)
+        step_y = int(screen_height/100)
+        start, end = 0, screen_width
+
+        # Move it to the corner first, starting from the center
+        x, y = screen_width/2, screen_height/2
+        animation_steps = 100
+        dx = screen_width/2/animation_steps
+        dy = screen_height/2/animation_steps
+        mouse_controller.position = (x, y)
+        for i in range(0, 100):
+            mouse_controller.position = (x, y)
+            x -= dx
+            y -= dy
+            time.sleep(1/animation_steps)
+
+        for y in range(0, screen_height, step_y):
+            for x in range(start, end, step_x):
+                if not self.gui.isVisible():
+                    return
+
+                time.sleep(self.cursor_move_delay)
+
+                acquired_lock = False
+                if self.is_paused is True:
+                    self.pause_event.acquire()
+                    acquired_lock = True
+
+                mouse_controller.position = (x, y)
+                self.add_new_collected_item((x, y))
+
+                if acquired_lock is True:
+                    self.pause_event.release()
+
+            step_x = -step_x
+            start, end = end, start
+
+    def increase_speed(self):
+        print('Increasing speed')
+        self.cursor_move_delay -= 0.01
+        self.cursor_move_delay = max(0, self.cursor_move_delay)
+
+    def decrease_speed(self):
+        print('Decreasing speed')
+        self.cursor_move_delay += 0.01
+
+    def pause(self):
+        print('Triggered pause')
+        self.is_paused = not self.is_paused
+        if self.is_paused:
+            self.pause_event.acquire()
+        else:
+            self.pause_event.release()
 
     def save_collected_data(self):
         if len(self.collected_data) == 0:
             return
         self.collect_data_lock.acquire()
         session_no = self.get_session_number()
-        print (f"Saving data for session_{session_no}")
+        print(f"Saving data for session_{session_no}")
         self.save_session_info(session_no)
         self.save_images_info(session_no)
         self.save_images(session_no)
@@ -99,25 +163,34 @@ class DataCollector():
         return data.get('total_sessions', 0) + 1
 
     def end_data_collection(self):
-        print('Saving collected data...')
+        print(f'Saving collected data: {len(self.collected_data)} items')
+        self.is_paused = False
+        if self.pause_event.locked():
+            self.pause_event.release()
+
         threading.Thread(target=self.save_collected_data).start()
         self.mouse_listener.stop_listening()
         self.webcam_capturer.stop_capturing()
 
     def on_mouse_click(self, x, y, button, pressed):
+        """This function is only used when the type of data collection is \"background\""""
         if pressed:
             logging.info(f'{button} pressed at ({x}, {y})')
-            success, webcamImage = self.webcam_capturer.get_webcam_image()
-            if success is True:
-                dataObject = DataObject(
-                    webcamImage, (x, y), (screen_width, screen_height))
-                self.collect_data_lock.acquire()
-                self.collected_data.append(dataObject)
-                self.collect_data_lock.release()
+            self.add_new_item((x, y))
+
+    def add_new_collected_item(self, mouse_position):
+        success, webcam_image = self.webcam_capturer.get_webcam_image()
+        if success is False:
+            return
+        item = DataObject(webcam_image, mouse_position,
+                          (screen_width, screen_height))
+        self.collect_data_lock.acquire()
+        self.collected_data.append(item)
+        self.collect_data_lock.release()
 
     def _get_data_directory_path(self):
-        dataDirectoryPath = Config.data_directory_path
-        dataDirectoryPath = os.path.abspath(
-            os.path.join(os.getcwd(), dataDirectoryPath))
-        os.makedirs(dataDirectoryPath, exist_ok=True)
-        return dataDirectoryPath
+        data_directory_path = Config.data_directory_path
+        data_directory_path = os.path.abspath(
+            os.path.join(os.getcwd(), data_directory_path))
+        os.makedirs(data_directory_path, exist_ok=True)
+        return data_directory_path

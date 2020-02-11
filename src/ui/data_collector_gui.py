@@ -1,6 +1,7 @@
 import threading
 import time
 from PyQt5 import QtWidgets, QtGui
+from PyQt5.QtCore import Qt
 
 # My files
 from src.webcam_capturer import WebcamCapturer
@@ -12,24 +13,36 @@ from src.ui.ui_utils import get_qimage_from_cv2
 
 
 class DataCollectorGUI(QtWidgets.QMainWindow):
-    def __init__(self, data_collector, webcam_capturer: WebcamCapturer):
+    def __init__(self, controller, webcam_capturer: WebcamCapturer):
         super().__init__()
-        self.data_collector = data_collector
+        self.controller = controller
         self.webcam_capturer = webcam_capturer
         self.eye_widget = EyeWidget()
         self.create_window()
 
     def start(self):
-        self.show()
         self.eye_widget.show()
+        self.show()
         self.face_detector = FaceDetector()
         threading.Thread(target=self.show_webcam_images).start()
 
     def closeEvent(self, event):
         """This function is ran when the training data window is closed"""
+        print('DataCollectorGUI closed')
         self.eye_widget.close()
         self.close()
-        self.data_collector.end_data_collection()
+        self.controller.end_data_collection()
+
+    # TODO derive this from BaseGUI and delete this below
+    def keyPressEvent(self, e):
+        if e.key() == Qt.Key_Escape:
+            self.close()
+        elif e.key() == Qt.Key_Up:
+            self.controller.increase_speed()
+        elif e.key() == Qt.Key_Down:
+            self.controller.decrease_speed()
+        elif e.key() == Qt.Key_Space:
+            self.controller.pause()
 
     def create_window(self):
         self.setWindowTitle('Data Collector')

@@ -46,5 +46,6 @@ class Predictor():
                 continue
             prediction = model.predict(X)[0]
             # For some reason, they're reversed
+            prediction = 3 - prediction
             prediction = prediction.argmin()
             self.gui.update_prediction(prediction)
