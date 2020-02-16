@@ -29,30 +29,73 @@ last_model_number_lock = Lock()
 def train_model(train_parameters):
     # Lazy import so the app starts faster
     from keras.models import Sequential
-    from keras.layers import Dense, ReLU, Dropout
+    from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
     from keras.optimizers import RMSprop
+    from keras import backend as K
 
     print('Loading train data...')
     X, y = get_data()
+    n = len(X)
     X = np.array(X)
     y = np.array(y)
-    print('Training neural network...')
-    model = Sequential([
-        Dense(100, input_shape=(len(X[0]),),
-              kernel_initializer='glorot_uniform'),
-        Dropout(0.5),
-        ReLU(),
-        Dense(16, kernel_initializer='glorot_uniform'),
-        ReLU(),
-        Dense(4, activation='softmax')
-    ])
-    rmsprop = RMSprop(lr=0.001)
+
+    input_shape = (Config.EYE_WIDTH, Config.EYE_HEIGHT, 1)
+    # Only get the first eye
+    X = list(map(lambda x: x[:Config.EYE_WIDTH *
+                             Config.EYE_HEIGHT].reshape(*input_shape), X))
+    X = np.array(X)
+
+    # model = Sequential([
+    #     Conv2D(32, kernel_size=(5, 5), strides=(1, 1),
+    #            activation='relu', input_shape=input_shape, data_format='channels_last'),
+    #     MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    #     Conv2D(64, (5, 5), activation='relu'),
+    #     MaxPooling2D(pool_size=(2, 2)),
+    #     Flatten(),
+    #     Dense(64, kernel_initializer='glorot_uniform', activation='relu'),
+    #     Dense(4, activation='softmax')
+    # ])
+    model = Sequential()
+    model.add(Conv2D(32, kernel_size=(3, 3),
+                     activation='relu',
+                     input_shape=input_shape))
+    model.add(Conv2D(64, (3, 3), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+    model.add(Flatten())
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(4, activation='softmax'))
     model.compile(optimizer='adagrad',
                   loss='categorical_crossentropy', metrics=['accuracy'])
     start_time = time.time()
-    fit_history = model.fit(X, y, epochs=train_parameters["epochs"], verbose=1)
+    fit_history = model.fit(
+        X, y, epochs=train_parameters["epochs"], verbose=1)
     end_time = time.time()
     print('Training done')
+
+    # print('Loading train data...')
+    # X, y = get_data()
+    # X = np.array(X)
+    # y = np.array(y)
+
+    # print('Training neural network...')
+    # model = Sequential([
+    #     Dense(100, input_shape=(len(X[0]),),
+    #           kernel_initializer='glorot_uniform'),
+    #     Dropout(0.5),
+    #     ReLU(),
+    #     Dense(16, kernel_initializer='glorot_uniform'),
+    #     ReLU(),
+    #     Dense(4, activation='softmax')
+    # ])
+    # rmsprop = RMSprop(lr=0.001)
+    # model.compile(optimizer='adagrad',
+    #               loss='categorical_crossentropy', metrics=['accuracy'])
+    # start_time = time.time()
+    # fit_history = model.fit(X, y, epochs=train_parameters["epochs"], verbose=1)
+    # end_time = time.time()
+    # print('Training done')
     return {
         "model": model,
         "fit_history": fit_history,
@@ -108,7 +151,7 @@ def save_model_configuration(file_path, train_parameters, score, training_time):
 
 
 def get_next_model_name():
-    global last_model_number, last_model_number_lock
+    global last_model_number_lock
     last_model_number_lock.acquire()
 
     last_model_number = get_last_model_number()
@@ -144,6 +187,9 @@ def get_best_trained_model():
             min_score = data['score'][-1]
             best_model_name = x.split('.json')[0] + '.pkl'
 
+    # TODO delete this!!!
+    best_model_name = 'model_6.pkl'
+    
     try:
         # This is necessary if I want to load a model multiple times
         clear_session()

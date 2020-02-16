@@ -7,6 +7,7 @@ from src.utils import get_screen_dimensions
 from src.data_processing import process_images
 from src.trainer import get_best_trained_model
 from src.ui.predictor_gui import PredictorGUI
+from config import EYE_WIDTH, EYE_HEIGHT
 
 
 class Predictor():
@@ -39,11 +40,14 @@ class Predictor():
                 continue
 
             X = process_images([image])
-            X = [(x[0].flatten(), x[1].flatten()) for x in X]
-            X = [np.concatenate(x) for x in X]
-            X = np.array(X)
+            # X = [(x[0].flatten(), x[1].flatten()) for x in X]
+            # X = [np.concatenate(x) for x in X]
+            # X = np.array(X)
             if len(X) == 0:
                 continue
+            X = [X[0][0].reshape(EYE_WIDTH, EYE_HEIGHT, 1)]
+            X = np.array(X)
+            print (X.shape)
             prediction = model.predict(X)[0]
             # For some reason, they're reversed
             prediction = 3 - prediction
