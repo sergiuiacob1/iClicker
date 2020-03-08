@@ -10,7 +10,6 @@ import time
 # My files
 from src import trainer as Trainer
 from src.data_collector import DataCollector, DataObject
-from src.webcam_capturer import WebcamCapturer
 from src.data_viewer import DataViewer
 from src.utils import get_screen_dimensions, run_function_on_thread
 from src.data_processing import process_images
@@ -21,10 +20,9 @@ import config as Config
 class App(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.webcam_capturer = WebcamCapturer()
-        self.data_collector = DataCollector(self.webcam_capturer)
+        self.data_collector = DataCollector()
         self.data_viewer = DataViewer()
-        self.predictor = Predictor(self.webcam_capturer)
+        self.predictor = Predictor()
 
     def keyPressEvent(self, e):
         if e.key() == QtCore.Qt.Key_Escape:
@@ -58,7 +56,7 @@ class App(QtWidgets.QMainWindow):
 
         predict_button = QtWidgets.QPushButton('Predict')
         predict_button.setToolTip('Predict cursor position')
-        predict_button.clicked.connect(self.predict_data)
+        predict_button.clicked.connect(self.predictor.start)
 
         view_data_button = QtWidgets.QPushButton('View data')
         view_data_button.setToolTip('View collected data')
@@ -81,35 +79,6 @@ class App(QtWidgets.QMainWindow):
     def train_model(self):
         model = Trainer.train_model()
         Trainer.save_model(model)
-
-    def predict_data(self):
-        self.predictor.start()
-        return
-        screen_size = get_screen_dimensions()
-
-        print('Loading best trained model...')
-        model = Trainer.get_best_trained_model()
-        if model is None:
-            print('No trained models')
-            return
-
-        while True:
-            success, image = self.webcam_capturer.get_webcam_image()
-            if success is False:
-                print('Failed capturing image')
-                continue
-
-            X = process_images([image])
-            X = [(x[0].flatten(), x[1].flatten()) for x in X]
-            X = [np.concatenate(x) for x in X]
-            X = np.array(X)
-            if len(X) == 0:
-                continue
-            prediction = model.predict(X)[0]
-            # For some reason, they're reversed
-            prediction = 3 - prediction.argmin()
-            print(prediction)
-            time.sleep(0.5)
 
     def collect_data(self):
         self.data_collector.start_collecting("active")

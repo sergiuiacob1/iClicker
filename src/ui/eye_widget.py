@@ -22,7 +22,7 @@ class EyeWidget(QtWidgets.QWidget):
 
         eye_portion = cv2_image[y_min:y_max, x_min:x_max]
         eye_portion = resize_cv2_image(
-            eye_portion, fixed_dim=(Config.EYE_WIDTH, Config.EYE_HEIGHT))
+            eye_portion, fixed_dim=(int(100 * 1.87), 100))
         eye_portion = get_binary_thresholded_image(eye_portion)
         q_image = get_qimage_from_cv2(eye_portion)
         self.eye.setPixmap(QtGui.QPixmap.fromImage(q_image))

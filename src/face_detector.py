@@ -39,3 +39,5 @@ class FaceDetector(metaclass=Singleton):
             contours.append(shape[left_eye_start:left_eye_end])
             contours.append(shape[right_eye_start:right_eye_end])
         return contours
+
+    # def get_face

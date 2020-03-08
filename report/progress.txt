@@ -18,6 +18,13 @@ So far:
     - LPT
     - ajunge un ochi sau trebuie amanadoi?
 
+    - incercat CNN cu imaginea completa: prea mult zgomot de fundal, nu se antreneaza, ramane blocat pe un optim local
+
+    - next: incerc sa dau unui CNN doar fata
+        - pe langa asta, heat maps with the facial landmarks
+        - http://openaccess.thecvf.com/content_ICCV_2019/papers/Sun_FAB_A_Robust_Facial_Landmark_Detection_Framework_for_Motion-Blurred_Videos_ICCV_2019_paper.pdf
+        - fine tuning: use already trained models, like VGG, MobileNet
+
 
 Probleme:
     - momentan, aplicatia functioneaza doar cu un ecran

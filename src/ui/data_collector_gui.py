@@ -4,7 +4,7 @@ from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import Qt
 
 # My files
-from src.webcam_capturer import WebcamCapturer
+from src.webcam_capturer import get_webcam_image
 from src.face_detector import FaceDetector
 # ui
 from src.ui.eye_contour import EyeContour
@@ -13,17 +13,19 @@ from src.ui.ui_utils import get_qimage_from_cv2
 
 
 class DataCollectorGUI(QtWidgets.QMainWindow):
-    def __init__(self, controller, webcam_capturer: WebcamCapturer):
+    def __init__(self, controller):
         super().__init__()
         self.controller = controller
-        self.webcam_capturer = webcam_capturer
         self.eye_widget = EyeWidget()
         self.create_window()
+        self.face_detector = None
 
     def start(self):
         self.eye_widget.show()
         self.show()
-        self.face_detector = FaceDetector()
+        if self.face_detector is None:
+            # lazy loading so the app starts faster
+            self.face_detector = FaceDetector()
         threading.Thread(target=self.show_webcam_images).start()
 
     def closeEvent(self, event):
@@ -49,9 +51,6 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
         self.webcam_image_widget = QtWidgets.QLabel()
         self.left_eye_contour = EyeContour(self.webcam_image_widget)
         self.right_eye_contour = EyeContour(self.webcam_image_widget)
-        # self.stop_button = build_button(
-        #     'Stop', 'Stop Collecting Data', self.end_data_collection)
-        # self.stop_button.setParent(self.webcam_image_widget)
         self.setCentralWidget(self.webcam_image_widget)
 
     def show_webcam_images(self):
@@ -63,18 +62,16 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
         print('Displaying images from webcam...')
         fps = 30
         while self.isVisible():
-            success, image = self.webcam_capturer.get_webcam_image(
-                start_if_not_started=False)
+            success, image = get_webcam_image()
             if success is False:
                 continue
-
             # draw eye contours
             threading.Thread(target=self.update_eye_contours,
                              args=(image,)).start()
             qt_image = get_qimage_from_cv2(image)
             self.webcam_image_widget.setPixmap(
                 QtGui.QPixmap.fromImage(qt_image))
-            time.sleep(1/fps)
+            time.sleep(1.0/fps)
         print('Stop displaying images from the webcam')
 
     def update_eye_contours(self, image):

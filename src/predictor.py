@@ -3,23 +3,25 @@ import time
 from threading import Thread
 
 # My files
-from src.utils import get_screen_dimensions
+from src.utils import get_screen_dimensions, resize_cv2_image
 from src.data_processing import process_images
 from src.trainer import get_best_trained_model
 from src.ui.predictor_gui import PredictorGUI
+import src.webcam_capturer as WebcamCapturer
+from config import EYE_WIDTH, EYE_HEIGHT, WEBCAM_IMAGE_HEIGHT, WEBCAM_IMAGE_WIDTH
 
 
 class Predictor():
-    def __init__(self, webcam_capturer):
+    def __init__(self):
         super().__init__()
-        self.webcam_capturer = webcam_capturer
         self.gui = PredictorGUI(self)
 
     def ui_was_closed(self):
-        ...
+        WebcamCapturer.stop_capturing()
 
     def start(self):
         self.gui.show()
+        WebcamCapturer.start_capturing()
         Thread(target=self.predict).start()
 
     def predict(self):
@@ -33,17 +35,23 @@ class Predictor():
             return
 
         while self.gui.isVisible():
-            success, image = self.webcam_capturer.get_webcam_image()
+            success, image = WebcamCapturer.get_webcam_image()
             if success is False:
                 print('Failed capturing image')
                 continue
 
+            image = resize_cv2_image(image, fixed_dim=(
+                WEBCAM_IMAGE_WIDTH, WEBCAM_IMAGE_HEIGHT))
             X = process_images([image])
-            X = [(x[0].flatten(), x[1].flatten()) for x in X]
-            X = [np.concatenate(x) for x in X]
+            input_shape = (WEBCAM_IMAGE_HEIGHT, WEBCAM_IMAGE_WIDTH, 1)
+            X = list(map(lambda x: x.reshape(*input_shape), X))
             X = np.array(X)
+            # X = [(x[0].flatten(), x[1].flatten()) for x in X]
+            # X = [np.concatenate(x) for x in X]
+            # X = np.array(X)
             if len(X) == 0:
                 continue
+            X = np.array(X)
             prediction = model.predict(X)[0]
             # For some reason, they're reversed
             prediction = 3 - prediction

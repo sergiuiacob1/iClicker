@@ -1,85 +1,72 @@
 from cv2 import cv2
 import time
-import os
-import threading
+from threading import Lock, Thread
 
+# My files
 import config as Config
 
+last_image = None
+last_success = False
+cam = None
+webcam_lock = Lock()
+# Keep track of the number of requests the webcam has
+# A request means that someone is using images from the camera
+capture_requests = 0
 
-# TODO make this a Singleton
 
-# TODO better idea: keep a `last_captured_image` and update that every *FPS* if the webcam is on (webcam_on_requests > 0)
-class WebcamCapturer:
-    def __init__(self):
-        self.webcam_lock = threading.Lock()
+def start_capturing():
+    print('Starting web capture')
+    global webcam_lock, cam, capture_requests
+    capture_requests += 1
+    # if the camera is already started, don't start it again
+    if cam is not None:
+        return
+    webcam_lock.acquire()
+    # lock acquired
+    cam = cv2.VideoCapture(0)
+    cam.set(cv2.CAP_PROP_FRAME_WIDTH, Config.WEBCAM_IMAGE_WIDTH)
+    cam.set(cv2.CAP_PROP_FRAME_HEIGHT, Config.WEBCAM_IMAGE_HEIGHT)
+    # don't forget to release lock
+    webcam_lock.release()
+    # start updating
+    Thread(target=update).start()
 
-    def start_capturing(self):
-        self.webcam_lock.acquire()
-        self.cam = cv2.VideoCapture(0)
-        self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, Config.WEBCAM_IMAGE_WIDTH)
-        self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, Config.WEBCAM_IMAGE_HEIGHT)
-        self.webcam_lock.release()
 
-    def stop_capturing(self):
-        if hasattr(self, "cam") is False:
-            return
-        self.webcam_lock.acquire()
-        self.cam.release()
-        del self.cam
-        self.webcam_lock.release()
+def update():
+    global webcam_lock, last_image, last_success
+    while True:
+        webcam_lock.acquire()
+        if cam is None or cam.isOpened() is False:
+            webcam_lock.release()
+            break
+        last_success, last_image = cam.read()
+        webcam_lock.release()
+        time.sleep(1.0/Config.WEBCAM_FPS)
 
-    def webcam_is_started(self):
-        return hasattr(self, 'cam') and self.cam.isOpened()
 
-    def get_webcam_image(self, start_if_not_started=True):
-        if self.webcam_is_started() is False:
-            if start_if_not_started:
-                self.start_capturing()
-            else:
-                return False, None
-        self.webcam_lock.acquire()
-        try:
-            ret, frame = self.cam.read()
-        except:
-            ret, frame = False, None
-        finally:
-            self.webcam_lock.release()
-            
-        return ret, frame
-
-    def preview_webcam(self):
-        windowName = 'Webcam Preview'
-        fps = 60
-        cv2.namedWindow(windowName)
-
-        if self.webcam_is_started() is False:
-            self.start_capturing()
-
-        while True:
-            ret, frame = self.cam.read()
-            cv2.imshow(windowName, frame)
-            if not ret:
-                break
-            k = cv2.waitKey(1000//fps)
-
-            if k % 256 == 27:
-                # ESC pressed
-                print('Escape hit, closing...')
-                break
-        cv2.destroyWindow(windowName)
-
-    def __del__(self):
-        if hasattr(self, 'cam'):
-            self.cam.release()
+def stop_capturing():
+    print('Stopping webcam capture')
+    global cam, webcam_lock, capture_requests
+    if cam is None:
+        return
+    webcam_lock.acquire()
+    # lock acquired
+    capture_requests -= 1
+    if capture_requests == 0:
+        # nobody else is currently using the camera, so release it
+        cam.release()
+        # TODO are these below necessary
+        cam = None
         cv2.destroyAllWindows()
+    # don't forget to release lock
+    webcam_lock.release()
 
 
-if __name__ == '__main__':
-    web = WebcamCapturer()
-    # web.preview_webcam()
-    web.start_capturing()
-    web.get_webcam_image()
-    web.stop_capturing()
-    web.get_webcam_image()
-    # web.start_capturing()
-    # web.saveCurrentWebcamImage('data')
+def webcam_is_started():
+    global cam
+    return cam is not None and cam.isOpened()
+
+
+def get_webcam_image():
+    global last_success, last_image
+    return last_success, last_image

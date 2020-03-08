@@ -10,6 +10,7 @@ from src.app import App
 
 # TODO LBP (Local Binary Patterns)
 
+# TODO log file to replace the prints, disabled for "production" mode
 
 def main():
     q_app = QtWidgets.QApplication(sys.argv)
@@ -20,7 +21,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-
 
 
 # TODO use some tool to remove unused libraries at the end

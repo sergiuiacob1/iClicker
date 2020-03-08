@@ -6,9 +6,9 @@ import json
 from cv2 import imread
 
 # My files
-from config import EYE_WIDTH, EYE_HEIGHT, data_directory_path, train_data_path
+from config import EYE_WIDTH, EYE_HEIGHT, data_directory_path, train_data_path, WEBCAM_IMAGE_HEIGHT, WEBCAM_IMAGE_WIDTH
 from src.face_detector import FaceDetector
-from src.utils import resize_cv2_image, get_binary_thresholded_image
+from src.utils import resize_cv2_image, get_binary_thresholded_image, convert_to_gray_image
 from src.data_object import DataObject
 
 
@@ -53,11 +53,20 @@ def load_collected_data():
         screen_size = session_info["screen_size"]
 
         with open(os.path.join(sessions_path, f"session_{i}.json")) as f:
-            session_items = json.load(f)
+            try:
+                session_items = json.load(f)
+            except Exception as e:
+                print(f'Could not process session {i}: {str(e)}')
 
         for x in session_items:
             img_name = f"{i}_{x}.png"
             img = imread(os.path.join(images_path, img_name))
+            if img is None:
+                continue
+            # TODO specific thing, should be deleted
+            # this is a numpy matrix, so first element from shape is the number of rows, aka the height
+            if img.shape[0] != WEBCAM_IMAGE_HEIGHT or img.shape[1] != WEBCAM_IMAGE_WIDTH:
+                continue
             mouse_position = session_items[x]["mouse_position"]
             data.append(DataObject(img, mouse_position, screen_size))
     return data
@@ -127,9 +136,14 @@ def get_eye_images(data):
 #     return processed_data
 
 
-def process_images(images):
-    print('Extracting eye data...')
-    X = get_eye_images(images)
+def process_images(X):
+    # print('Extracting eye data...')
+    # X = get_eye_images(X)
+
+    # Return the image unaltered for CNNs tests, for now, in grayscale
+    for i in range(0, len(X)):
+        X[i] = convert_to_gray_image(X[i])
+    print('Normalising...')
     normalize_data(X)
     return X
 
@@ -137,7 +151,10 @@ def process_images(images):
 def normalize_data(data):
     # TODO watch out, this uses fixed values
     for i in range(0, len(data)):
-        data[i] = (np.array(data[i][0])/255, np.array(data[i][1])/255)
+        data[i] = np.true_divide(data[i], 255)
+
+    # for i in range(0, len(data)):
+    #     data[i] = (np.array(data[i][0])/255, np.array(data[i][1])/255)
 
 
 def save_processed_data(data):
@@ -168,7 +185,7 @@ def main():
     processed_data = (X, y)
 
     # save the result
-    print('Saving processed data')
+    print(f'Saving processed data: {len(X)} final items')
     save_processed_data(processed_data)
 
 

@@ -33,7 +33,6 @@ class PredictorGUI(BaseGUI):
         self.update()
 
     def paintEvent(self, event):
-        print('called paint event')
         if self.prediction is None:
             return
         painter = QPainter(self)

@@ -1,5 +1,7 @@
 from pynput.mouse import Listener
 
+# TODO this is too complicated for something so simple, remove this class
+
 
 class MouseListener:
     def __init__(self, on_click_function):
