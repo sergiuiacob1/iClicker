@@ -81,4 +81,4 @@ class App(QtWidgets.QMainWindow):
         Trainer.save_model(model)
 
     def collect_data(self):
-        self.data_collector.start_collecting("active")
+        self.data_collector.start_collecting("background")
