@@ -1,10 +1,13 @@
 \documentclass[11pt,titlepage]{report}
+\usepackage[french]{babel}
 \usepackage{Preamble}
 \usepackage{listings}
 \usepackage{hyperref}
 \usepackage[backend=biber]{biblatex}
-\addbibresource{bibliography.bib}
-
+\addbibresource{../bibliography.bib}
+\usepackage{datetime}
+\newdateformat{monthyeardate}{%
+  \monthname[\THEMONTH], \THEYEAR}
 
 \author{Iacob Sergiu}
 \title{iClicker}
@@ -33,32 +36,55 @@
     tabsize=2
 }
 \lstset{style=mystyle}
- 
 
 \begin{document}
 \begin{titlepage}
     \newgeometry{margin=3cm}
-	\centering
-    \includegraphics[width=0.75\linewidth]{universite_de_lille.png}\\[0.25cm] 	% University Logo
+    \centering
+    % University Logo
+    \includegraphics[width=0.75\linewidth]{universite_de_lille.png}\\[0.25cm]
     \vspace{\fill}
     \textbf{\textsc{\fontsize{50}{50}\selectfont iClicker}}\\ \vspace{\fill}		
-	\textsc{\LARGE Projet Individuel}\\[0.4cm]
-	\rule{\linewidth}{0.2 mm} \\[0.5 cm]
-    Iacob Sergiu \\[2cm]
-	\today
+	\textsc{\LARGE Projet Numéro 73}\\[0.4cm]
+    \rule{\linewidth}{0.2 mm}\\[0.5 cm]
+    Étudiant: Sergiu Iacob
+    \\
+    Encadrant: Marius Bilasco
+    \\
+    \vspace{\fill}
+    \monthyeardate\today
 \end{titlepage}
 \restoregeometry
 
 \tableofcontents
 
 \chapter{Introduction}
-\subfile{1-Introduction}
+\subfile{1_introduction}
 
-\chapter{Experiments}
-\subfile{2-Experiments}
+
+\chapter{À propos de l'application}
+\subfile{2_plan}
+
+\chapter{Informations préliminaires}
+\subfile{3_prerequisites}
+
+\chapter{La collecte de données}
+\subfile{4_data_collection}
+
+\chapter{Traitement de l'information}
+\subfile{5_data_processing}
+
+\chapter{L'entraînement}
+\subfile{6_training}
+
+\chapter{Perceptrons multicouches}
+\subfile{7_mlp}
+
+\chapter{Réseau neurones convolutifs}
+\subfile{8_cnn}
 
 \chapter{Conclusion}
-\subfile{3-Conclusion}
+\subfile{99_conclusion}
 
 \clearpage
 \pagestyle{numberonly}

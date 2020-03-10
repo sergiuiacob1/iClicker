@@ -1,0 +1,27 @@
+\section{Le modèle}
+What's a model.\\
+
+\section{En entraînement un modèle}
+Information about general parameters: for example epochs of training.\\
+Serialize each model, save its configuration.\\
+Mention what I mean by a model's configuration.\\
+
+\begin{lstlisting}[language=python, caption=Example of a model's configuration]
+{
+    "train_parameters": {
+        "epochs": 100
+    },
+    "score": [
+        7.1555709958233535,
+        7.432588309638585,
+        7.4325869143087715,
+        7.432587050009465,
+        7.432587050009465
+    ],
+    "training_time": 35320
+}
+\end{lstlisting}
+
+\section{En utilisant un modèle}
+Afterwards, same model used for prediction.\\
+Data for prediction has to have the same format as the data the model was trained with.\\ 

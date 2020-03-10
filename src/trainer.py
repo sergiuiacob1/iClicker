@@ -41,16 +41,9 @@ def train_model(train_parameters):
     X = np.array(X)
     y = np.array(y)
 
-<<<<<<< HEAD
     # the number of rows = the height of the image!
     input_shape = (Config.WEBCAM_IMAGE_HEIGHT, Config.WEBCAM_IMAGE_WIDTH, 1)
     X = list(map(lambda x: x.reshape(*input_shape), X))
-=======
-    input_shape = (Config.EYE_WIDTH, Config.EYE_HEIGHT, 1)
-    # Only get the first eye
-    X = list(map(lambda x: x[:Config.EYE_WIDTH *
-                             Config.EYE_HEIGHT].reshape(*input_shape), X))
->>>>>>> 9d29282017f7bcf85df6de108ced491d55099084
     X = np.array(X)
 
     # model = Sequential([
@@ -64,7 +57,6 @@ def train_model(train_parameters):
     #     Dense(4, activation='softmax')
     # ])
     model = Sequential()
-<<<<<<< HEAD
     model.add(Conv2D(16, kernel_size=(3, 3),
                      activation='relu',
                      input_shape=input_shape))
@@ -81,23 +73,6 @@ def train_model(train_parameters):
     start_time = time.time()
     fit_history = model.fit(
         X, y, epochs=train_parameters["epochs"], batch_size=32, verbose=1)
-=======
-    model.add(Conv2D(32, kernel_size=(3, 3),
-                     activation='relu',
-                     input_shape=input_shape))
-    model.add(Conv2D(64, (3, 3), activation='relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
-    model.add(Flatten())
-    model.add(Dense(128, activation='relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(4, activation='softmax'))
-    model.compile(optimizer='adagrad',
-                  loss='categorical_crossentropy', metrics=['accuracy'])
-    start_time = time.time()
-    fit_history = model.fit(
-        X, y, epochs=train_parameters["epochs"], verbose=1)
->>>>>>> 9d29282017f7bcf85df6de108ced491d55099084
     end_time = time.time()
     print('Training done')
 
@@ -218,7 +193,7 @@ def get_best_trained_model():
 
     # TODO delete this!!!
     best_model_name = 'model_6.pkl'
-    
+
     try:
         # This is necessary if I want to load a model multiple times
         clear_session()
