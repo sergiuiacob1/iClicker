@@ -4,53 +4,67 @@ Pour développer le projet, j'utiliserai tout d'abord GitHub pour structurer et 
 Vous pouvez trouver le dépôt du projet ici : \href{https://github.com/sergiuiacob1/iClicker/}{https://github.com/sergiuiacob1/iClicker/}
 % To develop the project, I will use, first of all, GitHub to structure and save the code.
 % You may find the project repository here: \href{https://github.com/sergiuiacob1/iClicker/}{https://github.com/sergiuiacob1/iClicker/}
-\paragraph{}
 
 \section{Configuration utilisée}
-For any 
-TODO: label this section and reference it wherever I mention ``training took $x$ seconds''.
-Mention laptop model.\\
-Emphasize on webcam resolution \& quality.\\
-Emphasize on no GPU \& cpu speed.\\
+\paragraph{}
+Pour chacun des résultats présentés ici, il est important de savoir que les expériences ont été réalisées sur la machine suivante: ``MacBook Pro A1502, début 2015''.
+CPU: Core i5 (I5-5287U), 2.9GHz. RAM: 16 GB, LPDDR3 à 1866 MHz.
+Ce portable n'a pas de GPU, donc les modèles d'entraînement prendront plus de temps.
+% For any of the results presented here, it is important to know that the experiments were done on the following machine: ``MacBook Pro A1502, Early 2015''.
+% CPU: Core i5 (I5-5287U), 2.9GHz. RAM: 16GB 1866 MHz LPDDR3.
+% This laptop does not have a GPU, so training models will take a longer time.
+\paragraph{}
+La caméra de l'ordinateur portable n'est pas géniale, mais elle est capable de prendre des images HD, avec une résolution allant jusqu'à 1280x720.
+Cependant, elle ne fonctionne pas bien dans de mauvaises conditions d'éclairage, je vais donc essayer d'obtenir les données dans de bonnes conditions d'éclairage.
+% The laptop's camera isn't a great one, but it is capable of taking HD images, with a resolution of up to 1280x720.
+% However, it does not do well in poor lighting, so I will try to get the data in good lighting conditions.
 
 \section{Informations techniques}
-TODO: Section title – maybe find a better one?
+\paragraph{}
+L'un des langages de programmation les plus populaires pour les problèmes d'Apprentissage Profond est Python.
+J'ai donc choisi de développer ce projet en Python, car le soutien de la communauté et les ressources trouvées en ligne sont vastes.
+Voici une liste des technologies que j'ai utilisées:
+% One of the most popular programming languages of choice when it comes to Deep Learning problems is Python.
+% I have, therefore, chosen to develop this project in Python, since the community support and the resources found online are vast.
+% Here's a list of the technologies I have used:
 
 \begin{center}
-    \label{technologies-used}
     \begin{tabular}{ c c c }
         Technology name & Version & Useful links \\
-        Python3 & 3.6 & \url{https://www.python.org} \\
+        \hline
+        Python3 & 3.7 & \url{https://www.python.org} \\
         Conda & 4.8.0 & \url{https://conda.io/} \\
-        ... & ... & ...
     \end{tabular}
 \end{center}
 
-Maybe mention important Python libraries used:\\
+\paragraph{}
+Je dois également noter quelques bibliothèques Python importantes qui ont des fonctionnalités cruciales pour ce projet.
+L'une d'entre elles est OpenCV, que j'utiliserai pour la détection des visages et la capture d'images.
+PyQt5 a été utilisé pour construire une interface graphique pour l'application, afin qu'elle soit plus conviviale.
+% I also have to note some important Python libraries that have some crucial functionalities for this project.
+% One of them is OpenCV, which I will use for face detection and for capturing images.
+% PyQt5 was used to build a graphical interface for the app, so it can be more user friendly.
 
 \begin{center}
     \begin{tabular}{ c c c }
         Library name & Version & Useful links \\
-        Keras & ... & ... \\
-        PyTorch & ... & ... \\
-        OpenCV & ... & ...
+        \hline
+        Keras & 2.2.4 & \url{https://keras.io} \\
+        PyTorch & 1.4 & \url{https://pytorch.org} \\
+        OpenCV & 4.1.2 & \url{https://opencv.org} \\
+        PyQt5 & 5.14 & \url{https://pypi.org/project/PyQt5/} \\
+        dlib & 19.19.0 & \url{https://pypi.org/project/dlib/} \\
+        imutils & 0.5.3 & \url{https://pypi.org/project/imutils/} \\
     \end{tabular}
 \end{center}
 
-\section{Conditions requises}
-Technical requirements: Every technology previously mentioned \ref{technologies-used} should be installed \\
-
-Currently only tested on MacOS, possible that Windows will give errors. Linux should work\\
-
-Link github repository here and mention install instructions.\\
-
 \section{Limites}
-Some of the \emph{CURRENT} limits are (current because more will appear, probably):
-App only tested with 1 monitor.\\
-If setup has multiple cameras, it chooses the first one it finds.\\
-Mention training data collection: only me. I wear no glasses.\\
-Emphasize on wearing glasses: might not work. To test this.\\
-
-Mention necessity of good lighting.\\
-
-Might only work on MacOS and Linux right now (will test to be sure).
+\paragraph{}
+Au moment où nous écrivons ces lignes, les limites actuelles sont les suivantes: l'application ne fonctionne qu'avec un moniteur et une caméra.
+En outre, je n'ai pas encore étudié comment cela devrait fonctionner si l'utilisateur porte des lunettes, je suppose donc qu'il n'en porte pas.
+Les résultats présentés sont basés sur les données que j'ai recueillies, c'est-à-dire des images de moi-même regardant le moniteur.
+De plus, il n'a été testé que sur MacOS, mais il devrait fonctionner sans problème sous Linux également.
+% At the moment of writing this, the current limits are: the application only works with one monitor and one camera.
+% Also, I have not yet looked into how this should work if the user is wearing glasses, so I will assume that he is not.
+% The results presented are based on the data that I collected, that is images of myself looking at the monitor.
+% Also, it was only tested on MacOS, but should work on Linux as well without problems.

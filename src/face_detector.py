@@ -4,6 +4,7 @@ import config as Config
 import src.utils as Utils
 
 # TODO make a singleton here with lazy loading and threaded responses
+# TODO actually, don't use a singleton; keep it simple.
 
 
 class Singleton(type):
