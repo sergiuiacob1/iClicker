@@ -4,14 +4,17 @@ import joblib
 import re
 import json
 from cv2 import imread
+import time
 
 # My files
 # TODO delete from config import ...
 from config import EYE_WIDTH, EYE_HEIGHT, data_directory_path, train_data_path, WEBCAM_IMAGE_HEIGHT, WEBCAM_IMAGE_WIDTH
 import config as Config
 import src.face_detector as face_detector
-from src.utils import resize_cv2_image, get_binary_thresholded_image, convert_to_gray_image
+from src.utils import resize_cv2_image, get_binary_thresholded_image, convert_to_gray_image, apply_function_per_thread, setup_logger
 from src.data_object import DataObject
+
+dp_logger = setup_logger('dp_logger', './logs/data_processing.log')
 
 # class DataCollectionSession:
 #     def __init__(self, session_info, session_number):
@@ -139,8 +142,9 @@ def get_eye_images(data):
 
 
 def extract_faces(X):
+    apply_function_per_thread(X, face_detector.extract_face)
     for i in range(0, len(X)):
-        X[i] = face_detector.extract_face(X[i])
+        # X[i] = face_detector.extract_face(X[i])
         # resize this image
         X[i] = resize_cv2_image(X[i], fixed_dim=(
             Config.FACE_WIDTH, Config.FACE_HEIGHT))
@@ -199,7 +203,13 @@ def main():
     data = load_collected_data()
     print(f'Loaded {len(data)} items')
 
-    process_data_extract_faces(data)
+    f = process_data_extract_faces
+
+    start = time.time()
+    f(data)
+    s = f'Processing data with {f} took {time.time() - start} seconds for {len(data)} original items'
+    print(s)
+    dp_logger.info(s)
 
     # data = [x for x in data if x.is_close_to_corner is True]
     # print(f'Only selected corner data: {len(data)} items')

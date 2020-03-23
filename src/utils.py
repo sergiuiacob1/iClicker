@@ -2,6 +2,7 @@ import tkinter as tk
 import threading
 from cv2 import cv2
 import os
+import logging
 
 
 def get_screen_dimensions():
@@ -36,3 +37,62 @@ def get_binary_thresholded_image(cv2_image):
     img = cv2.adaptiveThreshold(
         img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
     return img
+
+
+def apply_function_per_thread(input, func, f_args=()):
+    """This functions applies the `func` function to every element from the `input` list and splits the work between threads.
+
+    This function is only suitable if the amount of work to be done is large!
+
+    The number of threads used is equal to the CPU's processors count"""
+    print(
+        f'Applying function {func} to input. Splitting work amongst {os.cpu_count()} threads.')
+    threads = []
+    start = 0
+    diff = len(input) // os.cpu_count()
+    for i in range(0, os.cpu_count()):
+        # the last thread gets whatever remains
+        if i == os.cpu_count() - 1:
+            end = len(input)
+        else:
+            end = start + diff
+        t = threading.Thread(target=thread_work, args=(
+            input, start, end, func, f_args))
+        threads.append(t)
+        start += diff
+
+    # start all threads
+    for t in threads:
+        t.start()
+    # wait all threads
+    for t in threads:
+        t.join()
+
+
+def thread_work(input, start, end, func, f_args):
+    input[start:end] = [func(x, *f_args) for x in input[start:end]]
+
+
+def setup_logger(name, log_file, level=logging.INFO):
+    """To setup as many loggers as you want"""
+    os.makedirs('./logs', exist_ok=True)
+    formatter = logging.Formatter('%(asctime)s: %(message)s')
+    handler = logging.FileHandler(log_file)
+    handler.setFormatter(formatter)
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.addHandler(handler)
+
+    return logger
+
+
+if __name__ == '__main__':
+    def f(x): return x//2
+    a = [x for x in range(0, 50000000 + 1)]
+    print(a[-1])
+    import time
+    ss = time.time()
+    a = [f(x) for x in a]
+    # apply_function_per_thread(a, f, ())
+    print(time.time() - ss)
+    print(a[-1])

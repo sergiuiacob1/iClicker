@@ -1,4 +1,3 @@
-import logging
 import threading
 import joblib
 import json
@@ -33,8 +32,6 @@ class DataCollector():
         super().__init__()
         self.collected_data = []
         self.mouse_listener = MouseListener(self.on_mouse_click)
-        logging.basicConfig(filename=("mouse_logs.txt"), level=logging.DEBUG,
-                            format='%(asctime)s: %(message)s')
         self.collect_data_lock = threading.Lock()
         self.cursor_move_delay = 0.1
         self.is_paused = False
@@ -223,7 +220,6 @@ class DataCollector():
     def on_mouse_click(self, x, y, button, pressed):
         """This function is only used when the type of data collection is DataCollectionType.BACKGROUND"""
         if pressed:
-            logging.info(f'{button} pressed at ({x}, {y})')
             self.add_new_collected_item((x, y))
 
     def add_new_collected_item(self, mouse_position):

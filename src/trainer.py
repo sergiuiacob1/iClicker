@@ -29,84 +29,89 @@ last_model_number_lock = Lock()
 
 
 def train_model(train_parameters):
-    # Lazy import so the app starts faster
-    from keras.models import Sequential
-    from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
-    from keras.optimizers import RMSprop
-    from keras import backend as K
-
-    print('Loading train data...')
-    X, y = get_data()
-    n = len(X)
-    X = np.array(X)
-    y = np.array(y)
-
-    # the number of rows = the height of the image!
-    input_shape = (Config.WEBCAM_IMAGE_HEIGHT, Config.WEBCAM_IMAGE_WIDTH, 1)
-    X = list(map(lambda x: x.reshape(*input_shape), X))
-    X = np.array(X)
-
-    # model = Sequential([
-    #     Conv2D(32, kernel_size=(5, 5), strides=(1, 1),
-    #            activation='relu', input_shape=input_shape, data_format='channels_last'),
-    #     MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
-    #     Conv2D(64, (5, 5), activation='relu'),
-    #     MaxPooling2D(pool_size=(2, 2)),
-    #     Flatten(),
-    #     Dense(64, kernel_initializer='glorot_uniform', activation='relu'),
-    #     Dense(4, activation='softmax')
-    # ])
-    model = Sequential()
-    model.add(Conv2D(16, kernel_size=(3, 3),
-                     activation='relu',
-                     input_shape=input_shape))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Conv2D(32, (3, 3), activation='relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Flatten())
-    model.add(Dense(128, activation='relu'))
-    # model.add(Dropout(0.5))
-    model.add(Dense(4, activation='softmax'))
-
-    model.compile(optimizer='adam',
-                  loss='categorical_crossentropy', metrics=['accuracy'])
-    start_time = time.time()
-    fit_history = model.fit(
-        X, y, epochs=train_parameters["epochs"], batch_size=32, verbose=1)
-    end_time = time.time()
-    print('Training done')
+    train_cnn_with_faces()
+    # # Lazy import so the app starts faster
+    # from keras.models import Sequential
+    # from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
+    # from keras.optimizers import RMSprop
+    # from keras import backend as K
 
     # print('Loading train data...')
     # X, y = get_data()
+    # n = len(X)
     # X = np.array(X)
     # y = np.array(y)
 
-    # print('Training neural network...')
-    # model = Sequential([
-    #     Dense(100, input_shape=(len(X[0]),),
-    #           kernel_initializer='glorot_uniform'),
-    #     Dropout(0.5),
-    #     ReLU(),
-    #     Dense(16, kernel_initializer='glorot_uniform'),
-    #     ReLU(),
-    #     Dense(4, activation='softmax')
-    # ])
-    # rmsprop = RMSprop(lr=0.001)
-    # model.compile(optimizer='adagrad',
+    # # the number of rows = the height of the image!
+    # input_shape = (Config.WEBCAM_IMAGE_HEIGHT, Config.WEBCAM_IMAGE_WIDTH, 1)
+    # X = list(map(lambda x: x.reshape(*input_shape), X))
+    # X = np.array(X)
+
+    # # model = Sequential([
+    # #     Conv2D(32, kernel_size=(5, 5), strides=(1, 1),
+    # #            activation='relu', input_shape=input_shape, data_format='channels_last'),
+    # #     MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    # #     Conv2D(64, (5, 5), activation='relu'),
+    # #     MaxPooling2D(pool_size=(2, 2)),
+    # #     Flatten(),
+    # #     Dense(64, kernel_initializer='glorot_uniform', activation='relu'),
+    # #     Dense(4, activation='softmax')
+    # # ])
+    # model = Sequential()
+    # model.add(Conv2D(16, kernel_size=(3, 3),
+    #                  activation='relu',
+    #                  input_shape=input_shape))
+    # model.add(MaxPooling2D(pool_size=(2, 2)))
+    # model.add(Conv2D(32, (3, 3), activation='relu'))
+    # model.add(MaxPooling2D(pool_size=(2, 2)))
+    # model.add(Flatten())
+    # model.add(Dense(128, activation='relu'))
+    # # model.add(Dropout(0.5))
+    # model.add(Dense(4, activation='softmax'))
+
+    # model.compile(optimizer='adam',
     #               loss='categorical_crossentropy', metrics=['accuracy'])
     # start_time = time.time()
-    # fit_history = model.fit(X, y, epochs=train_parameters["epochs"], verbose=1)
+    # fit_history = model.fit(
+    #     X, y, epochs=train_parameters["epochs"], batch_size=32, verbose=1)
     # end_time = time.time()
     # print('Training done')
-    return {
-        "model": model,
-        "fit_history": fit_history,
-        "training_time": math.floor(end_time - start_time)
-    }
+
+    # # print('Loading train data...')
+    # # X, y = get_data()
+    # # X = np.array(X)
+    # # y = np.array(y)
+
+    # # print('Training neural network...')
+    # # model = Sequential([
+    # #     Dense(100, input_shape=(len(X[0]),),
+    # #           kernel_initializer='glorot_uniform'),
+    # #     Dropout(0.5),
+    # #     ReLU(),
+    # #     Dense(16, kernel_initializer='glorot_uniform'),
+    # #     ReLU(),
+    # #     Dense(4, activation='softmax')
+    # # ])
+    # # rmsprop = RMSprop(lr=0.001)
+    # # model.compile(optimizer='adagrad',
+    # #               loss='categorical_crossentropy', metrics=['accuracy'])
+    # # start_time = time.time()
+    # # fit_history = model.fit(X, y, epochs=train_parameters["epochs"], verbose=1)
+    # # end_time = time.time()
+    # # print('Training done')
+    # return {
+    #     "model": model,
+    #     "fit_history": fit_history,
+    #     "training_time": math.floor(end_time - start_time)
+    # }
 
 
-def get_data():
-    path = os.path.join(os.getcwd(), Config.train_data_path, 'train_data.pkl')
+def train_cnn_with_faces():
+    ...
+
+
+def get_data(filename='train_data.pkl'):
+    path = os.path.join(os.getcwd(), Config.train_data_path, filename)
     data = joblib.load(path)
 
     X = data[0]
