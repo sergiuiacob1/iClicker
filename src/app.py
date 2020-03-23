@@ -9,7 +9,7 @@ import time
 
 # My files
 from src import trainer as Trainer
-from src.data_collector import DataCollector, DataObject
+from src.data_collector import DataCollector, DataObject, DataCollectionType
 from src.data_viewer import DataViewer
 from src.utils import get_screen_dimensions, run_function_on_thread
 from src.data_processing import process_images
@@ -81,4 +81,4 @@ class App(QtWidgets.QMainWindow):
         Trainer.save_model(model)
 
     def collect_data(self):
-        self.data_collector.start_collecting("background")
+        self.data_collector.start_collecting(DataCollectionType.ACTIVE)

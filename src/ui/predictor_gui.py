@@ -24,6 +24,7 @@ class PredictorGUI(BaseGUI):
         self.setWindowTitle('Predictor')
         self.resize(screen_width, screen_height)
 
+        # TODO I think I need to delete these 2 lines, they also give warnings
         painter = QPainter(self)
         painter.drawRect(100, 100, 200, 200)
 

@@ -8,6 +8,7 @@ import time
 import numpy as np
 from cv2 import cv2
 import pynput
+from enum import Enum
 
 # My files
 from src.mouse_listener import MouseListener
@@ -20,6 +21,11 @@ from src.ui.data_collector_gui import DataCollectorGUI
 
 
 screen_width, screen_height = Utils.get_screen_dimensions()
+
+
+class DataCollectionType:
+    BACKGROUND = 1
+    ACTIVE = 2
 
 
 class DataCollector():
@@ -35,22 +41,22 @@ class DataCollector():
         self.pause_event = threading.Lock()
         self.gui = DataCollectorGUI(self)
 
-    def start_collecting(self, collection_type="background"):
+    def start_collecting(self, collection_type=DataCollectionType.BACKGROUND):
         # TODO document background/active
         print(f'Start collecting data in {collection_type} mode')
         WebcamCapturer.start_capturing()
         self.gui.start()
         print('DataCollectorGUI started')
-        if collection_type == "background":
+        if collection_type == DataCollectionType.BACKGROUND:
             self.mouse_listener.start_listening()
             print('Mouse listener started')
-        else:
+        elif collection_type == DataCollectionType.ACTIVE:
             threading.Thread(target=self.start_active_collection).start()
 
     def start_active_collection(self):
         mouse_controller = pynput.mouse.Controller()
         step_x = int(screen_width/100)
-        step_y = int(screen_height/50)
+        step_y = int(screen_height/25)
         start, end = 0, screen_width
 
         # Move it to the corner first, starting from the center
@@ -67,10 +73,6 @@ class DataCollector():
 
         for y in range(0, screen_height, step_y):
             for x in range(start, end, step_x):
-                print(self.gui)
-                print(self.gui.isEnabled())
-                print(self.gui.isVisible())
-                print(self.gui.isActiveWindow())
                 if self.gui.isVisible() == False:
                     return
 
@@ -90,9 +92,9 @@ class DataCollector():
             step_x = -step_x
             start, end = end, start
 
-        # If I reached this point and the gui isn't closed, auto-close it
-        if self.gui.isVisible():
-            self.gui.close()
+        print('Collecting data items ended')
+        assert (self.collect_data_lock.locked(
+        ) == False), "The lock for data collection should be unreleased, because I finished collecting items"
 
     def increase_speed(self):
         print('Increasing speed')
@@ -114,7 +116,10 @@ class DataCollector():
     def save_collected_data(self):
         if len(self.collected_data) == 0:
             return
+        print(
+            f'Acquiring lock for data collection. Locked = {self.collect_data_lock.locked()}')
         self.collect_data_lock.acquire()
+        print('Lock acquired')
         session_no = self.get_session_number()
         print(f"Saving data for session_{session_no}")
         self.save_session_info(session_no)
@@ -124,16 +129,43 @@ class DataCollector():
         print('Saving data done')
 
     def save_images(self, session_no):
+        print('\n')
         dir_path = os.path.join(Config.data_directory_path, 'images')
         os.makedirs(dir_path, exist_ok=True)
         threads = []
+        start = 0
+        diff = len(self.collected_data) // os.cpu_count()
+        for i in range(0, os.cpu_count() - 1):
+            t = threading.Thread(target=self.save_images_per_thread, args=(
+                session_no, start, start + diff, i + 1))
+            threads.append(t)
+            start += diff
+        # last thread takes what's left
+        t = threading.Thread(target=self.save_images_per_thread, args=(
+            session_no, start, len(self.collected_data), os.cpu_count()))
+        threads.append(t)
+        # start all threads
+        for t in threads:
+            t.start()
+        # wait for all threads
+        for t in threads:
+            t.join()
         print('\n')
-        for (index, obj) in enumerate(self.collected_data):
+
+    def save_images_per_thread(self, session_no, start, end, thread_no):
+        """This is run on a different thread; only saves images from [start, end] indexes"""
+        dir_path = os.path.join(Config.data_directory_path, 'images')
+        print(f'Thread {thread_no}: Saving images from {start} to {end}')
+        time.sleep(0.01)  # just to make prints prettier
+        last_print = time.time()
+        for (index, obj) in enumerate(self.collected_data[start:end]):
             path = os.path.join(dir_path, f'{session_no}_{index}.png')
             cv2.imwrite(path, obj.image)
-            sys.stdout.write('\r')
-            sys.stdout.write(
-                f'Saved {index}/{len(self.collected_data)} images')
+            # every 2 seconds, print progress
+            if time.time() - last_print >= 2:
+                last_print = time.time()
+                print(
+                    f'Thread {thread_no}: saved {index}/{end - start} images')
 
     def save_images_info(self, session_no):
         """Saves the info about each captured image"""
@@ -183,10 +215,12 @@ class DataCollector():
 
         self.mouse_listener.stop_listening()
         WebcamCapturer.stop_capturing()
+        assert (self.collect_data_lock.locked() ==
+                False), "This lock should be false"
         threading.Thread(target=self.save_collected_data).start()
 
     def on_mouse_click(self, x, y, button, pressed):
-        """This function is only used when the type of data collection is \"background\""""
+        """This function is only used when the type of data collection is DataCollectionType.BACKGROUND"""
         if pressed:
             logging.info(f'{button} pressed at ({x}, {y})')
             self.add_new_collected_item((x, y))

@@ -21,7 +21,7 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
         self.face_detector = None
 
     def start(self):
-        self.eye_widget.show()
+        # self.eye_widget.show()
         self.show()
         if self.face_detector is None:
             # lazy loading so the app starts faster
@@ -30,9 +30,11 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
 
     def closeEvent(self, event):
         """This function is ran when the training data window is closed"""
-        print('DataCollectorGUI closed')
-        self.eye_widget.close()
+        print('Closing DataCollectorGUI')
+        # self.eye_widget.close()
+        print('EyeWidget was closed')
         self.close()
+        print('DataCollectorGUI closed')
         self.controller.end_data_collection()
 
     # TODO derive this from BaseGUI and delete this below
@@ -66,8 +68,8 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
             if success is False:
                 continue
             # draw eye contours
-            threading.Thread(target=self.update_eye_contours,
-                             args=(image,)).start()
+            # threading.Thread(target=self.update_eye_contours,
+            #                  args=(image,)).start()
             qt_image = get_qimage_from_cv2(image)
             self.webcam_image_widget.setPixmap(
                 QtGui.QPixmap.fromImage(qt_image))
@@ -79,4 +81,5 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
         if len(contours) == 2:
             self.left_eye_contour.points = contours[0]
             self.right_eye_contour.points = contours[1]
-            self.eye_widget.update(image, contours[0])
+            if (self.eye_widget.isVisible()):
+                self.eye_widget.update(image, contours[0])

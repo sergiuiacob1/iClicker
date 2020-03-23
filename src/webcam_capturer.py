@@ -52,7 +52,7 @@ def stop_capturing():
     webcam_lock.acquire()
     # lock acquired
     capture_requests -= 1
-    if capture_requests == 0:
+    if capture_requests <= 0:
         # nobody else is currently using the camera, so release it
         cam.release()
         # TODO are these below necessary
