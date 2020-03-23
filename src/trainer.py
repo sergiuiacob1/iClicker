@@ -8,8 +8,12 @@ import time
 
 # My files
 import config as Config
+from src.utils import setup_logger
+
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+last_model_number_lock = Lock()
+train_logger = setup_logger('train_logger', 'train.log')
 
 
 def get_last_model_number():
@@ -25,11 +29,13 @@ def get_last_model_number():
     return max(numbers)
 
 
-last_model_number_lock = Lock()
-
-
 def train_model(train_parameters):
-    train_cnn_with_faces()
+    st = time.time()
+    f = train_cnn_with_faces_keras
+    res = f()
+    res['training_time'] = time.time() - st
+    train_logger.info(f'Training with {f} took {time.time() - st} seconds')
+    return res
     # # Lazy import so the app starts faster
     # from keras.models import Sequential
     # from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
@@ -105,9 +111,91 @@ def train_model(train_parameters):
     #     "training_time": math.floor(end_time - start_time)
     # }
 
+def train_cnn_with_faces_keras():
+    # Lazy import so the app starts faster
+    from keras.models import Sequential
+    from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
+    from keras.optimizers import RMSprop
+    from keras import backend as K
+
+    print('Loading train data...')
+    X, y = get_data('extracted_faces.pkl')
+    n = len(X)
+
+    # the number of rows = the height of the image!
+    input_shape = (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1)
+    X = list(map(lambda x: x.reshape(*input_shape), X))
+    X = np.array(X)
+
+    model = Sequential()
+    model.add(Conv2D(16, kernel_size=(3, 3),
+                     input_shape=input_shape))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(ReLU())
+    model.add(Conv2D(32, (3, 3)))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(ReLU())
+    model.add(Conv2D(32, (3, 3)))
+    model.add(MaxPooling2D(pool_size=(5, 5)))
+    model.add(ReLU())
+    model.add(Flatten())
+    model.add(Dense(128, activation='relu'))
+    # model.add(Dropout(0.5))
+    model.add(Dense(4, activation='softmax'))
+
+    model.compile(optimizer='adam',
+                  loss='categorical_crossentropy', metrics=['accuracy'])
+    start_time = time.time()
+    fit_history = model.fit(
+        X, y, epochs=train_parameters["epochs"], batch_size=32, verbose=1)
+    end_time = time.time()
+    print('Training done')
+    return {
+        "model": model,
+        "trained_with": "keras",
+        "score": fit_history.history['loss']
+    }
 
 def train_cnn_with_faces():
-    ...
+    import torch.nn as nn
+    import torch.optim as optim
+
+    class ConvNet(nn.Module):
+        def __init__(self, output_dim):
+            super(ConvNet, self).__init__()
+
+            self.conv = nn.Sequential()
+            self.conv.add_module("conv_1", nn.Conv2d(1, 16, kernel_size=3))
+            self.conv.add_module("maxpool_1", nn.MaxPool2d(kernel_size=2))
+            self.conv.add_module("relu_1", nn.ReLU())
+            self.conv.add_module("conv_2", nn.Conv2d(16, 32, kernel_size=3))
+            self.conv.add_module("maxpool_2", nn.MaxPool2d(kernel_size=2))
+            self.conv.add_module("relu_2", nn.ReLU())
+
+            self.fc = nn.Sequential()
+            self.fc.add_module("fc_1", nn.Linear(320, 128))
+            self.fc.add_module("relu_3", nn.ReLU())
+            self.fc.add_module("fc_2", nn.Linear(50, output_dim))
+            self.fc.add_module("softmax_1", nn.Softmax())
+
+        def forward(self, x):
+            x = self.conv.forward(x)
+            x = x.view(-1, 320)
+            return self.fc.forward(x)
+
+    cnn = ConvNet(4)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(cnn.parameters())
+
+    X, y = get_data('extracted_faces.pkl')
+    n = len(X)
+    print(n)
+
+    return {
+        "model": cnn,
+        "trained_with": "pytorch",
+        "score": None,
+    }
 
 
 def get_data(filename='train_data.pkl'):
@@ -124,39 +212,36 @@ def get_data(filename='train_data.pkl'):
     return X, y
 
 
-# TODO check if these parameters should be None
-# TODO make sure that I'm saving models with score on validation data (not on train data)
-def save_model(model, train_parameters=None, score=None, training_time=None):
-    print(model)
+# TODO make sure that I'm saving models with score on validation data (not on train data)... or both
+def save_model(model, train_parameters={}):
+    """
+    `model` is a dictionary containing information about the model and the model itself.
+    """
+    print(model["model"])
     print('Saving model...')
     model_name = get_next_model_name()
-    file_path = os.path.join(
+    model_path = os.path.join(
         os.getcwd(), Config.models_directory_path, model_name)
 
-    try:
-        save_model_configuration(
-            file_path, train_parameters, score, training_time)
-    except Exception as e:
-        print(f'Failed to save model as {model_name}: {e}')
-    else:
-        joblib.dump(model, file_path)
-        print(f'Model saved as {model_name}')
+    # save information about this model
+    conf_path = model_path.split('.pkl')[0] + '.json'
+    config = model.copy()
+    config["train_parameters"] = train_parameters
+    del config["model"]
 
-
-def save_model_configuration(file_path, train_parameters, score, training_time):
-    # save the configuration in the same folder with the same name, but in a json file
-    file_path = file_path.split('.pkl')[0] + '.json'
-    config = {
-        "train_parameters": train_parameters,
-        "score": score,
-        "training_time": training_time
-    }
     try:
-        with open(file_path, 'w') as f:
+        with open(conf_path, 'w') as f:
             json.dump(config, f)
     except Exception as e:
         print(f'Could not save model configuration: {e}')
-        raise
+        return
+    # finally, save the serialized model
+    if config["trained_with"] == "pytorch":
+        import torch
+        torch.save(model["model"].state_dict(), model_path)
+    else:
+        joblib.dump(model["model"], model_path)
+    print(f'Model saved as {model_name}')
 
 
 def get_next_model_name():
@@ -213,8 +298,8 @@ def get_best_trained_model():
 
 if __name__ == '__main__':
     train_parameters = {
-        "epochs": 5
+        "epochs": 500
     }
     res = train_model(train_parameters)
-    save_model(res["model"], train_parameters={},
-               score=res["fit_history"].history['loss'], training_time=res["training_time"])
+    # res["fit_history"].history['loss']
+    save_model(res, train_parameters=train_parameters)

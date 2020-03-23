@@ -42,6 +42,7 @@ dp_logger = setup_logger('dp_logger', './logs/data_processing.log')
 
 def load_collected_data():
     # TODO split this work between processors
+    st = time.time()
     data = []
     data_path = os.path.join(os.getcwd(), data_directory_path)
     sessions_path = os.path.join(data_path, "sessions")
@@ -63,17 +64,23 @@ def load_collected_data():
             except Exception as e:
                 print(f'Could not process session {i}: {str(e)}')
 
+        # TODO try to do this, but careful; test before and after
+        # temp = [None] * len(session_items)
+        # for (index, x) in enumerate(session_items):
+        #     img_name = f"{i}_{x}.png"
+        #     temp[index] = os.path.join(images_path, img_name)
+        # # This function will load all the data in temp for the current session
+        # # Each thread will load part of the data
+        # apply_function_per_thread(temp, lambda x: imread(x))
+
         for x in session_items:
             img_name = f"{i}_{x}.png"
             img = imread(os.path.join(images_path, img_name))
             if img is None:
                 continue
-            # TODO specific thing, should be deleted
-            # this is a numpy matrix, so first element from shape is the number of rows, aka the height
-            if img.shape[0] != WEBCAM_IMAGE_HEIGHT or img.shape[1] != WEBCAM_IMAGE_WIDTH:
-                continue
             mouse_position = session_items[x]["mouse_position"]
             data.append(DataObject(img, mouse_position, screen_size))
+    dp_logger.info(f'Loading data took {time.time() - st} seconds')
     return data
 
 
@@ -143,6 +150,7 @@ def get_eye_images(data):
 
 def extract_faces(X):
     apply_function_per_thread(X, face_detector.extract_face)
+    # TODO use the function above for the rest of the transformations. do before & after comparison and write comparison in report
     for i in range(0, len(X)):
         # X[i] = face_detector.extract_face(X[i])
         # resize this image
