@@ -41,4 +41,28 @@ class FaceDetector(metaclass=Singleton):
             contours.append(shape[right_eye_start:right_eye_end])
         return contours
 
-    # def get_face
+
+face_detector = None
+face_predictor = None
+stuff_was_initialized = False
+
+
+def initialize_stuff():
+    global stuff_was_initialized, face_detector, face_predictor
+    stuff_was_initialized = True
+    face_detector = dlib.get_frontal_face_detector()
+    face_predictor = dlib.shape_predictor(Config.face_landmarks_path)
+
+
+def extract_face(cv2_image):
+    """Returns the face part extracted from the image"""
+    if stuff_was_initialized == False:
+        initialize_stuff()
+
+    gray_image = Utils.convert_to_gray_image(cv2_image)
+    rects = face_detector(gray_image, 0)
+    if len(rects) > 0:
+        # only for the first face found
+        (x, y, w, h) = face_utils.rect_to_bb(rects[0])
+        return cv2_image[y:y+h, x:x+w]
+    return None

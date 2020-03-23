@@ -1,6 +1,7 @@
 import tkinter as tk
 import threading
 from cv2 import cv2
+import os
 
 
 def get_screen_dimensions():

@@ -6,11 +6,12 @@ import json
 from cv2 import imread
 
 # My files
+# TODO delete from config import ...
 from config import EYE_WIDTH, EYE_HEIGHT, data_directory_path, train_data_path, WEBCAM_IMAGE_HEIGHT, WEBCAM_IMAGE_WIDTH
-from src.face_detector import FaceDetector
+import config as Config
+import src.face_detector as face_detector
 from src.utils import resize_cv2_image, get_binary_thresholded_image, convert_to_gray_image
 from src.data_object import DataObject
-
 
 # class DataCollectionSession:
 #     def __init__(self, session_info, session_number):
@@ -37,6 +38,7 @@ from src.data_object import DataObject
 
 
 def load_collected_data():
+    # TODO split this work between processors
     data = []
     data_path = os.path.join(os.getcwd(), data_directory_path)
     sessions_path = os.path.join(data_path, "sessions")
@@ -87,7 +89,7 @@ def get_eye_images(data):
         if i % 10 == 0:
             print(f'Processed eyes for {i}/{n} images')
         img = data[i]
-        eye_contours = FaceDetector().get_eye_contours(img)
+        eye_contours = face_detector.FaceDetector().get_eye_contours(img)
         if len(eye_contours) == 0 or len(eye_contours[0]) == 0 or len(eye_contours[1]) == 0:
             continue
 
@@ -136,15 +138,14 @@ def get_eye_images(data):
 #     return processed_data
 
 
-def process_images(X):
-    # print('Extracting eye data...')
-    # X = get_eye_images(X)
-
-    # Return the image unaltered for CNNs tests, for now, in grayscale
+def extract_faces(X):
     for i in range(0, len(X)):
+        X[i] = face_detector.extract_face(X[i])
+        # resize this image
+        X[i] = resize_cv2_image(X[i], fixed_dim=(
+            Config.FACE_WIDTH, Config.FACE_HEIGHT))
+        # also convert to grayscale, for now
         X[i] = convert_to_gray_image(X[i])
-    print('Normalising...')
-    normalize_data(X)
     return X
 
 
@@ -157,10 +158,39 @@ def normalize_data(data):
     #     data[i] = (np.array(data[i][0])/255, np.array(data[i][1])/255)
 
 
-def save_processed_data(data):
+def save_processed_data(data, name='train_data.pkl'):
     os.makedirs(os.path.join(os.getcwd(), train_data_path), exist_ok=True)
-    joblib.dump(data, os.path.join(
-        os.getcwd(), train_data_path, 'train_data.pkl'))
+    joblib.dump(data, os.path.join(os.getcwd(), train_data_path, name))
+
+
+def process_data_extract_faces(data):
+    # right now, get data close to the corners
+    data = [x for x in data if x.is_close_to_corner is True]
+    print(f'Only selected corner data: {len(data)} items')
+
+    # process it
+    print('Processing data...')
+    X = extract_faces([x.image for x in data])
+    y = [[1 if i == x.square else 0 for i in range(0, 4)]
+         for x in data]
+    # it's possible that some faces weren't found, in which case they are None
+    print(f'Selecting data for which faces were found. Before: {len(X)} items')
+    X, y = np.array(X), np.array(y)
+    faces_found = [True] * len(X)
+    for (index, x) in enumerate(X):
+        if x is None:
+            faces_found[index] = False
+    X = X[faces_found]
+    y = y[faces_found]
+    print(f'After: {len(X)} items')
+
+    # normalize the data
+    print('Normalising...')
+    normalize_data(X)
+
+    # save processed data
+    print(f'Saving processed data: {len(X)} final items')
+    save_processed_data((X, y), 'extracted_faces.pkl')
 
 
 def main():
@@ -169,24 +199,26 @@ def main():
     data = load_collected_data()
     print(f'Loaded {len(data)} items')
 
-    data = [x for x in data if x.is_close_to_corner is True]
-    print(f'Only selected corner data: {len(data)} items')
+    process_data_extract_faces(data)
 
-    # process it
-    print('Processing data...')
-    X = process_images([x.image for x in data])
-    y = [[1 if i == x.square else 0 for i in range(0, 4)]
-         for x in data]
+    # data = [x for x in data if x.is_close_to_corner is True]
+    # print(f'Only selected corner data: {len(data)} items')
 
-    # TODO this below only happens in some cases, so make sure it's okay to stick around
-    # this below can happen because some of the images might be useless, and therefore not returned in the "processing" part
-    if len(X) < len(y):
-        y = y[:len(X)]
-    processed_data = (X, y)
+    # # process it
+    # print('Processing data...')
+    # X = process_images([x.image for x in data])
+    # y = [[1 if i == x.square else 0 for i in range(0, 4)]
+    #      for x in data]
+
+    # # TODO this below only happens in some cases, so make sure it's okay to stick around
+    # # this below can happen because some of the images might be useless, and therefore not returned in the "processing" part
+    # if len(X) < len(y):
+    #     y = y[:len(X)]
+    # processed_data = (X, y)
 
     # save the result
-    print(f'Saving processed data: {len(X)} final items')
-    save_processed_data(processed_data)
+    # print(f'Saving processed data: {len(processed_data[0])} final items')
+    # save_processed_data(processed_data)
 
 
 if __name__ == '__main__':

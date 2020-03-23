@@ -8,8 +8,6 @@ class EyeContour(QtWidgets.QWidget):
         self.setFixedSize(parent.size())
 
     def paintEvent(self, event):
-        # TODO asta crapa daca e apelat de prea multe ori... de vazut de ce
-        return
         if self.points is None:
             return
         painter = QtGui.QPainter(self)

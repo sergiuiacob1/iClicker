@@ -12,7 +12,6 @@ from src import trainer as Trainer
 from src.data_collector import DataCollector, DataObject, DataCollectionType
 from src.data_viewer import DataViewer
 from src.utils import get_screen_dimensions, run_function_on_thread
-from src.data_processing import process_images
 from src.predictor import Predictor
 import config as Config
 

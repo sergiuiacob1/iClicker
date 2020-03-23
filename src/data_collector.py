@@ -126,6 +126,7 @@ class DataCollector():
         self.save_images_info(session_no)
         self.save_images(session_no)
         self.collect_data_lock.release()
+        self.collected_data = []
         print('Saving data done')
 
     def save_images(self, session_no):
@@ -159,7 +160,7 @@ class DataCollector():
         time.sleep(0.01)  # just to make prints prettier
         last_print = time.time()
         for (index, obj) in enumerate(self.collected_data[start:end]):
-            path = os.path.join(dir_path, f'{session_no}_{index}.png')
+            path = os.path.join(dir_path, f'{session_no}_{start + index}.png')
             cv2.imwrite(path, obj.image)
             # every 2 seconds, print progress
             if time.time() - last_print >= 2:
