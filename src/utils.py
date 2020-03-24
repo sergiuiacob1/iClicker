@@ -68,7 +68,7 @@ def apply_function_per_thread(input, func, f_args=()):
     for t in threads:
         t.join()
 
-
+# TODO list apply might be faster here than comprehension lists
 def thread_work(input, start, end, func, f_args):
     input[start:end] = [func(x, *f_args) for x in input[start:end]]
 

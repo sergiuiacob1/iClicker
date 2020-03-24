@@ -1,0 +1,4 @@
+2020-03-23 21:42:44,270: Training with <function train_cnn_with_faces_keras at 0x10f9ee4d0> took 1074.630350112915 seconds
+2020-03-23 21:58:25,591: Training with <function train_cnn_with_faces_keras at 0x10f38f4d0> took 813.1401028633118 seconds
+2020-03-23 22:36:06,589: Training with <function train_cnn_with_faces_keras at 0x1122f44d0> took 422.29491782188416 seconds
+2020-03-23 22:46:01,911: Training with <function train_cnn_with_faces_keras at 0x1041284d0> took 450.9833142757416 seconds

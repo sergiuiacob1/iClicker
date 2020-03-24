@@ -152,22 +152,17 @@ def extract_faces(X):
     apply_function_per_thread(X, face_detector.extract_face)
     # TODO use the function above for the rest of the transformations. do before & after comparison and write comparison in report
     for i in range(0, len(X)):
-        # X[i] = face_detector.extract_face(X[i])
-        # resize this image
+    #     # X[i] = face_detector.extract_face(X[i])
+    #     # resize this image
         X[i] = resize_cv2_image(X[i], fixed_dim=(
             Config.FACE_WIDTH, Config.FACE_HEIGHT))
-        # also convert to grayscale, for now
+    #     # also convert to grayscale, for now
         X[i] = convert_to_gray_image(X[i])
     return X
 
 
 def normalize_data(data):
-    # TODO watch out, this uses fixed values
-    for i in range(0, len(data)):
-        data[i] = np.true_divide(data[i], 255)
-
-    # for i in range(0, len(data)):
-    #     data[i] = (np.array(data[i][0])/255, np.array(data[i][1])/255)
+    data = np.apply_along_axis(lambda x: np.true_divide(x, 255), 1, data)
 
 
 def save_processed_data(data, name='train_data.pkl'):

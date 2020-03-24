@@ -111,11 +111,12 @@ def train_model(train_parameters):
     #     "training_time": math.floor(end_time - start_time)
     # }
 
+
 def train_cnn_with_faces_keras():
     # Lazy import so the app starts faster
     from keras.models import Sequential
     from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
-    from keras.optimizers import RMSprop
+    from keras.optimizers import RMSprop, Adam
     from keras import backend as K
 
     print('Loading train data...')
@@ -132,18 +133,19 @@ def train_cnn_with_faces_keras():
                      input_shape=input_shape))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(ReLU())
-    model.add(Conv2D(32, (3, 3)))
+    model.add(Conv2D(32, kernel_size=(3, 3)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(ReLU())
-    model.add(Conv2D(32, (3, 3)))
-    model.add(MaxPooling2D(pool_size=(5, 5)))
-    model.add(ReLU())
+    # model.add(Conv2D(64, kernel_size=(4, 4)))
+    # model.add(MaxPooling2D(pool_size=(3, 3)))
+    # model.add(ReLU())
     model.add(Flatten())
     model.add(Dense(128, activation='relu'))
     # model.add(Dropout(0.5))
     model.add(Dense(4, activation='softmax'))
 
-    model.compile(optimizer='adam',
+    opt = Adam(lr=0.015)
+    model.compile(optimizer=opt,
                   loss='categorical_crossentropy', metrics=['accuracy'])
     start_time = time.time()
     fit_history = model.fit(
@@ -155,6 +157,7 @@ def train_cnn_with_faces_keras():
         "trained_with": "keras",
         "score": fit_history.history['loss']
     }
+
 
 def train_cnn_with_faces():
     import torch.nn as nn
@@ -298,7 +301,7 @@ def get_best_trained_model():
 
 if __name__ == '__main__':
     train_parameters = {
-        "epochs": 500
+        "epochs": 250
     }
     res = train_model(train_parameters)
     # res["fit_history"].history['loss']
