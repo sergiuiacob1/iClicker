@@ -31,8 +31,14 @@ def get_last_model_number():
 
 def train_model(train_parameters):
     st = time.time()
-    f = train_cnn_with_faces_keras
-    res = f()
+    f = train_cnn_with_keras
+    f_args = ('eye_strips.pkl',
+              (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
+    f_args = ('extracted_faces.pkl',
+              (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1))
+    # f = train_mlp
+    # f_args = ('eye_strips.pkl',)
+    res = f(*f_args)
     res['training_time'] = time.time() - st
     train_logger.info(f'Training with {f} took {time.time() - st} seconds')
     return res
@@ -112,19 +118,55 @@ def train_model(train_parameters):
     # }
 
 
-def train_cnn_with_faces_keras():
+def train_mlp(which_data):
+    # Lazy import so the app starts faster
+    from keras.models import Sequential
+    from keras.layers import Dense, ReLU, Dropout, Flatten
+    from keras.optimizers import RMSprop
+    from keras import backend as K
+
+    print(f'Loading train data: {which_data}')
+    X, y = get_data(which_data)
+    n = X[0].shape[0] * X[0].shape[1]
+    X = np.array([x.flatten() for x in X])
+
+    print('Training neural network...')
+    model = Sequential([
+        Dense(100, input_shape=(n,), kernel_initializer='glorot_uniform'),
+        Dropout(0.5),
+        ReLU(),
+        Dense(64, kernel_initializer='glorot_uniform'),
+        Dropout(0.5),
+        ReLU(),
+        Dense(16, kernel_initializer='glorot_uniform'),
+        Dropout(0.5),
+        ReLU(),
+        Dense(4, activation='softmax')
+    ])
+    rmsprop = RMSprop(lr=0.001)
+    model.compile(optimizer='adam',
+                  loss='categorical_crossentropy', metrics=['accuracy'])
+    fit_history = model.fit(X, y, epochs=train_parameters["epochs"], verbose=1)
+
+    return {
+        "model": model,
+        "trained_with": "keras",
+        "score": fit_history.history['loss']
+    }
+
+
+def train_cnn_with_keras(which_data, input_shape):
     # Lazy import so the app starts faster
     from keras.models import Sequential
     from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
-    from keras.optimizers import RMSprop, Adam, Adagrad
+    from keras.optimizers import RMSprop, Adam, Adagrad, SGD
     from keras import backend as K
 
     print('Loading train data...')
-    X, y = get_data('extracted_faces.pkl')
+    X, y = get_data(which_data)
     n = len(X)
 
     # the number of rows = the height of the image!
-    input_shape = (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1)
     X = list(map(lambda x: x.reshape(*input_shape), X))
     X = np.array(X)
 
@@ -144,8 +186,8 @@ def train_cnn_with_faces_keras():
     # model.add(Dropout(0.5))
     model.add(Dense(4, activation='softmax'))
 
-    opt = Adagrad()
-    model.compile(optimizer=opt,
+    opt = Adam()
+    model.compile(optimizer='adam',
                   loss='categorical_crossentropy', metrics=['accuracy'])
     start_time = time.time()
     fit_history = model.fit(
@@ -155,11 +197,12 @@ def train_cnn_with_faces_keras():
     return {
         "model": model,
         "trained_with": "keras",
+        "data_used": which_data,
         "score": fit_history.history['loss']
     }
 
 
-def train_cnn_with_faces():
+def train_cnn(which_data):
     import torch.nn as nn
     import torch.optim as optim
 
@@ -190,13 +233,14 @@ def train_cnn_with_faces():
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(cnn.parameters())
 
-    X, y = get_data('extracted_faces.pkl')
+    X, y = get_data(which_data)
     n = len(X)
     print(n)
 
     return {
         "model": cnn,
         "trained_with": "pytorch",
+        "data_used": which_data,
         "score": None,
     }
 
@@ -301,8 +345,7 @@ def get_best_trained_model():
 
 if __name__ == '__main__':
     train_parameters = {
-        "epochs": 250
+        "epochs": 100
     }
     res = train_model(train_parameters)
-    # res["fit_history"].history['loss']
     save_model(res, train_parameters=train_parameters)

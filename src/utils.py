@@ -39,38 +39,37 @@ def get_binary_thresholded_image(cv2_image):
     return img
 
 
-def apply_function_per_thread(input, func, f_args=()):
-    """This functions applies the `func` function to every element from the `input` list and splits the work between threads.
+# def apply_function_per_thread(input, func, f_args=()):
+#     """This functions applies the `func` function to every element from the `input` list and splits the work between threads.
 
-    This function is only suitable if the amount of work to be done is large!
+#     This function is only suitable if the amount of work to be done is large!
 
-    The number of threads used is equal to the CPU's processors count"""
-    print(
-        f'Applying function {func} to input. Splitting work amongst {os.cpu_count()} threads.')
-    threads = []
-    start = 0
-    diff = len(input) // os.cpu_count()
-    for i in range(0, os.cpu_count()):
-        # the last thread gets whatever remains
-        if i == os.cpu_count() - 1:
-            end = len(input)
-        else:
-            end = start + diff
-        t = threading.Thread(target=thread_work, args=(
-            input, start, end, func, f_args))
-        threads.append(t)
-        start += diff
+#     The number of threads used is equal to the CPU's processors count"""
+#     print(
+#         f'Applying function {func} to input. Splitting work amongst {os.cpu_count()} threads.')
+#     threads = []
+#     start = 0
+#     diff = len(input) // os.cpu_count()
+#     for i in range(0, os.cpu_count()):
+#         # the last thread gets whatever remains
+#         if i == os.cpu_count() - 1:
+#             end = len(input)
+#         else:
+#             end = start + diff
+#         t = threading.Thread(target=thread_work, args=(
+#             input, start, end, func, f_args))
+#         threads.append(t)
+#         start += diff
 
-    # start all threads
-    for t in threads:
-        t.start()
-    # wait all threads
-    for t in threads:
-        t.join()
+#     # start all threads
+#     for t in threads:
+#         t.start()
+#     # wait all threads
+#     for t in threads:
+#         t.join()
 
-# TODO list apply might be faster here than comprehension lists
-def thread_work(input, start, end, func, f_args):
-    input[start:end] = [func(x, *f_args) for x in input[start:end]]
+# def thread_work(input, start, end, func, f_args):
+#     input[start:end] = [func(x, *f_args) for x in input[start:end]]
 
 
 def setup_logger(name, log_file, level=logging.INFO):
@@ -87,12 +86,23 @@ def setup_logger(name, log_file, level=logging.INFO):
 
 
 if __name__ == '__main__':
-    def f(x): return x//2
-    a = [x for x in range(0, 50000000 + 1)]
-    print(a[-1])
     import time
+    import math
+    from multiprocessing import Pool
+    def f(x): return math.sqrt(x) * 2 // 3
+    count = 50000000
+
+    a = [x for x in range(0, count + 1)]
     ss = time.time()
-    a = [f(x) for x in a]
-    # apply_function_per_thread(a, f, ())
-    print(time.time() - ss)
-    print(a[-1])
+    a = [f(x)for x in a]
+    print(f'Simple: {time.time() - ss}')
+
+    # a = [x for x in range(0, 50000000 + 1)]
+    # ss = time.time()
+    # apply_function_per_thread(a, f, f_args=(3, 1))
+    # print(f'threaded: {time.time() - ss}')
+    a = [x for x in range(0, count + 1)]
+    ss = time.time()
+    with Pool(os.cpu_count()) as p:
+        p.map(f, a)
+    print(f'threaded: {time.time() - ss}')

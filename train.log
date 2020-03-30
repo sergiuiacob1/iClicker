@@ -2,3 +2,8 @@
 2020-03-23 21:58:25,591: Training with <function train_cnn_with_faces_keras at 0x10f38f4d0> took 813.1401028633118 seconds
 2020-03-23 22:36:06,589: Training with <function train_cnn_with_faces_keras at 0x1122f44d0> took 422.29491782188416 seconds
 2020-03-23 22:46:01,911: Training with <function train_cnn_with_faces_keras at 0x1041284d0> took 450.9833142757416 seconds
+2020-03-30 15:46:29,348: Training with <function train_mlp at 0x116c84cb0> took 106.14849424362183 seconds
+2020-03-30 15:50:50,409: Training with <function train_mlp at 0x1174facb0> took 211.28396797180176 seconds
+2020-03-30 19:04:29,859: Training with <function train_cnn_with_keras at 0x10ef06680> took 23.97198724746704 seconds
+2020-03-30 19:30:25,456: Training with <function train_cnn_with_keras at 0x112842680> took 28.093721866607666 seconds
+2020-03-30 19:34:21,194: Training with <function train_cnn_with_keras at 0x10b87d680> took 155.19648599624634 seconds

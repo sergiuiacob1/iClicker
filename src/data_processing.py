@@ -5,13 +5,14 @@ import re
 import json
 from cv2 import imread
 import time
+from multiprocessing import Pool
 
 # My files
 # TODO delete from config import ...
 from config import EYE_WIDTH, EYE_HEIGHT, data_directory_path, train_data_path, WEBCAM_IMAGE_HEIGHT, WEBCAM_IMAGE_WIDTH
 import config as Config
 import src.face_detector as face_detector
-from src.utils import resize_cv2_image, get_binary_thresholded_image, convert_to_gray_image, apply_function_per_thread, setup_logger
+from src.utils import resize_cv2_image, get_binary_thresholded_image, convert_to_gray_image, setup_logger
 from src.data_object import DataObject
 
 dp_logger = setup_logger('dp_logger', './logs/data_processing.log')
@@ -139,7 +140,7 @@ def process_images(X):
 #     print(f'Only selected {len(corner_data)} items (close_to_corner == True)')
 #     print('Extracting eye data...')
 #     X = get_eye_images(corner_data)
-#     normalize_data(X)
+#     X = normalize_data(X)
 #     y = [[1 if (i + 1) == x.square else 0 for i in range(0, 4)]
 #          for x in corner_data]
 
@@ -153,10 +154,9 @@ def process_images(X):
 
 
 def extract_faces(X):
-    apply_function_per_thread(X, face_detector.extract_face)
-    # TODO use the function above for the rest of the transformations. do before & after comparison and write comparison in report
+    # TODO split work per processors
     for i in range(0, len(X)):
-        # X[i] = face_detector.extract_face(X[i])
+        X[i] = face_detector.extract_face(X[i])
         # resize this image
         X[i] = resize_cv2_image(X[i], fixed_dim=(
             Config.FACE_WIDTH, Config.FACE_HEIGHT))
@@ -166,23 +166,15 @@ def extract_faces(X):
 
 
 def extract_eye_strip(X):
-    sizes = [0, 0]
-    # TODO split work per threads
-    for i in range(0, len(X)):
-        X[i] = face_detector.extract_eye_strip(X[i])
-        sizes[0] += X[i].shape[0]
-        sizes[1] += X[i].shape[1]
-        # resize this image
-        X[i] = resize_cv2_image(X[i], fixed_dim=(
-            Config.EYE_STRIP_WIDTH, Config.EYE_STRIP_HEIGHT))
-        # also convert to grayscale, for now
-        X[i] = convert_to_gray_image(X[i])
-    print (sizes[0]/len(X), sizes[1]/len(X))
+    X = list(map(face_detector.extract_eye_strip, X))
+    X = list(map(lambda x: resize_cv2_image(x, fixed_dim=(
+        Config.EYE_STRIP_WIDTH, Config.EYE_STRIP_HEIGHT)), X))
+    X = list(map(convert_to_gray_image, X))
     return X
 
 
 def normalize_data(data):
-    data = np.apply_along_axis(lambda x: np.true_divide(x, 255), 1, data)
+    return np.apply_along_axis(lambda x: np.true_divide(x, 255), 1, data)
 
 
 def save_processed_data(data, name='train_data.pkl'):
@@ -213,7 +205,7 @@ def process_data_extract_faces(data):
 
     # normalize the data
     print('Normalising...')
-    normalize_data(X)
+    X = normalize_data(X)
 
     # save processed data
     print(f'Saving processed data: {len(X)} final items')
@@ -227,7 +219,7 @@ def process_data_extract_eye_strip(data):
 
     # process it
     print('Processing data...')
-    print ('Extracting eye strips...')
+    print('Extracting eye strips...')
     X = extract_eye_strip([x.image for x in data])
     y = [[1 if i == x.square else 0 for i in range(0, 4)]
          for x in data]
@@ -244,7 +236,8 @@ def process_data_extract_eye_strip(data):
 
     # normalize the data
     print('Normalising...')
-    normalize_data(X)
+    X = normalize_data(X)
+    assert (np.amax(X) <= 1), "Data normalisation didn't work"
 
     # save processed data
     print(f'Saving processed data: {len(X)} final items')
@@ -265,8 +258,8 @@ def main():
     data = load_collected_data()
     print(f'Loaded {len(data)} items')
 
-    # f = process_data_extract_faces
-    f = process_data_extract_eye_strip
+    f = process_data_extract_faces
+    # f = process_data_extract_eye_strip
 
     start = time.time()
     f(data)
