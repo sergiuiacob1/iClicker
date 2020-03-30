@@ -16,10 +16,14 @@ def run_function_on_thread(function, f_args=tuple()):
 
 
 def convert_to_gray_image(image):
+    if image is None:
+        return None
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 
 def resize_cv2_image(cv2_image, scale=None, fixed_dim=None):
+    if cv2_image is None:
+        return None
     if scale is None and fixed_dim is None:
         return cv2_image
     if fixed_dim is not None:

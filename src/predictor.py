@@ -4,11 +4,11 @@ from threading import Thread
 
 # My files
 from src.utils import get_screen_dimensions, resize_cv2_image
-from src.data_processing import process_images
+from src.data_processing import process_images, extract_faces, extract_eye_strips
 from src.trainer import get_best_trained_model
 from src.ui.predictor_gui import PredictorGUI
 import src.webcam_capturer as WebcamCapturer
-from config import EYE_WIDTH, EYE_HEIGHT, WEBCAM_IMAGE_HEIGHT, WEBCAM_IMAGE_WIDTH
+import config as Config
 
 
 class Predictor():
@@ -28,7 +28,10 @@ class Predictor():
         screen_size = get_screen_dimensions()
 
         print('Loading best trained model...')
-        model = get_best_trained_model()
+        trained_with = 'keras'
+        data_used = 'eye_strips.pkl'
+        model = get_best_trained_model(
+            trained_with=trained_with, data_used=data_used)
         if model is None:
             print('No trained models')
             self.gui.close()
@@ -40,20 +43,40 @@ class Predictor():
                 print('Failed capturing image')
                 continue
 
-            image = resize_cv2_image(image, fixed_dim=(
-                WEBCAM_IMAGE_WIDTH, WEBCAM_IMAGE_HEIGHT))
-            X = process_images([image])
-            input_shape = (WEBCAM_IMAGE_HEIGHT, WEBCAM_IMAGE_WIDTH, 1)
-            X = list(map(lambda x: x.reshape(*input_shape), X))
-            X = np.array(X)
-            # X = [(x[0].flatten(), x[1].flatten()) for x in X]
-            # X = [np.concatenate(x) for x in X]
-            # X = np.array(X)
-            if len(X) == 0:
+            if data_used == 'eye_strips.pkl':
+                prediction = self.predict_based_on_eye_strips(model, image)
+            elif data_used == 'extracted_faces.pkl':
+                prediction = self.predict_based_on_extracted_face(model, image)
+            if prediction is None:
                 continue
-            X = np.array(X)
-            prediction = model.predict(X)[0]
-            # For some reason, they're reversed
-            prediction = 3 - prediction
-            prediction = prediction.argmin()
             self.gui.update_prediction(prediction)
+
+    def predict_based_on_extracted_face(self, model, img):
+        # build data
+        X = extract_faces([img])
+        if X[0] is None:
+            return None
+        input_shape = (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1)
+        X = list(map(lambda x: x.reshape(*input_shape), X))
+        X = np.array(X)
+
+        # predict
+        prediction = model.predict(X)[0]
+        print(prediction, prediction.argmin())
+        prediction = prediction.argmin()
+        return 3 - prediction
+
+    def predict_based_on_eye_strips(self, model, img):
+        # build data
+        X = extract_eye_strips([img])
+        if X[0] is None:
+            return None
+        input_shape = (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1)
+        X = list(map(lambda x: x.reshape(*input_shape), X))
+        X = np.array(X)
+
+        # predict
+        prediction = model.predict(X)[0]
+        print(prediction, prediction.argmin())
+        prediction = prediction.argmin()
+        return 3 - prediction

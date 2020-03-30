@@ -5,9 +5,11 @@ import random
 which = 'extracted_faces.pkl'
 data = joblib.load(f'./train_data/{which}')
 
-print (data[0][0])
-print (data[0][0].shape)
-
+print(data[0][0])
+print(data[0][0].shape)
+for i in range (0, 4):
+    summm = sum([1 for x in data[1] if x[i] == 1])
+    print(f'Class {i} has {summm} instances')
 
 # n = len(data[0])
 # for i in range(0, 10):

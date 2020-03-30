@@ -154,27 +154,43 @@ def process_images(X):
 
 
 def extract_faces(X):
-    # TODO split work per processors
+    """
+    Does all the processing related to face extraction.
+
+    Return a `np.array`."""
     for i in range(0, len(X)):
         X[i] = face_detector.extract_face(X[i])
+        # in case no face was detected
+        if X[i] is None:
+            continue
         # resize this image
         X[i] = resize_cv2_image(X[i], fixed_dim=(
             Config.FACE_WIDTH, Config.FACE_HEIGHT))
         # also convert to grayscale, for now
         X[i] = convert_to_gray_image(X[i])
-    return X
+        # normalise
+        X[i] = np.true_divide(X[i], 255)
+    return np.array(X)
 
 
-def extract_eye_strip(X):
-    X = list(map(face_detector.extract_eye_strip, X))
-    X = list(map(lambda x: resize_cv2_image(x, fixed_dim=(
-        Config.EYE_STRIP_WIDTH, Config.EYE_STRIP_HEIGHT)), X))
-    X = list(map(convert_to_gray_image, X))
-    return X
+def extract_eye_strips(X):
+    """
+    Does all the processing related to eye strips.
 
-
-def normalize_data(data):
-    return np.apply_along_axis(lambda x: np.true_divide(x, 255), 1, data)
+    Return a `np.array`."""
+    for i in range(0, len(X)):
+        X[i] = face_detector.extract_eye_strip(X[i])
+        # in case no face was detected
+        if X[i] is None:
+            continue
+        # resize this image
+        X[i] = resize_cv2_image(X[i], fixed_dim=(
+            Config.EYE_STRIP_WIDTH, Config.EYE_STRIP_HEIGHT))
+        # also convert to grayscale, for now
+        X[i] = convert_to_gray_image(X[i])
+        # normalise
+        X[i] = np.true_divide(X[i], 255)
+    return np.array(X)
 
 
 def save_processed_data(data, name='train_data.pkl'):
@@ -183,6 +199,7 @@ def save_processed_data(data, name='train_data.pkl'):
 
 
 def process_data_extract_faces(data):
+    """This extracts the faces from the images, labels the data and saves it"""
     # right now, get data close to the corners
     data = [x for x in data if x.is_close_to_corner is True]
     print(f'Only selected corner data: {len(data)} items')
@@ -192,9 +209,9 @@ def process_data_extract_faces(data):
     X = extract_faces([x.image for x in data])
     y = [[1 if i == x.square else 0 for i in range(0, 4)]
          for x in data]
+    y = np.array(y)
     # it's possible that some faces weren't found, in which case they are None
     print(f'Selecting data for which faces were found. Before: {len(X)} items')
-    X, y = np.array(X), np.array(y)
     faces_found = [True] * len(X)
     for (index, x) in enumerate(X):
         if x is None:
@@ -203,16 +220,15 @@ def process_data_extract_faces(data):
     y = y[faces_found]
     print(f'After: {len(X)} items')
 
-    # normalize the data
-    print('Normalising...')
-    X = normalize_data(X)
+    assert (np.amax(X) <= 1), "Data isn't normalised"
 
     # save processed data
     print(f'Saving processed data: {len(X)} final items')
     save_processed_data((X, y), 'extracted_faces.pkl')
 
 
-def process_data_extract_eye_strip(data):
+def process_data_extract_eye_strips(data):
+    """This extracts eye strips from the images, labels the data and saves it"""
     # right now, get data close to the corners
     data = [x for x in data if x.is_close_to_corner is True]
     print(f'Only selected corner data: {len(data)} items')
@@ -220,12 +236,12 @@ def process_data_extract_eye_strip(data):
     # process it
     print('Processing data...')
     print('Extracting eye strips...')
-    X = extract_eye_strip([x.image for x in data])
+    X = extract_eye_strips([x.image for x in data])
     y = [[1 if i == x.square else 0 for i in range(0, 4)]
          for x in data]
+    y = np.array(y)
     # it's possible that some faces weren't found, in which case they are None
     print(f'Selecting data for which faces were found. Before: {len(X)} items')
-    X, y = np.array(X), np.array(y)
     faces_found = [True] * len(X)
     for (index, x) in enumerate(X):
         if x is None:
@@ -234,10 +250,7 @@ def process_data_extract_eye_strip(data):
     y = y[faces_found]
     print(f'After: {len(X)} items')
 
-    # normalize the data
-    print('Normalising...')
-    X = normalize_data(X)
-    assert (np.amax(X) <= 1), "Data normalisation didn't work"
+    assert (np.amax(X) <= 1), "Data isn't normalised"
 
     # save processed data
     print(f'Saving processed data: {len(X)} final items')
@@ -252,14 +265,14 @@ def process_data_extract_eyes(data):
     ...
 
 
-def main():
+if __name__ == '__main__':
     # load the data
     print('Loading collected data...')
     data = load_collected_data()
     print(f'Loaded {len(data)} items')
 
     f = process_data_extract_faces
-    # f = process_data_extract_eye_strip
+    # f = process_data_extract_eye_strips
 
     start = time.time()
     f(data)
@@ -285,7 +298,3 @@ def main():
     # save the result
     # print(f'Saving processed data: {len(processed_data[0])} final items')
     # save_processed_data(processed_data)
-
-
-if __name__ == '__main__':
-    main()
