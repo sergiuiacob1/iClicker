@@ -2,16 +2,6 @@ import sys
 from PyQt5 import QtWidgets
 from src.app import App
 
-# TODO in init functions, only load resources that are REALLY necessary!!!
-# TODO restructure everything with Model-View architecture
-
-# TODO use binary threshold for eye images?
-# TODO glob ocular extins
-
-# TODO LBP (Local Binary Patterns)
-
-# TODO log file to replace the prints, disabled for "production" mode
-
 def main():
     q_app = QtWidgets.QApplication(sys.argv)
     app = App()

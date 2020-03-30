@@ -116,7 +116,7 @@ def train_cnn_with_faces_keras():
     # Lazy import so the app starts faster
     from keras.models import Sequential
     from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
-    from keras.optimizers import RMSprop, Adam
+    from keras.optimizers import RMSprop, Adam, Adagrad
     from keras import backend as K
 
     print('Loading train data...')
@@ -144,7 +144,7 @@ def train_cnn_with_faces_keras():
     # model.add(Dropout(0.5))
     model.add(Dense(4, activation='softmax'))
 
-    opt = Adam(lr=0.015)
+    opt = Adagrad()
     model.compile(optimizer=opt,
                   loss='categorical_crossentropy', metrics=['accuracy'])
     start_time = time.time()

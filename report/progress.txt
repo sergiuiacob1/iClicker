@@ -25,6 +25,8 @@ So far:
         - http://openaccess.thecvf.com/content_ICCV_2019/papers/Sun_FAB_A_Robust_Facial_Landmark_Detection_Framework_for_Motion-Blurred_Videos_ICCV_2019_paper.pdf
         - fine tuning: use already trained models, like VGG, MobileNet
 
+        - eyes
+
 
 Probleme:
     - momentan, aplicatia functioneaza doar cu un ecran
