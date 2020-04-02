@@ -13,7 +13,6 @@ import config as Config
 
 class Predictor():
     def __init__(self):
-        super().__init__()
         self.gui = PredictorGUI(self)
 
     def ui_was_closed(self):
@@ -29,7 +28,7 @@ class Predictor():
 
         print('Loading best trained model...')
         trained_with = 'keras'
-        data_used = 'eye_strips.pkl'
+        data_used = f'eye_strips_{Config.grid_size}.pkl'
         model = get_best_trained_model(
             trained_with=trained_with, data_used=data_used)
         if model is None:
@@ -37,16 +36,21 @@ class Predictor():
             self.gui.close()
             return
 
+        # just to draw the initial cells
+        self.gui.update_prediction(None)
+
         while self.gui.isVisible():
             success, image = WebcamCapturer.get_webcam_image()
             if success is False:
                 print('Failed capturing image')
                 continue
 
-            if data_used == 'eye_strips.pkl':
+            if data_used.startswith('eye_strips'):
                 prediction = self.predict_based_on_eye_strips(model, image)
-            elif data_used == 'extracted_faces.pkl':
+            elif data_used.startswith('extracted_faces'):
                 prediction = self.predict_based_on_extracted_face(model, image)
+            else:
+                prediction = None
             if prediction is None:
                 continue
             self.gui.update_prediction(prediction)
@@ -62,9 +66,10 @@ class Predictor():
 
         # predict
         prediction = model.predict(X)[0]
-        print(prediction, prediction.argmin())
+        # predictions come in reversed
+        prediction = prediction[::-1]
         prediction = prediction.argmin()
-        return 3 - prediction
+        return prediction
 
     def predict_based_on_eye_strips(self, model, img):
         # build data
@@ -77,6 +82,7 @@ class Predictor():
 
         # predict
         prediction = model.predict(X)[0]
-        print(prediction, prediction.argmin())
+        # predictions come in reversed
+        prediction = prediction[::-1]
         prediction = prediction.argmin()
-        return 3 - prediction
+        return prediction

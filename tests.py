@@ -2,10 +2,10 @@ import joblib
 import cv2
 import random
 
-which = 'extracted_faces.pkl'
+which = 'eye_strips_3.pkl'
 data = joblib.load(f'./train_data/{which}')
 
-print(data[0][0])
+print(data[1][1])
 print(data[0][0].shape)
 for i in range (0, 4):
     summm = sum([1 for x in data[1] if x[i] == 1])

@@ -8,8 +8,6 @@ import time
 from multiprocessing import Pool
 
 # My files
-# TODO delete from config import ...
-from config import EYE_WIDTH, EYE_HEIGHT, data_directory_path, train_data_path, WEBCAM_IMAGE_HEIGHT, WEBCAM_IMAGE_WIDTH
 import config as Config
 import src.face_detector as face_detector
 from src.utils import resize_cv2_image, get_binary_thresholded_image, convert_to_gray_image, setup_logger
@@ -45,7 +43,7 @@ def load_collected_data():
     # TODO split this work between processors
     st = time.time()
     data = []
-    data_path = os.path.join(os.getcwd(), data_directory_path)
+    data_path = os.path.join(os.getcwd(), Config.data_directory_path)
     sessions_path = os.path.join(data_path, "sessions")
     images_path = os.path.join(data_path, "images")
 
@@ -80,7 +78,8 @@ def load_collected_data():
             if img is None:
                 continue
             mouse_position = session_items[x]["mouse_position"]
-            data.append(DataObject(img, mouse_position, screen_size))
+            data.append(DataObject(
+                img, mouse_position, screen_size, Config.grid_size))
     dp_logger.info(f'Loading data took {time.time() - st} seconds')
     return data
 
@@ -114,7 +113,7 @@ def get_eye_images(data):
 
             eye_image = img[y_min:y_max, x_min:x_max]
             resized_eye_image = resize_cv2_image(
-                eye_image, fixed_dim=(EYE_WIDTH, EYE_HEIGHT))
+                eye_image, fixed_dim=(Config.EYE_WIDTH, Config.EYE_HEIGHT))
             resized_eye_image = get_binary_thresholded_image(resized_eye_image)
             current_eye_images.append(resized_eye_image)
 
@@ -166,6 +165,8 @@ def extract_faces(X):
         # resize this image
         X[i] = resize_cv2_image(X[i], fixed_dim=(
             Config.FACE_WIDTH, Config.FACE_HEIGHT))
+        if X[i] is None:
+            continue
         # also convert to grayscale, for now
         X[i] = convert_to_gray_image(X[i])
         # normalise
@@ -186,6 +187,8 @@ def extract_eye_strips(X):
         # resize this image
         X[i] = resize_cv2_image(X[i], fixed_dim=(
             Config.EYE_STRIP_WIDTH, Config.EYE_STRIP_HEIGHT))
+        if X[i] is None:
+            continue
         # also convert to grayscale, for now
         X[i] = convert_to_gray_image(X[i])
         # normalise
@@ -194,8 +197,9 @@ def extract_eye_strips(X):
 
 
 def save_processed_data(data, name='train_data.pkl'):
-    os.makedirs(os.path.join(os.getcwd(), train_data_path), exist_ok=True)
-    joblib.dump(data, os.path.join(os.getcwd(), train_data_path, name))
+    os.makedirs(os.path.join(
+        os.getcwd(), Config.train_data_path), exist_ok=True)
+    joblib.dump(data, os.path.join(os.getcwd(), Config.train_data_path, name))
 
 
 def process_data_extract_faces(data):
@@ -230,14 +234,15 @@ def process_data_extract_faces(data):
 def process_data_extract_eye_strips(data):
     """This extracts eye strips from the images, labels the data and saves it"""
     # right now, get data close to the corners
-    data = [x for x in data if x.is_close_to_corner is True]
+    data = [x for x in data if x.cell in [0, Config.grid_size - 1,
+                                          Config.grid_size * (Config.grid_size - 1), Config.grid_size * Config.grid_size - 1]]
     print(f'Only selected corner data: {len(data)} items')
 
     # process it
     print('Processing data...')
     print('Extracting eye strips...')
     X = extract_eye_strips([x.image for x in data])
-    y = [[1 if i == x.square else 0 for i in range(0, 4)]
+    y = [[1 if i == x.cell else 0 for i in range(0, Config.grid_size * Config.grid_size)]
          for x in data]
     y = np.array(y)
     # it's possible that some faces weren't found, in which case they are None
@@ -254,7 +259,7 @@ def process_data_extract_eye_strips(data):
 
     # save processed data
     print(f'Saving processed data: {len(X)} final items')
-    save_processed_data((X, y), 'eye_strips.pkl')
+    save_processed_data((X, y), f'eye_strips_{Config.grid_size}.pkl')
 
 
 def process_data_extract_eyes(data):
@@ -271,8 +276,8 @@ if __name__ == '__main__':
     data = load_collected_data()
     print(f'Loaded {len(data)} items')
 
-    f = process_data_extract_faces
-    # f = process_data_extract_eye_strips
+    # f = process_data_extract_faces
+    f = process_data_extract_eye_strips
 
     start = time.time()
     f(data)

@@ -33,11 +33,12 @@ def get_last_model_number():
 def train_model(train_parameters):
     st = time.time()
     f = train_cnn_with_keras
-    f_args = ('eye_strips.pkl',
+    # f = train_mlp
+    # Loading the data specific to the config's grid size
+    f_args = (f'eye_strips_{Config.grid_size}.pkl',
               (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
     # f_args = ('extracted_faces.pkl',
     #           (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1))
-    # f = train_mlp
     # f_args = ('eye_strips.pkl',)
     print(f'Training model with {f} on {f_args[0]}')
     train_logger.info(f'Training model with {f} on {f_args[0]}')
@@ -79,7 +80,8 @@ def train_mlp(which_data):
     rmsprop = RMSprop(lr=0.001)
     model.compile(optimizer='adam',
                   loss='categorical_crossentropy', metrics=['accuracy'])
-    fit_history = model.fit(X, y, epochs=train_parameters["epochs"], verbose=1)
+    fit_history = model.fit(
+        X, y, epochs=train_parameters["epochs"], verbose=1, validation_data=0.2)
 
     return {
         "model": model,
@@ -121,20 +123,21 @@ def train_cnn_with_keras(which_data, input_shape):
     model.add(Flatten())
     model.add(Dense(128, activation='relu'))
     # model.add(Dropout(0.5))
-    model.add(Dense(4, activation='softmax'))
+    model.add(Dense(Config.grid_size * Config.grid_size, activation='softmax'))
 
     opt = Adam()
     model.compile(optimizer='adam',
                   loss='categorical_crossentropy', metrics=['accuracy'])
     start_time = time.time()
     fit_history = model.fit(
-        X, y, epochs=train_parameters["epochs"], batch_size=32, verbose=1)
+        X, y, epochs=train_parameters["epochs"], batch_size=32, validation_split=0.2, verbose=1)
     end_time = time.time()
     print('Training done')
     return {
         "model": model,
         "trained_with": "keras",
         "data_used": which_data,
+        "grid_size": Config.grid_size,
         "score": fit_history.history['loss']
     }
 
@@ -243,6 +246,8 @@ def get_next_model_name():
 
 
 def get_best_trained_model(trained_with=None, data_used=None):
+    print(
+        f'Loading model trained with {trained_with} on {data_used} for a grid size of {Config.grid_size}')
     # Check that the directory with models exists
     if os.path.exists(Config.models_directory_path) is False:
         return None
@@ -266,6 +271,8 @@ def get_best_trained_model(trained_with=None, data_used=None):
         if data_used is not None:
             if data['data_used'] != data_used:
                 continue
+        if data['grid_size'] != Config.grid_size:
+            continue
         if data['score'][-1] < min_score:
             min_score = data['score'][-1]
             best_model_name = x.split('.json')[0] + '.pkl'
