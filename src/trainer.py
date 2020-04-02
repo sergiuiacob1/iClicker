@@ -278,6 +278,9 @@ def get_best_trained_model(trained_with=None, data_used=None):
             best_model_name = x.split('.json')[0] + '.pkl'
             best_model_info = data
 
+    if best_model_name is None:
+        print ('Noe model was found')
+        return None
     try:
         if best_model_info['trained_with'] == 'keras':
             # Lazy library loading so app starts faster

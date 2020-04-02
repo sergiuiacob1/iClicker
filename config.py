@@ -12,4 +12,4 @@ FACE_WIDTH = 200
 FACE_HEIGHT = 200
 EYE_STRIP_WIDTH = 143
 EYE_STRIP_HEIGHT = 28
-grid_size = 3
+grid_size = 4
