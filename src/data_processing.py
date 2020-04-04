@@ -40,7 +40,6 @@ dp_logger = setup_logger('dp_logger', './logs/data_processing.log')
 
 
 def load_collected_data():
-    # TODO split this work between processors
     st = time.time()
     data = []
     data_path = os.path.join(os.getcwd(), Config.data_directory_path)
@@ -84,72 +83,27 @@ def load_collected_data():
     return data
 
 
-def get_eye_images(data):
-    """Returns a list of tuples from `data`.
+def extract_thresholded_eyes(X):
+    """This extracts the eyes from the images, converts the eyes to gray images, then applies a threshold to obtain a black and white image.
 
-    The returned list is not necessarily the same length, because some data can be useless.
-
-    The result looks like: `[(left_eye_cv2_image, right_eye_cv2_image), ...]`
-    """
-    n = len(data)
-    eye_images = [None] * n
-    last_valid_image = 0
-
-    for i in range(0, n):
-        if i % 10 == 0:
-            print(f'Processed eyes for {i}/{n} images')
-        img = data[i]
-        eye_contours = face_detector.FaceDetector().get_eye_contours(img)
-        if len(eye_contours) == 0 or len(eye_contours[0]) == 0 or len(eye_contours[1]) == 0:
+    Merges the images of the 2 eyes horizontally, into a single image."""
+    for i in range(0, len(X)):
+        eyes = face_detector.extract_eyes(X[i])
+        # in case no eyes were detected
+        if eyes is None or eyes[0] is None or eyes[1] is None:
             continue
-
-        # I identified both eyes
-        current_eye_images = []
-        for eye_contour in eye_contours:
-            x_min = min([x[0] for x in eye_contour])
-            x_max = max([x[0] for x in eye_contour])
-            y_min = min([x[1] for x in eye_contour])
-            y_max = max([x[1] for x in eye_contour])
-
-            eye_image = img[y_min:y_max, x_min:x_max]
-            resized_eye_image = resize_cv2_image(
-                eye_image, fixed_dim=(Config.EYE_WIDTH, Config.EYE_HEIGHT))
-            resized_eye_image = get_binary_thresholded_image(resized_eye_image)
-            current_eye_images.append(resized_eye_image)
-
-        eye_images[last_valid_image] = tuple(current_eye_images)
-        last_valid_image += 1
-
-    print(f'Recognized eye images for {last_valid_image}/{n} images')
-    eye_images = eye_images[:last_valid_image]
-    return eye_images
-
-
-def process_images(X):
-    ...
-
-
-# def process_data(input_data):
-#     """
-#     Returns a tuple of 2 items: (`X`, `y`)
-
-#     Both `X` and `y` are lists of train instances.
-#     """
-#     corner_data = [x for x in input_data if x.is_close_to_corner is True]
-#     print(f'Only selected {len(corner_data)} items (close_to_corner == True)')
-#     print('Extracting eye data...')
-#     X = get_eye_images(corner_data)
-#     X = normalize_data(X)
-#     y = [[1 if (i + 1) == x.square else 0 for i in range(0, 4)]
-#          for x in corner_data]
-
-#     # TODO this below only happens in some cases, so make sure it's okay to stick around
-#     # It's possible that X is shorter than y
-#     if len(X) < len(y):
-#         y = y[:len(X)]
-
-#     processed_data = (X, y)
-#     return processed_data
+        # resize each eye
+        for j in range(0, 2):
+            eyes[j] = resize_cv2_image(eyes[j], fixed_dim=(
+                Config.EYE_WIDTH, Config.EYE_HEIGHT))
+        # merge the eyes horizontally
+        eyes = np.concatenate((eyes[0], eyes[1]), axis=1)
+        X[i] = eyes
+        # threshold the eyes. this also converts the image to grayscale
+        X[i] = get_binary_thresholded_image(X[i])
+        # normalise
+        X[i] = np.true_divide(X[i], 255)
+    return np.array(X)
 
 
 def extract_faces(X):
@@ -175,10 +129,9 @@ def extract_faces(X):
 
 
 def extract_eye_strips(X):
-    """
-    Does all the processing related to eye strips.
+    """This extracts eye strips from the images.
 
-    Return a `np.array`."""
+    Returns a `np.array`."""
     for i in range(0, len(X)):
         X[i] = face_detector.extract_eye_strip(X[i])
         # in case no face was detected
@@ -202,72 +155,39 @@ def save_processed_data(data, name='train_data.pkl'):
     joblib.dump(data, os.path.join(os.getcwd(), Config.train_data_path, name))
 
 
-def process_data_extract_faces(data):
-    """This extracts the faces from the images, labels the data and saves it"""
-    # right now, get data close to the corners
-    data = [x for x in data if x.is_close_to_corner is True]
-    print(f'Only selected corner data: {len(data)} items')
-
-    # process it
-    print('Processing data...')
-    X = extract_faces([x.image for x in data])
-    y = [[1 if i == x.square else 0 for i in range(0, 4)]
-         for x in data]
-    y = np.array(y)
-    # it's possible that some faces weren't found, in which case they are None
-    print(f'Selecting data for which faces were found. Before: {len(X)} items')
-    faces_found = [True] * len(X)
-    for (index, x) in enumerate(X):
-        if x is None:
-            faces_found[index] = False
-    X = X[faces_found]
-    y = y[faces_found]
-    print(f'After: {len(X)} items')
-
-    assert (np.amax(X) <= 1), "Data isn't normalised"
-
-    # save processed data
-    print(f'Saving processed data: {len(X)} final items')
-    save_processed_data((X, y), 'extracted_faces.pkl')
-
-
-def process_data_extract_eye_strips(data):
-    """This extracts eye strips from the images, labels the data and saves it"""
+def process_data(data, how_to_process_it):
     # right now, get data close to the corners
     data = [x for x in data if x.cell in [0, Config.grid_size - 1,
                                           Config.grid_size * (Config.grid_size - 1), Config.grid_size * Config.grid_size - 1]]
     print(f'Only selected corner data: {len(data)} items')
 
     # process it
-    print('Processing data...')
-    print('Extracting eye strips...')
-    X = extract_eye_strips([x.image for x in data])
+    print(f'Processing data using {how_to_process_it}')
+    X = how_to_process_it([x.image for x in data])
     y = [[1 if i == x.cell else 0 for i in range(0, Config.grid_size * Config.grid_size)]
          for x in data]
     y = np.array(y)
-    # it's possible that some faces weren't found, in which case they are None
+    # it's possible that some instances couldn't be processed, therefore eliminate those
     print(f'Selecting data for which faces were found. Before: {len(X)} items')
-    faces_found = [True] * len(X)
+    instances_success = [True] * len(X)
     for (index, x) in enumerate(X):
         if x is None:
-            faces_found[index] = False
-    X = X[faces_found]
-    y = y[faces_found]
+            instances_success[index] = False
+    X = X[instances_success]
+    y = y[instances_success]
     print(f'After: {len(X)} items')
 
     assert (np.amax(X) <= 1), "Data isn't normalised"
 
     # save processed data
     print(f'Saving processed data: {len(X)} final items')
-    save_processed_data((X, y), f'eye_strips_{Config.grid_size}.pkl')
-
-
-def process_data_extract_eyes(data):
-    """
-    This function only extracts a "strip" of the input images containing the eyes.
-    """
-
-    ...
+    if how_to_process_it == extract_eye_strips:
+        name = f'eye_strips_{Config.grid_size}.pkl'
+    elif how_to_process_it == extract_faces:
+        name = f'extracted_faces_{Config.grid_size}.pkl'
+    elif how_to_process_it == extract_thresholded_eyes:
+        name = f'thresholded_eyes_{Config.grid_size}.pkl'
+    save_processed_data((X, y), name)
 
 
 if __name__ == '__main__':
@@ -276,30 +196,10 @@ if __name__ == '__main__':
     data = load_collected_data()
     print(f'Loaded {len(data)} items')
 
-    # f = process_data_extract_faces
-    f = process_data_extract_eye_strips
+    f = extract_thresholded_eyes
 
     start = time.time()
-    f(data)
+    process_data(data, f)
     s = f'Processing data with {f} took {time.time() - start} seconds for {len(data)} original items'
     print(s)
     dp_logger.info(s)
-
-    # data = [x for x in data if x.is_close_to_corner is True]
-    # print(f'Only selected corner data: {len(data)} items')
-
-    # # process it
-    # print('Processing data...')
-    # X = process_images([x.image for x in data])
-    # y = [[1 if i == x.square else 0 for i in range(0, 4)]
-    #      for x in data]
-
-    # # TODO this below only happens in some cases, so make sure it's okay to stick around
-    # # this below can happen because some of the images might be useless, and therefore not returned in the "processing" part
-    # if len(X) < len(y):
-    #     y = y[:len(X)]
-    # processed_data = (X, y)
-
-    # save the result
-    # print(f'Saving processed data: {len(processed_data[0])} final items')
-    # save_processed_data(processed_data)
