@@ -26,12 +26,12 @@ class Predictor():
     def predict(self):
         screen_size = get_screen_dimensions()
 
-        print('Loading best trained model...')
+        print('Loading last trained model...')
         trained_with = 'keras'
         # data_used = f'eye_strips_{Config.grid_size}.pkl'
         data_used = f'thresholded_eyes_{Config.grid_size}.pkl'
         model = get_best_trained_model(
-            trained_with=trained_with, data_used=data_used)
+            trained_with=trained_with, data_used=data_used, get_last_or_best="last")
         if model is None:
             print('No trained models')
             self.gui.close()

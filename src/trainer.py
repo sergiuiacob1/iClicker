@@ -52,7 +52,8 @@ def train_mlp(which_data):
     # Lazy import so the app starts faster
     from keras.models import Sequential
     from keras.layers import Dense, ReLU, Dropout, Flatten
-    from keras.optimizers import RMSprop
+    from keras.optimizers import RMSprop, Adam
+    from keras import regularizers
     from keras import backend as K
 
     print(f'Loading train data: {which_data}')
@@ -67,19 +68,22 @@ def train_mlp(which_data):
 
     print('Training neural network...')
     model = Sequential([
-        Dense(100, input_shape=(n,), kernel_initializer='glorot_uniform'),
+        Dense(100, input_shape=(n,), kernel_initializer='glorot_uniform',
+              kernel_regularizer=regularizers.l2(0.01)),
         Dropout(0.5),
         ReLU(),
-        Dense(128, kernel_initializer='glorot_uniform'),
+        Dense(128, kernel_initializer='glorot_uniform',
+              kernel_regularizer=regularizers.l2(0.01)),
         Dropout(0.5),
         ReLU(),
-        Dense(64, kernel_initializer='glorot_uniform'),
-        # Dropout(0.5),
+        Dense(64, kernel_initializer='glorot_uniform',
+              kernel_regularizer=regularizers.l2(0.01)),
         ReLU(),
         Dense(Config.grid_size * Config.grid_size, activation='softmax')
     ])
     loss = 'categorical_crossentropy'
-    model.compile(optimizer='adam', loss=loss, metrics=['accuracy'])
+    opt = Adam()
+    model.compile(optimizer=opt, loss=loss, metrics=['accuracy'])
     fit_history = model.fit(
         X, y, epochs=train_parameters["epochs"], batch_size=train_parameters["batch_size"], verbose=1, validation_split=0.2)
 
@@ -253,7 +257,7 @@ def get_next_model_name():
     return model_name
 
 
-def get_best_trained_model(trained_with=None, data_used=None):
+def get_best_trained_model(trained_with=None, data_used=None, get_last_or_best="last"):
     print(
         f'Loading model trained with {trained_with} on {data_used} for a grid size of {Config.grid_size}')
     # Check that the directory with models exists
@@ -267,6 +271,7 @@ def get_best_trained_model(trained_with=None, data_used=None):
         return None
 
     min_score = math.inf
+    best_model_name = ''
     for x in models_info:
         model_info_path = os.path.join(path, x)
         with open(model_info_path, 'r') as f:
@@ -281,13 +286,20 @@ def get_best_trained_model(trained_with=None, data_used=None):
                 continue
         if data['grid_size'] != Config.grid_size:
             continue
-        if data['test_accuracy'][-1] < min_score:
+        should_update = False
+        if get_last_or_best == "best":
+            if data['test_accuracy'][-1] < min_score:
+                should_update = True
+        else:
+            if x.replace('.json', '.pkl') > best_model_name:
+                should_update = True
+        if should_update:
             min_score = data['test_accuracy'][-1]
-            best_model_name = x.split('.json')[0] + '.pkl'
+            best_model_name = x.replace('.json', '.pkl')
             best_model_info = data
 
-    if best_model_name is None:
-        print('Noe model was found')
+    if best_model_name == '':
+        print('No model was found')
         return None
     try:
         if best_model_info['trained_with'] == 'keras':
@@ -303,7 +315,7 @@ def get_best_trained_model(trained_with=None, data_used=None):
         print(f'Could not load model {best_model_name}: {str(e)}')
         return None
 
-    print(f'Best model chosen: {best_model_name}')
+    print(f'Model chosen: {best_model_name}')
     return model
 
 
