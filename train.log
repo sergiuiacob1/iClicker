@@ -54,3 +54,5 @@
 2020-04-05 15:46:01,062: Training with <function train_mlp at 0x115b9b710> took 393.5589621067047 seconds
 2020-04-05 15:51:08,232: Training model with <function train_mlp at 0x109c76710> on thresholded_eyes_3.pkl
 2020-04-05 15:56:40,369: Training with <function train_mlp at 0x109c76710> took 332.1372528076172 seconds
+2020-04-05 16:13:57,766: Training model with <function train_mlp at 0x114bc8710> on thresholded_eyes_4.pkl
+2020-04-05 16:16:41,636: Training with <function train_mlp at 0x114bc8710> took 163.87039494514465 seconds
