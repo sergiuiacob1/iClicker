@@ -4,7 +4,7 @@ from threading import Thread
 
 # My files
 from src.utils import get_screen_dimensions, resize_cv2_image
-from src.data_processing import process_images, extract_faces, extract_eye_strips
+from src.data_processing import extract_faces, extract_eye_strips, extract_thresholded_eyes
 from src.trainer import get_best_trained_model
 from src.ui.predictor_gui import PredictorGUI
 import src.webcam_capturer as WebcamCapturer
@@ -28,7 +28,8 @@ class Predictor():
 
         print('Loading best trained model...')
         trained_with = 'keras'
-        data_used = f'eye_strips_{Config.grid_size}.pkl'
+        # data_used = f'eye_strips_{Config.grid_size}.pkl'
+        data_used = f'thresholded_eyes_{Config.grid_size}.pkl'
         model = get_best_trained_model(
             trained_with=trained_with, data_used=data_used)
         if model is None:
@@ -49,6 +50,9 @@ class Predictor():
                 prediction = self.predict_based_on_eye_strips(model, image)
             elif data_used.startswith('extracted_faces'):
                 prediction = self.predict_based_on_extracted_face(model, image)
+            elif data_used.startswith('thresholded_eyes'):
+                prediction = self.predict_based_on_thresholded_eyes(
+                    model, image)
             else:
                 prediction = None
             if prediction is None:
@@ -79,6 +83,20 @@ class Predictor():
         input_shape = (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1)
         X = list(map(lambda x: x.reshape(*input_shape), X))
         X = np.array(X)
+
+        # predict
+        prediction = model.predict(X)[0]
+        # predictions come in reversed
+        prediction = prediction[::-1]
+        prediction = prediction.argmin()
+        return prediction
+
+    def predict_based_on_thresholded_eyes(self, model, img):
+        # build data
+        X = extract_thresholded_eyes([img])
+        if X[0] is None:
+            return None
+        X = np.array([x.flatten() for x in X])
 
         # predict
         prediction = model.predict(X)[0]

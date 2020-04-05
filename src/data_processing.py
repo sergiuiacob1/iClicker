@@ -91,14 +91,16 @@ def extract_thresholded_eyes(X):
         eyes = face_detector.extract_eyes(X[i])
         # in case no eyes were detected
         if eyes is None or eyes[0] is None or eyes[1] is None:
+            X[i] = None
             continue
         # resize each eye
         for j in range(0, 2):
             eyes[j] = resize_cv2_image(eyes[j], fixed_dim=(
                 Config.EYE_WIDTH, Config.EYE_HEIGHT))
         # merge the eyes horizontally
-        eyes = np.concatenate((eyes[0], eyes[1]), axis=1)
-        X[i] = eyes
+        # eyes = np.concatenate((eyes[0], eyes[1]), axis=1)
+        # take only the left eye
+        X[i] = eyes[0]
         # threshold the eyes. this also converts the image to grayscale
         X[i] = get_binary_thresholded_image(X[i])
         # normalise

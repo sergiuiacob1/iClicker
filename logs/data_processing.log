@@ -82,3 +82,7 @@
 2020-04-04 14:59:07,507: Loading data took 24.23375105857849 seconds
 2020-04-04 15:00:59,471: Loading data took 23.714075803756714 seconds
 2020-04-04 15:02:21,283: Processing data with <function extract_thresholded_eyes at 0x11c0657a0> took 81.81159090995789 seconds for 2736 original items
+2020-04-04 19:34:19,827: Loading data took 26.027557134628296 seconds
+2020-04-04 19:34:58,579: Processing data with <function extract_thresholded_eyes at 0x111ca87a0> took 38.75181698799133 seconds for 2736 original items
+2020-04-04 19:46:38,953: Loading data took 27.344218969345093 seconds
+2020-04-04 19:47:17,199: Processing data with <function extract_thresholded_eyes at 0x1185af7a0> took 38.245033979415894 seconds for 2736 original items

@@ -32,14 +32,14 @@ def get_last_model_number():
 
 def train_model(train_parameters):
     st = time.time()
-    f = train_cnn_with_keras
-    # f = train_mlp
+    # f = train_cnn_with_keras
+    f = train_mlp
     # Loading the data specific to the config's grid size
-    f_args = (f'eye_strips_{Config.grid_size}.pkl',
-              (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
+    # f_args = (f'eye_strips_{Config.grid_size}.pkl',
+    #           (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
     # f_args = ('extracted_faces.pkl',
     #           (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1))
-    # f_args = ('eye_strips.pkl',)
+    f_args = (f'thresholded_eyes_{Config.grid_size}.pkl',)
     print(f'Training model with {f} on {f_args[0]}')
     train_logger.info(f'Training model with {f} on {f_args[0]}')
     res = f(*f_args)
@@ -69,24 +69,28 @@ def train_mlp(which_data):
         Dense(100, input_shape=(n,), kernel_initializer='glorot_uniform'),
         Dropout(0.5),
         ReLU(),
+        Dense(128, kernel_initializer='glorot_uniform'),
+        Dropout(0.5),
+        ReLU(),
         Dense(64, kernel_initializer='glorot_uniform'),
-        Dropout(0.5),
+        # Dropout(0.5),
         ReLU(),
-        Dense(16, kernel_initializer='glorot_uniform'),
-        Dropout(0.5),
-        ReLU(),
-        Dense(4, activation='softmax')
+        Dense(Config.grid_size * Config.grid_size, activation='softmax')
     ])
-    rmsprop = RMSprop(lr=0.001)
-    model.compile(optimizer='adam',
-                  loss='categorical_crossentropy', metrics=['accuracy'])
+    loss = 'categorical_crossentropy'
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy'])
     fit_history = model.fit(
-        X, y, epochs=train_parameters["epochs"], verbose=1, validation_data=0.2)
+        X, y, epochs=train_parameters["epochs"], verbose=1, validation_split=0.2)
 
     return {
         "model": model,
         "trained_with": "keras",
-        "score": fit_history.history['loss']
+        "data_used": which_data,
+        "grid_size": Config.grid_size,
+        f"train_loss_{loss}": fit_history.history['loss'],
+        f"test_loss_{loss}": fit_history.history['val_loss'],
+        "train_accuracy": fit_history.history['acc'],
+        "test_accuracy": fit_history.history['val_acc'],
     }
 
 
@@ -263,7 +267,7 @@ def get_best_trained_model(trained_with=None, data_used=None):
         model_info_path = os.path.join(path, x)
         with open(model_info_path, 'r') as f:
             data = json.load(f)
-        if data['score'] is None:
+        if data['test_accuracy'] is None:
             continue
         if trained_with is not None:
             if data['trained_with'] != trained_with:
@@ -273,13 +277,13 @@ def get_best_trained_model(trained_with=None, data_used=None):
                 continue
         if data['grid_size'] != Config.grid_size:
             continue
-        if data['score'][-1] < min_score:
-            min_score = data['score'][-1]
+        if data['test_accuracy'][-1] < min_score:
+            min_score = data['test_accuracy'][-1]
             best_model_name = x.split('.json')[0] + '.pkl'
             best_model_info = data
 
     if best_model_name is None:
-        print ('Noe model was found')
+        print('Noe model was found')
         return None
     try:
         if best_model_info['trained_with'] == 'keras':
@@ -305,4 +309,3 @@ if __name__ == '__main__':
     }
     res = train_model(train_parameters)
     save_model(res, train_parameters=train_parameters)
-    # print (get_best_trained_model(data_used='eye_strips.pkl'))

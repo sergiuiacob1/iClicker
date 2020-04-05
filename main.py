@@ -14,3 +14,4 @@ if __name__ == '__main__':
 
 
 # TODO use some tool to remove unused libraries at the end
+# TODO add the dlib model on github

@@ -5,7 +5,6 @@ from PyQt5.QtCore import Qt
 
 # My files
 from src.webcam_capturer import get_webcam_image
-from src.face_detector import FaceDetector
 # ui
 from src.ui.eye_contour import EyeContour
 from src.ui.eye_widget import EyeWidget
@@ -23,9 +22,6 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
     def start(self):
         # self.eye_widget.show()
         self.show()
-        if self.face_detector is None:
-            # lazy loading so the app starts faster
-            self.face_detector = FaceDetector()
         threading.Thread(target=self.show_webcam_images).start()
 
     def closeEvent(self, event):
@@ -77,9 +73,11 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
         print('Stop displaying images from the webcam')
 
     def update_eye_contours(self, image):
-        contours = self.face_detector.get_eye_contours(image)
-        if len(contours) == 2:
-            self.left_eye_contour.points = contours[0]
-            self.right_eye_contour.points = contours[1]
-            if (self.eye_widget.isVisible()):
-                self.eye_widget.update(image, contours[0])
+        # TODO this isn't done
+        return
+        # contours = face_detector.get_eye_contours(image)
+        # if len(contours) == 2:
+        #     self.left_eye_contour.points = contours[0]
+        #     self.right_eye_contour.points = contours[1]
+        #     if (self.eye_widget.isVisible()):
+        #         self.eye_widget.update(image, contours[0])
