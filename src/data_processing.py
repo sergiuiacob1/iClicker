@@ -159,8 +159,8 @@ def save_processed_data(data, name='train_data.pkl'):
 
 def process_data(data, how_to_process_it):
     # # right now, get data close to the corners
-    # data = [x for x in data if x.cell in [0, Config.grid_size - 1,
-    #                                       Config.grid_size * (Config.grid_size - 1), Config.grid_size * Config.grid_size - 1]]
+    data = [x for x in data if x.cell in [0, Config.grid_size - 1,
+                                          Config.grid_size * (Config.grid_size - 1), Config.grid_size * Config.grid_size - 1]]
     print(f'Only selected corner data: {len(data)} items')
 
     # process it
@@ -198,7 +198,8 @@ if __name__ == '__main__':
     data = load_collected_data()
     print(f'Loaded {len(data)} items')
 
-    f = extract_thresholded_eyes
+    # f = extract_thresholded_eyes
+    f = extract_faces
 
     start = time.time()
     process_data(data, f)

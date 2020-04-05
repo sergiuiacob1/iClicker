@@ -32,14 +32,14 @@ def get_last_model_number():
 
 def train_model(train_parameters):
     st = time.time()
-    # f = train_cnn_with_keras
-    f = train_mlp
+    f = train_cnn_with_keras
+    # f = train_mlp
     # Loading the data specific to the config's grid size
     # f_args = (f'eye_strips_{Config.grid_size}.pkl',
     #           (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
-    # f_args = ('extracted_faces.pkl',
-    #           (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1))
-    f_args = (f'thresholded_eyes_{Config.grid_size}.pkl',)
+    f_args = (f'extracted_faces_{Config.grid_size}.pkl',
+              (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1))
+    # f_args = (f'thresholded_eyes_{Config.grid_size}.pkl',)
     print(f'Training model with {f} on {f_args[0]}')
     train_logger.info(f'Training model with {f} on {f_args[0]}')
     res = f(*f_args)
@@ -120,6 +120,7 @@ def train_cnn_with_keras(which_data, input_shape):
     # the number of rows = the height of the image!
     X = list(map(lambda x: x.reshape(*input_shape), X))
     X = np.array(X)
+    initial_input_shape = X[0].shape
 
     model = Sequential()
     model.add(Conv2D(16, kernel_size=(3, 3),
@@ -129,28 +130,30 @@ def train_cnn_with_keras(which_data, input_shape):
     model.add(Conv2D(32, kernel_size=(3, 3)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(ReLU())
-    # model.add(Conv2D(64, kernel_size=(4, 4)))
-    # model.add(MaxPooling2D(pool_size=(3, 3)))
-    # model.add(ReLU())
     model.add(Flatten())
     model.add(Dense(128, activation='relu'))
-    # model.add(Dropout(0.5))
     model.add(Dense(Config.grid_size * Config.grid_size, activation='softmax'))
 
     opt = Adam()
-    model.compile(optimizer='adam',
-                  loss='categorical_crossentropy', metrics=['accuracy'])
+    loss = 'categorical_crossentropy'
+    model.compile(optimizer='adam', loss=loss, metrics=['accuracy'])
     start_time = time.time()
     fit_history = model.fit(
-        X, y, epochs=train_parameters["epochs"], batch_size=32, validation_split=0.2, verbose=1)
+        X, y, epochs=train_parameters["epochs"], batch_size=train_parameters["batch_size"], validation_split=0.2, verbose=1)
     end_time = time.time()
     print('Training done')
     return {
         "model": model,
+        "type": "CNN",
         "trained_with": "keras",
         "data_used": which_data,
+        "input_shape": initial_input_shape,
+        "dataset_size": len(X),
         "grid_size": Config.grid_size,
-        "score": fit_history.history['loss']
+        f"train_loss_{loss}": fit_history.history['loss'],
+        f"test_loss_{loss}": fit_history.history['val_loss'],
+        "train_accuracy": fit_history.history['acc'],
+        "test_accuracy": fit_history.history['val_acc'],
     }
 
 
@@ -321,7 +324,7 @@ def get_best_trained_model(trained_with=None, data_used=None, get_last_or_best="
 
 if __name__ == '__main__':
     train_parameters = {
-        "epochs": 300,
+        "epochs": 25,
         "batch_size": 32,
     }
     res = train_model(train_parameters)
