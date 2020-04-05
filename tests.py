@@ -7,14 +7,15 @@ import json
 import seaborn as sns
 import os
 
-# which = 'thresholded_eyes_3.pkl'
-# data = joblib.load(f'./train_data/{which}')
+which = 'thresholded_eyes_2.pkl'
+data = joblib.load(f'./train_data/{which}')
 
-# print(data[1][1])
-# print(data[0][0].shape)
-# for i in range(0, 4):
-#     summm = sum([1 for x in data[1] if x[i] == 1])
-#     print(f'Class {i} has {summm} instances')
+print (len(data[0]))
+print(data[1][1])
+print(data[0][0].shape)
+for i in range(0, len(data[1][1])):
+    summm = sum([1 for x in data[1] if x[i] == 1])
+    print(f'Class {i} has {summm} instances')
 
 # n = len(data[0])
 # for i in range(0, 1):
@@ -28,23 +29,23 @@ import os
 
 
 # PLOTS
-# for x in os.listdir('./models'):
-#     if x.endswith('.json') == False:
-#         continue
-#     with open(f'models/{x}', 'r') as f:
-#         info = json.load(f)
+for x in os.listdir('./models'):
+    if x.endswith('.json') == False:
+        continue
+    with open(f'models/{x}', 'r') as f:
+        info = json.load(f)
 
-#     # multiple line plot
-#     lines = ['train_accuracy', 'test_accuracy',
-#              'train_loss_categorical_crossentropy', 'test_loss_categorical_crossentropy']
-#     colors = ["coral", "blue", "green", "red"]
-#     epochs = range(0, len(info['train_accuracy']))
-#     for i in range(0, len(lines)):
-#         ax = sns.lineplot(
-#             x=epochs, y=lines[i], data=info,  color=colors[i], label=lines[i])
-#     # plt.show(sns)
-#     figname = x.replace('.json', '.png')
-#     plt.xlabel('epochs')
-#     plt.savefig(f'report/images/graphs/{figname}')
-#     plt.clf()
+    # multiple line plot
+    lines = ['train_accuracy', 'test_accuracy',
+             'train_loss_categorical_crossentropy', 'test_loss_categorical_crossentropy']
+    colors = ["coral", "blue", "green", "red"]
+    epochs = range(0, len(info['train_accuracy']))
+    for i in range(0, len(lines)):
+        ax = sns.lineplot(
+            x=epochs, y=lines[i], data=info,  color=colors[i], label=lines[i])
+    # plt.show(sns)
+    figname = x.replace('.json', '.png')
+    plt.xlabel('epochs')
+    plt.savefig(f'report/images/graphs/{figname}')
+    plt.clf()
 

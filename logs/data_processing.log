@@ -86,3 +86,21 @@
 2020-04-04 19:34:58,579: Processing data with <function extract_thresholded_eyes at 0x111ca87a0> took 38.75181698799133 seconds for 2736 original items
 2020-04-04 19:46:38,953: Loading data took 27.344218969345093 seconds
 2020-04-04 19:47:17,199: Processing data with <function extract_thresholded_eyes at 0x1185af7a0> took 38.245033979415894 seconds for 2736 original items
+2020-04-05 12:49:03,700: Loading data took 31.34801483154297 seconds
+2020-04-05 12:49:43,748: Processing data with <function extract_thresholded_eyes at 0x11c0f87a0> took 40.04562783241272 seconds for 2736 original items
+2020-04-05 12:52:48,599: Loading data took 49.55635595321655 seconds
+2020-04-05 12:53:23,550: Processing data with <function extract_thresholded_eyes at 0x11350f7a0> took 34.94959807395935 seconds for 2736 original items
+2020-04-05 13:03:01,296: Loading data took 28.273327827453613 seconds
+2020-04-05 13:04:27,311: Processing data with <function extract_thresholded_eyes at 0x111979560> took 86.01360893249512 seconds for 2736 original items
+2020-04-05 15:25:33,457: Loading data took 35.65823197364807 seconds
+2020-04-05 15:25:39,483: Loading data took 34.12955594062805 seconds
+2020-04-05 15:25:41,681: Loading data took 33.193382024765015 seconds
+2020-04-05 15:26:13,401: Processing data with <function extract_thresholded_eyes at 0x111f0d7a0> took 31.71895718574524 seconds for 2736 original items
+2020-04-05 15:26:28,363: Processing data with <function extract_thresholded_eyes at 0x11bd867a0> took 48.87881803512573 seconds for 2736 original items
+2020-04-05 15:27:09,182: Processing data with <function extract_thresholded_eyes at 0x11636a7a0> took 95.72214889526367 seconds for 2736 original items
+2020-04-05 15:36:01,114: Loading data took 29.853030920028687 seconds
+2020-04-05 15:37:18,028: Loading data took 29.426124095916748 seconds
+2020-04-05 15:37:52,843: Processing data with <function extract_thresholded_eyes at 0x11392b7a0> took 111.72746801376343 seconds for 2736 original items
+2020-04-05 15:38:06,177: Loading data took 37.22550177574158 seconds
+2020-04-05 15:38:17,388: Processing data with <function extract_thresholded_eyes at 0x11d0c17a0> took 59.35835528373718 seconds for 2736 original items
+2020-04-05 15:38:34,851: Processing data with <function extract_thresholded_eyes at 0x113b0e7a0> took 28.672958850860596 seconds for 2736 original items

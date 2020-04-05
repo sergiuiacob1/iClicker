@@ -98,9 +98,9 @@ def extract_thresholded_eyes(X):
             eyes[j] = resize_cv2_image(eyes[j], fixed_dim=(
                 Config.EYE_WIDTH, Config.EYE_HEIGHT))
         # merge the eyes horizontally
-        # eyes = np.concatenate((eyes[0], eyes[1]), axis=1)
+        eyes = np.concatenate((eyes[0], eyes[1]), axis=1)
         # take only the left eye
-        X[i] = eyes[0]
+        X[i] = eyes
         # threshold the eyes. this also converts the image to grayscale
         X[i] = get_binary_thresholded_image(X[i])
         # normalise

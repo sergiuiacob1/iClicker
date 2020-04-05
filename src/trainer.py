@@ -61,6 +61,7 @@ def train_mlp(which_data):
     perm = permutation(len(X))
     X = X[perm]
     y = y[perm]
+    initial_input_shape = X[0].shape
     n = X[0].shape[0] * X[0].shape[1]
     X = np.array([x.flatten() for x in X])
 
@@ -80,12 +81,15 @@ def train_mlp(which_data):
     loss = 'categorical_crossentropy'
     model.compile(optimizer='adam', loss=loss, metrics=['accuracy'])
     fit_history = model.fit(
-        X, y, epochs=train_parameters["epochs"], verbose=1, validation_split=0.2)
+        X, y, epochs=train_parameters["epochs"], batch_size=train_parameters["batch_size"], verbose=1, validation_split=0.2)
 
     return {
         "model": model,
+        "type": "MLP",
         "trained_with": "keras",
         "data_used": which_data,
+        "input_shape": initial_input_shape,
+        "dataset_size": len(X),
         "grid_size": Config.grid_size,
         f"train_loss_{loss}": fit_history.history['loss'],
         f"test_loss_{loss}": fit_history.history['val_loss'],
@@ -305,7 +309,8 @@ def get_best_trained_model(trained_with=None, data_used=None):
 
 if __name__ == '__main__':
     train_parameters = {
-        "epochs": 150
+        "epochs": 300,
+        "batch_size": 32,
     }
     res = train_model(train_parameters)
     save_model(res, train_parameters=train_parameters)
