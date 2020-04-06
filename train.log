@@ -98,3 +98,4 @@
 2020-04-06 16:21:00,116: Training model with <function train_cnn_with_keras at 0x10e266560> on eye_strips_3.pkl
 2020-04-06 16:34:26,709: Training with <function train_cnn_with_keras at 0x10e266560> took 806.5931351184845 seconds
 2020-04-06 16:40:58,377: Training model with <function train_cnn_with_keras at 0x10b15b560> on eye_strips_3.pkl
+2020-04-06 17:11:54,840: Training with <function train_cnn_with_keras at 0x10b15b560> took 1856.4625198841095 seconds
