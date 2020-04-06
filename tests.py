@@ -7,7 +7,7 @@ import json
 import seaborn as sns
 import os
 
-which = 'thresholded_eyes_4.pkl'
+which = 'eye_strips_3.pkl'
 data = joblib.load(f'./train_data/{which}')
 
 print (len(data[0]))

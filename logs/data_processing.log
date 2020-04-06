@@ -124,3 +124,7 @@
 2020-04-06 12:09:50,788: Processing data with <function extract_eye_strips at 0x116409440> took 63.23017692565918 seconds for 2736 original items
 2020-04-06 12:39:15,967: Loading data took 53.919421911239624 seconds
 2020-04-06 12:39:45,132: Processing data with <function extract_eye_strips at 0x1145bc440> took 29.163565158843994 seconds for 2736 original items
+2020-04-06 12:54:58,976: Loading data took 30.73543691635132 seconds
+2020-04-06 12:55:04,884: Loading data took 28.107530117034912 seconds
+2020-04-06 12:57:03,066: Processing data with <function extract_eye_strips at 0x11128b3b0> took 124.08883714675903 seconds for 2736 original items
+2020-04-06 12:57:08,986: Processing data with <function extract_eye_strips at 0x116cd13b0> took 124.10166501998901 seconds for 2736 original items
