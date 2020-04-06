@@ -32,11 +32,14 @@ def get_last_model_number():
 
 def train_model(train_parameters):
     st = time.time()
-    f = train_cnn_with_keras
+    f = train_cnn_regression_with_keras
+    # f = train_cnn_with_keras
+    f_args = (f'eye_strips_{Config.grid_size}_regression.pkl',
+              (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
     # f = train_mlp
     # Loading the data specific to the config's grid size
-    f_args = (f'eye_strips_{Config.grid_size}.pkl',
-              (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
+    # f_args = (f'eye_strips_{Config.grid_size}.pkl',
+    #           (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
     # f_args = (f'extracted_faces_{Config.grid_size}.pkl',
     #           (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1))
     # f_args = (f'thresholded_eyes_{Config.grid_size}.pkl',)
@@ -157,6 +160,60 @@ def train_cnn_with_keras(which_data, input_shape):
     }
 
 
+def train_cnn_regression_with_keras(which_data, input_shape):
+    # Lazy import so the app starts faster
+    from keras.models import Sequential
+    from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
+    from keras.optimizers import RMSprop, Adam, Adagrad, SGD
+    from keras import backend as K
+
+    print('Loading train data...')
+    X, y = get_data(which_data)
+    # shuffle the data
+    n = len(X)
+    perm = permutation(n)
+    X = X[perm]
+    y = y[perm]
+
+    # the number of rows = the height of the image!
+    X = list(map(lambda x: x.reshape(*input_shape), X))
+    X = np.array(X)
+    initial_input_shape = X[0].shape
+
+    model = Sequential()
+    model.add(Conv2D(64, kernel_size=(3, 3),
+                     input_shape=input_shape))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(ReLU())
+    model.add(Conv2D(128, kernel_size=(3, 3)))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(ReLU())
+    model.add(Flatten())
+    model.add(Dense(128, activation='relu'))
+    model.add(Dense(2, activation='linear'))
+
+    opt = Adam()
+    loss = 'mean_squared_error'
+    model.compile(optimizer='adam', loss=loss)
+    start_time = time.time()
+    fit_history = model.fit(
+        X, y, epochs=train_parameters["epochs"], batch_size=train_parameters["batch_size"], validation_split=0.2, verbose=1)
+    end_time = time.time()
+    print('Training done')
+    return {
+        "model": model,
+        "type": "CNN",
+        "prediction_type": "regression",
+        "trained_with": "keras",
+        "data_used": which_data,
+        "input_shape": initial_input_shape,
+        "dataset_size": len(X),
+        "grid_size": Config.grid_size,
+        f"train_loss_{loss}": fit_history.history['loss'],
+        f"test_loss_{loss}": fit_history.history['val_loss'],
+    }
+
+
 def train_cnn(which_data):
     import torch.nn as nn
     import torch.optim as optim
@@ -260,7 +317,7 @@ def get_next_model_name():
     return model_name
 
 
-def get_best_trained_model(trained_with=None, data_used=None, get_last_or_best="last"):
+def get_best_trained_model(prediction_type, trained_with=None, data_used=None, get_last_or_best="last"):
     print(
         f'Loading model trained with {trained_with} on {data_used} for a grid size of {Config.grid_size}')
     # Check that the directory with models exists
@@ -279,20 +336,29 @@ def get_best_trained_model(trained_with=None, data_used=None, get_last_or_best="
         model_info_path = os.path.join(path, x)
         with open(model_info_path, 'r') as f:
             data = json.load(f)
-        if data['test_accuracy'] is None:
-            continue
+
         if trained_with is not None:
             if data['trained_with'] != trained_with:
                 continue
+
         if data_used is not None:
             if data['data_used'] != data_used:
                 continue
+
         if data['grid_size'] != Config.grid_size:
             continue
+
+        if data['prediction_type'] != prediction_type:
+            continue
+
         should_update = False
         if get_last_or_best == "best":
-            if data['test_accuracy'][-1] < min_score:
-                should_update = True
+            if prediction_type == "grid":
+                if data['test_accuracy'][-1] < min_score:
+                    should_update = True
+            else:
+                if data['test_loss_mean_squared_error'][-1] < min_score:
+                    should_update = True
         else:
             # extract the numbers from the model names and compare those to see which model is the latest
             temp = int(x.split('_')[1].split('.')[0])
@@ -303,7 +369,10 @@ def get_best_trained_model(trained_with=None, data_used=None, get_last_or_best="
             if temp > best_no:
                 should_update = True
         if should_update:
-            min_score = data['test_accuracy'][-1]
+            if prediction_type == "regression":
+                min_score = data['test_loss_mean_squared_error'][-1]
+            else:
+                min_score = data['test_accuracy'][-1]
             best_model_name = x.replace('.json', '.pkl')
             best_model_info = data
 

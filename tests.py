@@ -7,10 +7,10 @@ import json
 import seaborn as sns
 import os
 
-which = 'eye_strips_4.pkl'
+which = 'eye_strips_3_regression.pkl'
 data = joblib.load(f'./train_data/{which}')
 
-print (len(data[0]))
+print(len(data[0]))
 print(data[1][1])
 print(data[0][0].shape)
 for i in range(0, len(data[1][1])):
@@ -36,10 +36,16 @@ for x in os.listdir('./models'):
         info = json.load(f)
 
     # multiple line plot
-    lines = ['train_accuracy', 'test_accuracy',
-             'train_loss_categorical_crossentropy', 'test_loss_categorical_crossentropy']
-    colors = ["coral", "blue", "green", "red"]
-    epochs = range(0, len(info['train_accuracy']))
+    if info["prediction_type"] == "grid":
+        lines = ['train_accuracy', 'test_accuracy',
+                 'train_loss_categorical_crossentropy', 'test_loss_categorical_crossentropy']
+        colors = ["coral", "blue", "green", "red"]
+        epochs = range(0, len(info['train_accuracy']))
+    else:
+        lines = ['train_loss_mean_squared_error',
+                 'test_loss_mean_squared_error']
+        colors = ["green", "red"]
+        epochs = range(0, len(info['train_loss_mean_squared_error']))
     for i in range(0, len(lines)):
         ax = sns.lineplot(
             x=epochs, y=lines[i], data=info,  color=colors[i], label=lines[i])
@@ -48,4 +54,3 @@ for x in os.listdir('./models'):
     plt.xlabel('epochs')
     plt.savefig(f'report/images/graphs/{figname}')
     plt.clf()
-

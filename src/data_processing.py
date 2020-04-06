@@ -192,6 +192,35 @@ def process_data(data, how_to_process_it):
     save_processed_data((X, y), name)
 
 
+def process_data_for_regression(data, how_to_process_it):
+    # process it
+    print(f'Processing data using {how_to_process_it}')
+    X = how_to_process_it([x.image for x in data])
+    y = [x.mouse_position for x in data]
+    y = np.array(y)
+    # it's possible that some instances couldn't be processed, therefore eliminate those
+    print(f'Selecting data for which faces were found. Before: {len(X)} items')
+    instances_success = [True] * len(X)
+    for (index, x) in enumerate(X):
+        if x is None:
+            instances_success[index] = False
+    X = X[instances_success]
+    y = y[instances_success]
+    print(f'After: {len(X)} items')
+
+    assert (np.amax(X) <= 1), "Data isn't normalised"
+
+    # save processed data
+    print(f'Saving processed data: {len(X)} final items')
+    if how_to_process_it == extract_eye_strips:
+        name = f'eye_strips_{Config.grid_size}_regression.pkl'
+    elif how_to_process_it == extract_faces:
+        name = f'extracted_faces_{Config.grid_size}_regression.pkl'
+    elif how_to_process_it == extract_thresholded_eyes:
+        name = f'thresholded_eyes_{Config.grid_size}_regression.pkl'
+    save_processed_data((X, y), name)
+
+
 if __name__ == '__main__':
     # load the data
     print('Loading collected data...')
@@ -203,7 +232,8 @@ if __name__ == '__main__':
     f = extract_eye_strips
 
     start = time.time()
-    process_data(data, f)
+    # process_data(data, f)
+    process_data_for_regression(data, f)
     s = f'Processing data with {f} took {time.time() - start} seconds for {len(data)} original items'
     print(s)
     dp_logger.info(s)

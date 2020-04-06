@@ -10,6 +10,8 @@ from src.ui.predictor_gui import PredictorGUI
 import src.webcam_capturer as WebcamCapturer
 import config as Config
 
+screen_width, screen_height = get_screen_dimensions()
+
 
 class Predictor():
     def __init__(self):
@@ -24,15 +26,15 @@ class Predictor():
         Thread(target=self.predict).start()
 
     def predict(self):
-        screen_size = get_screen_dimensions()
-
         print('Loading last trained model...')
+        prediction_type = 'regression'
         trained_with = 'keras'
-        data_used = f'eye_strips_{Config.grid_size}.pkl'
+        data_used = f'eye_strips_{Config.grid_size}_regression.pkl'
+        # data_used = f'eye_strips_{Config.grid_size}.pkl'
         # data_used = f'thresholded_eyes_{Config.grid_size}.pkl'
         # data_used = f'extracted_faces_{Config.grid_size}.pkl'
         model = get_best_trained_model(
-            trained_with=trained_with, data_used=data_used, get_last_or_best="last")
+            prediction_type=prediction_type, trained_with=trained_with, data_used=data_used, get_last_or_best="last")
         if model is None:
             print('No trained models')
             self.gui.close()
@@ -47,18 +49,48 @@ class Predictor():
                 print('Failed capturing image')
                 continue
 
-            if data_used.startswith('eye_strips'):
-                prediction = self.predict_based_on_eye_strips(model, image)
-            elif data_used.startswith('extracted_faces'):
-                prediction = self.predict_based_on_extracted_face(model, image)
-            elif data_used.startswith('thresholded_eyes'):
-                prediction = self.predict_based_on_thresholded_eyes(
-                    model, image)
+            if prediction_type == 'regression':
+                prediction = self.predict_regression(model, image)
             else:
-                prediction = None
+                if data_used.startswith('eye_strips'):
+                    prediction = self.predict_based_on_eye_strips(model, image)
+                elif data_used.startswith('extracted_faces'):
+                    prediction = self.predict_based_on_extracted_face(
+                        model, image)
+                elif data_used.startswith('thresholded_eyes'):
+                    prediction = self.predict_based_on_thresholded_eyes(
+                        model, image)
+                else:
+                    prediction = None
             if prediction is None:
                 continue
             self.gui.update_prediction(prediction)
+
+    def predict_regression(self, model, img):
+        # build data
+        X = extract_eye_strips([img])
+        if X[0] is None:
+            return None
+        input_shape = (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1)
+        X = list(map(lambda x: x.reshape(*input_shape), X))
+        X = np.array(X)
+
+        # predict
+        prediction = model.predict(X)[0]
+        # first value corresponds to width, second one to height]
+        # TODO I should also treat the case in which the model was trained on a different resolution
+
+        # find the corresponding cell
+        # make sure I don't exit the screen with the prediction
+        prediction[0] = max(prediction[0], 0)
+        prediction[1] = max(prediction[1], 0)
+        prediction[0] = min(prediction[0], screen_width - 1)
+        prediction[1] = min(prediction[1], screen_height - 1)
+        dx = screen_width / Config.grid_size
+        dy = screen_height / Config.grid_size
+        prediction = int(prediction[1] // dy *
+                         Config.grid_size + prediction[0] // dx)
+        return prediction
 
     def predict_based_on_extracted_face(self, model, img):
         # build data
