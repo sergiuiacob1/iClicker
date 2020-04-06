@@ -294,7 +294,13 @@ def get_best_trained_model(trained_with=None, data_used=None, get_last_or_best="
             if data['test_accuracy'][-1] < min_score:
                 should_update = True
         else:
-            if x.replace('.json', '.pkl') > best_model_name:
+            # extract the numbers from the model names and compare those to see which model is the latest
+            temp = int(x.split('_')[1].split('.')[0])
+            if best_model_name == '':
+                best_no = 0
+            else:
+                best_no = int(best_model_name.split('_')[1].split('.')[0])
+            if temp > best_no:
                 should_update = True
         if should_update:
             min_score = data['test_accuracy'][-1]
