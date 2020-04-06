@@ -324,7 +324,7 @@ def get_best_trained_model(trained_with=None, data_used=None, get_last_or_best="
 
 if __name__ == '__main__':
     train_parameters = {
-        "epochs": 25,
+        "epochs": 50,
         "batch_size": 32,
     }
     res = train_model(train_parameters)

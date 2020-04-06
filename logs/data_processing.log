@@ -114,3 +114,5 @@
 2020-04-05 18:20:34,013: Loading data took 54.266956090927124 seconds
 2020-04-05 18:21:38,695: Processing data with <function extract_faces at 0x11b6515f0> took 64.6804587841034 seconds for 2736 original items
 2020-04-05 18:22:14,950: Processing data with <function extract_faces at 0x11e0315f0> took 103.37827515602112 seconds for 2736 original items
+2020-04-06 10:20:24,439: Loading data took 37.29774594306946 seconds
+2020-04-06 10:21:49,716: Processing data with <function extract_faces at 0x11e02b3b0> took 85.27700424194336 seconds for 2736 original items
