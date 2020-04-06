@@ -35,10 +35,10 @@ def train_model(train_parameters):
     f = train_cnn_with_keras
     # f = train_mlp
     # Loading the data specific to the config's grid size
-    # f_args = (f'eye_strips_{Config.grid_size}.pkl',
-    #           (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
-    f_args = (f'extracted_faces_{Config.grid_size}.pkl',
-              (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1))
+    f_args = (f'eye_strips_{Config.grid_size}.pkl',
+              (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
+    # f_args = (f'extracted_faces_{Config.grid_size}.pkl',
+    #           (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1))
     # f_args = (f'thresholded_eyes_{Config.grid_size}.pkl',)
     print(f'Training model with {f} on {f_args[0]}')
     train_logger.info(f'Training model with {f} on {f_args[0]}')

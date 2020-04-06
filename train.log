@@ -77,3 +77,9 @@
 2020-04-06 10:41:08,021: Training model with <function train_cnn_with_keras at 0x107fa55f0> on extracted_faces_4.pkl
 2020-04-06 11:17:24,353: Training with <function train_cnn_with_keras at 0x110a9b5f0> took 3190.584208011627 seconds
 2020-04-06 11:36:18,358: Training with <function train_cnn_with_keras at 0x107fa55f0> took 3310.3371663093567 seconds
+2020-04-06 12:01:21,949: Training model with <function train_cnn_with_keras at 0x108903560> on eye_strips_2.pkl
+2020-04-06 12:05:36,306: Training with <function train_cnn_with_keras at 0x108903560> took 254.35652112960815 seconds
+2020-04-06 12:12:04,555: Training model with <function train_cnn_with_keras at 0x112d325f0> on eye_strips_3.pkl
+2020-04-06 12:14:44,213: Training with <function train_cnn_with_keras at 0x112d325f0> took 159.65747594833374 seconds
+2020-04-06 12:43:40,013: Training model with <function train_cnn_with_keras at 0x11136f5f0> on eye_strips_4.pkl
+2020-04-06 12:45:14,294: Training with <function train_cnn_with_keras at 0x11136f5f0> took 94.28175401687622 seconds
