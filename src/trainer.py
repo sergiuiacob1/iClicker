@@ -123,13 +123,13 @@ def train_cnn_with_keras(which_data, input_shape):
     initial_input_shape = X[0].shape
 
     model = Sequential()
-    model.add(Conv2D(16, kernel_size=(3, 3),
-                        input_shape=input_shape))
+    model.add(Conv2D(64, kernel_size=(3, 3),
+                     input_shape=input_shape))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(ReLU())
-    # model.add(Conv2D(32, kernel_size=(3, 3)))
-    # model.add(MaxPooling2D(pool_size=(2, 2)))
-    # model.add(ReLU())
+    model.add(Conv2D(128, kernel_size=(3, 3)))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(ReLU())
     model.add(Flatten())
     model.add(Dense(128, activation='relu'))
     model.add(Dense(Config.grid_size * Config.grid_size, activation='softmax'))
