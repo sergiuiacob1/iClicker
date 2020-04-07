@@ -104,3 +104,7 @@
 2020-04-06 17:52:23,275: Training model with <function train_cnn_regression_with_keras at 0x10ff7d710> on eye_strips_3_regression.pkl
 2020-04-06 17:53:03,176: Training model with <function train_cnn_regression_with_keras at 0x10dfeb710> on eye_strips_3_regression.pkl
 2020-04-06 18:21:49,126: Training with <function train_cnn_regression_with_keras at 0x10dfeb710> took 1725.9506380558014 seconds
+2020-04-06 19:19:50,798: Training model with <function train_cnn_regression_with_keras at 0x117a8b710> on eye_strips_4_regression.pkl
+2020-04-06 19:58:06,250: Training with <function train_cnn_regression_with_keras at 0x117a8b710> took 2295.4520959854126 seconds
+2020-04-06 20:09:32,998: Training model with <function train_cnn_regression_with_keras at 0x10f712710> on eye_strips_regression.pkl
+2020-04-06 20:43:29,391: Training with <function train_cnn_regression_with_keras at 0x10f712710> took 2036.3922717571259 seconds

@@ -29,7 +29,7 @@ class Predictor():
         print('Loading last trained model...')
         prediction_type = 'regression'
         trained_with = 'keras'
-        data_used = f'eye_strips_{Config.grid_size}_regression.pkl'
+        data_used = f'eye_strips_regression.pkl'
         # data_used = f'eye_strips_{Config.grid_size}.pkl'
         # data_used = f'thresholded_eyes_{Config.grid_size}.pkl'
         # data_used = f'extracted_faces_{Config.grid_size}.pkl'

@@ -34,7 +34,7 @@ def train_model(train_parameters):
     st = time.time()
     f = train_cnn_regression_with_keras
     # f = train_cnn_with_keras
-    f_args = (f'eye_strips_{Config.grid_size}_regression.pkl',
+    f_args = (f'eye_strips_regression.pkl',
               (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
     # f = train_mlp
     # Loading the data specific to the config's grid size
@@ -192,9 +192,9 @@ def train_cnn_regression_with_keras(which_data, input_shape):
     model.add(Dense(128, activation='relu'))
     model.add(Dense(2, activation='linear'))
 
-    opt = Adam()
+    opt = Adam(lr=0.01, decay=0.01 / train_parameters["epochs"])
     loss = 'mean_squared_error'
-    model.compile(optimizer='adam', loss=loss)
+    model.compile(optimizer=opt, loss=loss)
     start_time = time.time()
     fit_history = model.fit(
         X, y, epochs=train_parameters["epochs"], batch_size=train_parameters["batch_size"], validation_split=0.2, verbose=1)
@@ -399,7 +399,7 @@ def get_best_trained_model(prediction_type, trained_with=None, data_used=None, g
 
 if __name__ == '__main__':
     train_parameters = {
-        "epochs": 50,
+        "epochs": 100,
         "batch_size": 32,
     }
     res = train_model(train_parameters)

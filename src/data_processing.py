@@ -213,11 +213,11 @@ def process_data_for_regression(data, how_to_process_it):
     # save processed data
     print(f'Saving processed data: {len(X)} final items')
     if how_to_process_it == extract_eye_strips:
-        name = f'eye_strips_{Config.grid_size}_regression.pkl'
+        name = f'eye_strips_regression.pkl'
     elif how_to_process_it == extract_faces:
-        name = f'extracted_faces_{Config.grid_size}_regression.pkl'
+        name = f'extracted_faces_regression.pkl'
     elif how_to_process_it == extract_thresholded_eyes:
-        name = f'thresholded_eyes_{Config.grid_size}_regression.pkl'
+        name = f'thresholded_eyes_regression.pkl'
     save_processed_data((X, y), name)
 
 
