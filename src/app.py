@@ -5,17 +5,31 @@ import numpy as np
 import joblib
 import sys
 import time
+import logging
 
 
 # My files
 from src import trainer as Trainer
 from src.data_collector import DataCollector, DataObject, DataCollectionType
-from src.data_processing import main as data_processing_main
+from src.data_processing import main as data_processing_main, dp_logger
 from src.data_viewer import DataViewer
 from src.utils import get_screen_dimensions, run_function_on_thread
 from src.predictor import Predictor
 import config as Config
 
+class QTextEditLogger(logging.Handler, QtCore.QObject):
+    appendPlainText = QtCore.pyqtSignal(str)
+
+    def __init__(self, parent):
+        super().__init__()
+        QtCore.QObject.__init__(self)
+        self.widget = QtWidgets.QPlainTextEdit(parent)
+        self.widget.setReadOnly(True)
+        self.appendPlainText.connect(self.widget.appendPlainText)
+
+    def emit(self, record):
+        msg = self.format(record)
+        self.appendPlainText.emit(msg)
 
 class App(QtWidgets.QMainWindow):
     def __init__(self):
@@ -28,6 +42,16 @@ class App(QtWidgets.QMainWindow):
         if e.key() == QtCore.Qt.Key_Escape:
             self.close()
 
+    def create_log_widget(self):
+        logTextBox = QTextEditLogger(self)
+        logTextBox.setFormatter(
+        logging.Formatter('%(asctime)s %(levelname)s %(module)s %(funcName)s %(message)s'))
+        logging.getLogger().addHandler(logTextBox)
+        logging.getLogger().setLevel(logging.DEBUG)
+
+        return logTextBox.widget
+
+
     def display_main_menu(self):
         self.setWindowTitle('iClicker')
         # self.resize(*get_screen_dimensions())
@@ -35,7 +59,13 @@ class App(QtWidgets.QMainWindow):
         # creating layout
         main_widget = QtWidgets.QWidget()
         main_widget.setLayout(QtWidgets.QVBoxLayout())
-        self.top_menu_part = QtWidgets.QLabel('iClicker')
+        self.top_menu_part = QtWidgets.QWidget()
+        self.top_menu_part.setLayout(QtWidgets.QVBoxLayout())
+        self.top_menu_part.layout().addWidget(QtWidgets.QLabel('iClicker'))
+        log_widget = self.create_log_widget()
+        self.top_menu_part.layout().addWidget(log_widget)
+        self.top_menu_part.resize(100, 200)
+
         self.bottom_menu_part = QtWidgets.QWidget()
         main_widget.layout().addWidget(self.top_menu_part)
         main_widget.layout().addWidget(self.bottom_menu_part)
@@ -51,7 +81,7 @@ class App(QtWidgets.QMainWindow):
 
         process_data_button = QtWidgets.QPushButton('Process data')
         process_data_button.setToolTip('Process the collected data')
-        process_data_button.clicked.connect(lambda _: run_function_on_thread(data_processing_main))
+        process_data_button.clicked.connect(self.process_collected_data)
 
         train_button = QtWidgets.QPushButton('Train model')
         train_button.setToolTip('Train model based on collected data')
@@ -71,6 +101,9 @@ class App(QtWidgets.QMainWindow):
             for j in range(0, 2):
                 self.bottom_menu_part.layout().addWidget(
                     buttons[i * 2 + j], i, j)
+
+    def process_collected_data(self):
+        run_function_on_thread(data_processing_main)
 
 
     def view_data(self):

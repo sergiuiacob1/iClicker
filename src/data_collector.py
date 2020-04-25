@@ -226,8 +226,7 @@ class DataCollector():
         success, webcam_image = WebcamCapturer.get_webcam_image()
         if success is False:
             return
-        item = DataObject(webcam_image, mouse_position,
-                          (screen_width, screen_height))
+        item = DataObject(webcam_image, mouse_position, (screen_width, screen_height), Config.grid_size)
         self.collect_data_lock.acquire()
         self.collected_data.append(item)
         self.collect_data_lock.release()

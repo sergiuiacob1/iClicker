@@ -137,3 +137,6 @@
 2020-04-25 13:55:37,940: Loading data took 25.093852758407593 seconds
 2020-04-25 13:58:02,282: Loading data took 52.2051568031311 seconds
 2020-04-25 13:59:41,245: Processing data with <function extract_eye_strips at 0x122237b00> took 98.96275997161865 seconds for 2736 original items
+2020-04-25 14:51:21,197: Loading data took 24.2221519947052 seconds
+2020-04-25 14:52:41,433: Processing data with <function extract_eye_strips at 0x125870d40> took 80.23517799377441 seconds for 2736 original items
+2020-04-25 15:10:22,724: Loading data took 23.31386709213257 seconds

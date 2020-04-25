@@ -1,0 +1,14 @@
+dependencies needed:
+- torch
+- torchvision
+- keras
+- tensorflow
+- joblib
+- pynput
+- imutils
+- apt-get update
+- for linux: sudo apt-get install libopenblas-dev liblapack-dev 
+- dlib
+- opencv-python-headless
+- pyqt5
+- seaborn
