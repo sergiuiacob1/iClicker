@@ -10,6 +10,7 @@ import time
 # My files
 from src import trainer as Trainer
 from src.data_collector import DataCollector, DataObject, DataCollectionType
+from src.data_processing import main as data_processing_main
 from src.data_viewer import DataViewer
 from src.utils import get_screen_dimensions, run_function_on_thread
 from src.predictor import Predictor
@@ -48,6 +49,10 @@ class App(QtWidgets.QMainWindow):
         collect_data_button.setToolTip('Collect training data')
         collect_data_button.clicked.connect(self.collect_data)
 
+        process_data_button = QtWidgets.QPushButton('Process data')
+        process_data_button.setToolTip('Process the collected data')
+        process_data_button.clicked.connect(lambda _: run_function_on_thread(data_processing_main))
+
         train_button = QtWidgets.QPushButton('Train model')
         train_button.setToolTip('Train model based on collected data')
         train_button.clicked.connect(
@@ -61,12 +66,12 @@ class App(QtWidgets.QMainWindow):
         view_data_button.setToolTip('View collected data')
         view_data_button.clicked.connect(self.view_data)
 
-        buttons = [collect_data_button, train_button,
-                   predict_button, view_data_button]
+        buttons = [collect_data_button, process_data_button, train_button, predict_button]
         for i in range(0, 2):
             for j in range(0, 2):
                 self.bottom_menu_part.layout().addWidget(
                     buttons[i * 2 + j], i, j)
+
 
     def view_data(self):
         # TODO put this on a thread?

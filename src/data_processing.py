@@ -221,7 +221,7 @@ def process_data_for_regression(data, how_to_process_it):
     save_processed_data((X, y), name)
 
 
-if __name__ == '__main__':
+def main():
     # load the data
     print('Loading collected data...')
     data = load_collected_data()
@@ -237,3 +237,6 @@ if __name__ == '__main__':
     s = f'Processing data with {f} took {time.time() - start} seconds for {len(data)} original items'
     print(s)
     dp_logger.info(s)
+
+if __name__ == '__main__':
+    main()
