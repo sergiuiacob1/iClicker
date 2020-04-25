@@ -4,13 +4,13 @@ from cv2 import cv2
 __doc__ = "Functions useful for PyQt GUI"
 
 
-def build_button(name, tooltip, function):
+def build_button(name, tooltip, function, f_args = tuple()):
     """
-    Builds and retungs a QtWidgets.QPushButton with the given `name`, `tooltip` and `function`
+    Builds and returns a QtWidgets.QPushButton with the given `name`, `tooltip` and `function`
     """
     button = QtWidgets.QPushButton(name)
     button.setToolTip(tooltip)
-    button.clicked.connect(function)
+    button.clicked.connect(lambda _: function(f_args))
     return button
 
 

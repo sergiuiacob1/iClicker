@@ -10,7 +10,7 @@ import logging
 
 # My files
 from src import trainer as Trainer
-from src.data_collector import DataCollector, DataObject, DataCollectionType
+from src.data_collector import DataCollector, DataObject
 from src.data_processing import main as data_processing_main, dp_logger
 from src.data_viewer import DataViewer
 from src.utils import get_screen_dimensions, run_function_on_thread
@@ -44,8 +44,7 @@ class App(QtWidgets.QMainWindow):
 
     def create_log_widget(self):
         logTextBox = QTextEditLogger(self)
-        logTextBox.setFormatter(
-        logging.Formatter('%(asctime)s %(levelname)s %(module)s %(funcName)s %(message)s'))
+        logTextBox.setFormatter(logging.Formatter('%(asctime)s: %(message)s'))
         logging.getLogger().addHandler(logTextBox)
         logging.getLogger().setLevel(logging.DEBUG)
 
@@ -62,8 +61,8 @@ class App(QtWidgets.QMainWindow):
         self.top_menu_part = QtWidgets.QWidget()
         self.top_menu_part.setLayout(QtWidgets.QVBoxLayout())
         self.top_menu_part.layout().addWidget(QtWidgets.QLabel('iClicker'))
-        log_widget = self.create_log_widget()
-        self.top_menu_part.layout().addWidget(log_widget)
+        self.log_widget = self.create_log_widget()
+        self.top_menu_part.layout().addWidget(self.log_widget)
         self.top_menu_part.resize(100, 200)
 
         self.bottom_menu_part = QtWidgets.QWidget()
@@ -118,4 +117,4 @@ class App(QtWidgets.QMainWindow):
         Trainer.save_model(model)
 
     def collect_data(self):
-        self.data_collector.start_collecting(DataCollectionType.BACKGROUND)
+        self.data_collector.collect_data()

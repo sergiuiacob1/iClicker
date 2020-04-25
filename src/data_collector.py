@@ -8,6 +8,7 @@ import numpy as np
 from cv2 import cv2
 import pynput
 from enum import Enum
+from PyQt5 import QtWidgets
 
 # My files
 from src.mouse_listener import MouseListener
@@ -21,10 +22,7 @@ from src.ui.data_collector_gui import DataCollectorGUI
 
 screen_width, screen_height = Utils.get_screen_dimensions()
 
-
-class DataCollectionType:
-    BACKGROUND = 1
-    ACTIVE = 2
+dc_logger = Utils.setup_logger('dc_logger', 'data_collector.log')
 
 
 class DataCollector():
@@ -38,16 +36,20 @@ class DataCollector():
         self.pause_event = threading.Lock()
         self.gui = DataCollectorGUI(self)
 
-    def start_collecting(self, collection_type=DataCollectionType.BACKGROUND):
-        # TODO document background/active
-        print(f'Start collecting data in {collection_type} mode')
+    def collect_data(self):
+        """Displays a multi-choice widget for the user to choose how the data collection should go."""
+        self.gui.show_how_to_collect_data()
+
+
+    def start_collecting(self, collection_type):
+        dc_logger.info(f'Start collecting data in {collection_type} mode')
         WebcamCapturer.start_capturing()
         self.gui.start()
-        print('DataCollectorGUI started')
-        if collection_type == DataCollectionType.BACKGROUND:
+        dc_logger.info('DataCollectorGUI started')
+        if collection_type == 'background':
             self.mouse_listener.start_listening()
-            print('Mouse listener started')
-        elif collection_type == DataCollectionType.ACTIVE:
+            dc_logger.info('Mouse listener started')
+        elif collection_type == 'active':
             threading.Thread(target=self.start_active_collection).start()
 
     def start_active_collection(self):
@@ -89,21 +91,21 @@ class DataCollector():
             step_x = -step_x
             start, end = end, start
 
-        print('Collecting data items ended')
+        dc_logger.info('Collecting data items ended')
         assert (self.collect_data_lock.locked(
         ) == False), "The lock for data collection should be unreleased, because I finished collecting items"
 
     def increase_speed(self):
-        print('Increasing speed')
+        dc_logger.info('Increasing speed')
         self.cursor_move_delay -= 0.005
         self.cursor_move_delay = max(0, self.cursor_move_delay)
 
     def decrease_speed(self):
-        print('Decreasing speed')
+        dc_logger.info('Decreasing speed')
         self.cursor_move_delay += 0.005
 
     def pause(self):
-        print('Triggered pause')
+        dc_logger.info('Triggered pause')
         self.is_paused = not self.is_paused
         if self.is_paused:
             self.pause_event.acquire()
@@ -113,21 +115,21 @@ class DataCollector():
     def save_collected_data(self):
         if len(self.collected_data) == 0:
             return
-        print(
+        dc_logger.info(
             f'Acquiring lock for data collection. Locked = {self.collect_data_lock.locked()}')
         self.collect_data_lock.acquire()
-        print('Lock acquired')
+        dc_logger.info('Lock acquired')
         session_no = self.get_session_number()
-        print(f"Saving data for session_{session_no}")
+        dc_logger.info(f"Saving data for session_{session_no}")
         self.save_session_info(session_no)
         self.save_images_info(session_no)
         self.save_images(session_no)
         self.collect_data_lock.release()
         self.collected_data = []
-        print('Saving data done')
+        dc_logger.info('Saving data done')
 
     def save_images(self, session_no):
-        print('\n')
+        dc_logger.info('\n')
         dir_path = os.path.join(Config.data_directory_path, 'images')
         os.makedirs(dir_path, exist_ok=True)
         threads = []
@@ -148,12 +150,12 @@ class DataCollector():
         # wait for all threads
         for t in threads:
             t.join()
-        print('\n')
+        dc_logger.info('\n')
 
     def save_images_per_thread(self, session_no, start, end, thread_no):
         """This is run on a different thread; only saves images from [start, end] indexes"""
         dir_path = os.path.join(Config.data_directory_path, 'images')
-        print(f'Thread {thread_no}: Saving images from {start} to {end}')
+        dc_logger.info(f'Thread {thread_no}: Saving images from {start} to {end}')
         time.sleep(0.01)  # just to make prints prettier
         last_print = time.time()
         for (index, obj) in enumerate(self.collected_data[start:end]):
@@ -162,7 +164,7 @@ class DataCollector():
             # every 2 seconds, print progress
             if time.time() - last_print >= 2:
                 last_print = time.time()
-                print(
+                dc_logger.info(
                     f'Thread {thread_no}: saved {index}/{end - start} images')
 
     def save_images_info(self, session_no):
@@ -206,7 +208,7 @@ class DataCollector():
         return data.get('total_sessions', 0) + 1
 
     def end_data_collection(self):
-        print(f'Saving collected data: {len(self.collected_data)} items')
+        dc_logger.info(f'Saving collected data: {len(self.collected_data)} items')
         self.is_paused = False
         if self.pause_event.locked():
             self.pause_event.release()

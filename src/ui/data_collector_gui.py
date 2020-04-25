@@ -5,11 +5,13 @@ from PyQt5.QtCore import Qt
 
 # My files
 from src.webcam_capturer import get_webcam_image
+from src.utils import setup_logger
 # ui
 from src.ui.eye_contour import EyeContour
 from src.ui.eye_widget import EyeWidget
-from src.ui.ui_utils import get_qimage_from_cv2
+from src.ui.ui_utils import get_qimage_from_cv2, build_button
 
+dc_logger = setup_logger('dc_logger', 'data_collector.log')
 
 class DataCollectorGUI(QtWidgets.QMainWindow):
     def __init__(self, controller):
@@ -19,6 +21,25 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
         self.create_window()
         self.face_detector = None
 
+
+    def show_how_to_collect_data(self):
+        widget = QtWidgets.QWidget()
+        widget.setLayout(QtWidgets.QVBoxLayout())
+        text = QtWidgets.QLabel('Active collection:\nIn this type of collection, the mouse cursor will be moving on the screen and you have to follow it.\nYou can pause it using the SPACEBAR. You can increase or decrease it\'s speed using UP_ARROW and DOWN_ARROW.\n\nBackground collection:\nEvery time you click somewhere, a picture from the webcam will be taken and saved with the mouse cursor position.\nTo finish data collection, close the window.\n')
+        widget.layout().addWidget(text)
+        active_button = build_button('Active collection', 'Start collecting data in active mode', self.start_collecting, f_args = ('active'))
+        background_button = build_button('Background collection', 'Start collecting data in background mode', self.start_collecting, f_args = ('background'))
+
+        widget.layout().addWidget(active_button)
+        widget.layout().addWidget(background_button)
+        self.choose_widget = widget
+        widget.show()
+
+    def start_collecting(self, collection_type):
+        """Closes the widget that the user used to choose how the data should be collected and starts collecting data."""
+        self.choose_widget.close()
+        self.controller.start_collecting(collection_type)
+
     def start(self):
         # self.eye_widget.show()
         self.show()
@@ -26,11 +47,11 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
 
     def closeEvent(self, event):
         """This function is ran when the training data window is closed"""
-        print('Closing DataCollectorGUI')
+        dc_logger.info('Closing DataCollectorGUI')
         # self.eye_widget.close()
-        print('EyeWidget was closed')
+        dc_logger.info('EyeWidget was closed')
         self.close()
-        print('DataCollectorGUI closed')
+        dc_logger.info('DataCollectorGUI closed')
         self.controller.end_data_collection()
 
     # TODO derive this from BaseGUI and delete this below
@@ -57,7 +78,7 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
         Automatically stops when the training data window is closed
         """
         # Only do this as long as the window is visible
-        print('Displaying images from webcam...')
+        dc_logger.info('Displaying images from webcam...')
         fps = 30
         while self.isVisible():
             success, image = get_webcam_image()
@@ -70,7 +91,7 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
             self.webcam_image_widget.setPixmap(
                 QtGui.QPixmap.fromImage(qt_image))
             time.sleep(1.0/fps)
-        print('Stop displaying images from the webcam')
+        dc_logger.info('Stop displaying images from the webcam')
 
     def update_eye_contours(self, image):
         # TODO this isn't done

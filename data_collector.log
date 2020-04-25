@@ -1,0 +1,121 @@
+2020-04-25 19:04:36,591: Start collecting data in background mode
+2020-04-25 19:04:37,378: DataCollectorGUI started
+2020-04-25 19:04:37,404: Mouse listener started
+2020-04-25 19:06:46,187: Start collecting data in background mode
+2020-04-25 19:06:46,945: DataCollectorGUI started
+2020-04-25 19:06:46,960: Mouse listener started
+2020-04-25 19:07:33,973: Start collecting data in background mode
+2020-04-25 19:07:34,722: DataCollectorGUI started
+2020-04-25 19:07:34,751: Mouse listener started
+2020-04-25 19:08:40,791: Start collecting data in active mode
+2020-04-25 19:08:41,528: DataCollectorGUI started
+2020-04-25 19:08:44,291: Triggered pause
+2020-04-25 19:09:23,715: Saving collected data: 14 items
+2020-04-25 19:09:24,054: Acquiring lock for data collection. Locked = False
+2020-04-25 19:09:24,060: Lock acquired
+2020-04-25 19:09:24,060: Saving data for session_7
+2020-04-25 19:09:24,062: 
+
+2020-04-25 19:09:24,064: Thread 1: Saving images from 0 to 4
+2020-04-25 19:09:24,064: Thread 2: Saving images from 4 to 8
+2020-04-25 19:09:24,065: Thread 3: Saving images from 8 to 12
+2020-04-25 19:09:24,066: Thread 4: Saving images from 12 to 18
+2020-04-25 19:09:24,288: 
+
+2020-04-25 19:09:24,289: Saving data done
+2020-04-25 19:09:53,110: Start collecting data in active mode
+2020-04-25 19:09:53,110: Start collecting data in active mode
+2020-04-25 19:09:53,852: Displaying images from webcam...
+2020-04-25 19:09:53,852: Displaying images from webcam...
+2020-04-25 19:09:53,852: DataCollectorGUI started
+2020-04-25 19:09:53,852: DataCollectorGUI started
+2020-04-25 19:09:56,205: Triggered pause
+2020-04-25 19:09:56,205: Triggered pause
+2020-04-25 19:09:56,725: Increasing speed
+2020-04-25 19:09:56,725: Increasing speed
+2020-04-25 19:09:56,908: Increasing speed
+2020-04-25 19:09:56,908: Increasing speed
+2020-04-25 19:09:57,061: Increasing speed
+2020-04-25 19:09:57,061: Increasing speed
+2020-04-25 19:09:57,214: Increasing speed
+2020-04-25 19:09:57,214: Increasing speed
+2020-04-25 19:09:57,363: Increasing speed
+2020-04-25 19:09:57,363: Increasing speed
+2020-04-25 19:09:57,509: Increasing speed
+2020-04-25 19:09:57,509: Increasing speed
+2020-04-25 19:09:58,900: Triggered pause
+2020-04-25 19:09:58,900: Triggered pause
+2020-04-25 19:09:59,373: Increasing speed
+2020-04-25 19:09:59,373: Increasing speed
+2020-04-25 19:09:59,536: Increasing speed
+2020-04-25 19:09:59,536: Increasing speed
+2020-04-25 19:09:59,706: Increasing speed
+2020-04-25 19:09:59,706: Increasing speed
+2020-04-25 19:10:00,308: Increasing speed
+2020-04-25 19:10:00,308: Increasing speed
+2020-04-25 19:10:00,474: Increasing speed
+2020-04-25 19:10:00,474: Increasing speed
+2020-04-25 19:10:00,658: Increasing speed
+2020-04-25 19:10:00,658: Increasing speed
+2020-04-25 19:10:06,200: Triggered pause
+2020-04-25 19:10:06,200: Triggered pause
+2020-04-25 19:10:06,656: Triggered pause
+2020-04-25 19:10:06,656: Triggered pause
+2020-04-25 19:10:06,880: Decreasing speed
+2020-04-25 19:10:06,880: Decreasing speed
+2020-04-25 19:10:07,039: Decreasing speed
+2020-04-25 19:10:07,039: Decreasing speed
+2020-04-25 19:10:07,185: Decreasing speed
+2020-04-25 19:10:07,185: Decreasing speed
+2020-04-25 19:10:07,330: Decreasing speed
+2020-04-25 19:10:07,330: Decreasing speed
+2020-04-25 19:10:07,486: Decreasing speed
+2020-04-25 19:10:07,486: Decreasing speed
+2020-04-25 19:10:11,217: Triggered pause
+2020-04-25 19:10:11,217: Triggered pause
+2020-04-25 19:10:14,319: Triggered pause
+2020-04-25 19:10:14,319: Triggered pause
+2020-04-25 19:10:17,079: Triggered pause
+2020-04-25 19:10:17,079: Triggered pause
+2020-04-25 19:10:17,827: Closing DataCollectorGUI
+2020-04-25 19:10:17,827: Closing DataCollectorGUI
+2020-04-25 19:10:17,828: EyeWidget was closed
+2020-04-25 19:10:17,828: EyeWidget was closed
+2020-04-25 19:10:17,829: DataCollectorGUI closed
+2020-04-25 19:10:17,829: DataCollectorGUI closed
+2020-04-25 19:10:17,829: Saving collected data: 278 items
+2020-04-25 19:10:17,829: Saving collected data: 278 items
+2020-04-25 19:10:18,201: Acquiring lock for data collection. Locked = False
+2020-04-25 19:10:18,201: Acquiring lock for data collection. Locked = False
+2020-04-25 19:10:18,209: Lock acquired
+2020-04-25 19:10:18,209: Lock acquired
+2020-04-25 19:10:18,210: Saving data for session_8
+2020-04-25 19:10:18,210: Saving data for session_8
+2020-04-25 19:10:18,220: 
+
+2020-04-25 19:10:18,220: 
+
+2020-04-25 19:10:18,223: Stop displaying images from the webcam
+2020-04-25 19:10:18,223: Stop displaying images from the webcam
+2020-04-25 19:10:18,226: Thread 1: Saving images from 0 to 71
+2020-04-25 19:10:18,226: Thread 1: Saving images from 0 to 71
+2020-04-25 19:10:18,243: Thread 2: Saving images from 71 to 142
+2020-04-25 19:10:18,243: Thread 2: Saving images from 71 to 142
+2020-04-25 19:10:18,252: Thread 3: Saving images from 142 to 213
+2020-04-25 19:10:18,252: Thread 3: Saving images from 142 to 213
+2020-04-25 19:10:18,258: Thread 4: Saving images from 213 to 284
+2020-04-25 19:10:18,258: Thread 4: Saving images from 213 to 284
+2020-04-25 19:10:20,281: Thread 4: saved 65/71 images
+2020-04-25 19:10:20,281: Thread 4: saved 65/71 images
+2020-04-25 19:10:20,312: Thread 3: saved 65/71 images
+2020-04-25 19:10:20,312: Thread 3: saved 65/71 images
+2020-04-25 19:10:20,356: Thread 2: saved 66/71 images
+2020-04-25 19:10:20,356: Thread 2: saved 66/71 images
+2020-04-25 19:10:20,387: Thread 1: saved 65/71 images
+2020-04-25 19:10:20,387: Thread 1: saved 65/71 images
+2020-04-25 19:10:20,611: 
+
+2020-04-25 19:10:20,611: 
+
+2020-04-25 19:10:20,646: Saving data done
+2020-04-25 19:10:20,646: Saving data done
