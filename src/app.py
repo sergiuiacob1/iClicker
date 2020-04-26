@@ -80,7 +80,7 @@ class App(QtWidgets.QMainWindow):
 
         process_data_button = QtWidgets.QPushButton('Process data')
         process_data_button.setToolTip('Process the collected data')
-        process_data_button.clicked.connect(self.process_collected_data)
+        process_data_button.clicked.connect(lambda _: run_function_on_thread(self.process_collected_data))
 
         train_button = QtWidgets.QPushButton('Train model')
         train_button.setToolTip('Train model based on collected data')
@@ -91,9 +91,9 @@ class App(QtWidgets.QMainWindow):
         predict_button.setToolTip('Predict cursor position')
         predict_button.clicked.connect(self.predictor.start)
 
-        view_data_button = QtWidgets.QPushButton('View data')
-        view_data_button.setToolTip('View collected data')
-        view_data_button.clicked.connect(self.view_data)
+        # view_data_button = QtWidgets.QPushButton('View data')
+        # view_data_button.setToolTip('View collected data')
+        # view_data_button.clicked.connect(self.view_data)
 
         buttons = [collect_data_button, process_data_button, train_button, predict_button]
         for i in range(0, 2):
@@ -102,7 +102,12 @@ class App(QtWidgets.QMainWindow):
                     buttons[i * 2 + j], i, j)
 
     def process_collected_data(self):
-        run_function_on_thread(data_processing_main)
+        try:
+            data_processing_main()
+        except Exception as e:
+            ...
+            # self.error_dialog = QtWidgets.QErrorMessage()
+            # self.error_dialog.showMessage(str(e))
 
 
     def view_data(self):
@@ -113,8 +118,8 @@ class App(QtWidgets.QMainWindow):
         self.data_viewer.view_data(data)
 
     def train_model(self):
-        model = Trainer.train_model()
-        Trainer.save_model(model)
+        # run_function_on_thread(Trainer.main)
+        Trainer.main()
 
     def collect_data(self):
         self.data_collector.collect_data()

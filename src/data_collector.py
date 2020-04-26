@@ -22,7 +22,7 @@ from src.ui.data_collector_gui import DataCollectorGUI
 
 screen_width, screen_height = Utils.get_screen_dimensions()
 
-dc_logger = Utils.setup_logger('dc_logger', 'data_collector.log')
+dc_logger = Utils.setup_logger('dc_logger', './logs/data_collector.log')
 
 
 class DataCollector():

@@ -11,7 +11,7 @@ from src.ui.eye_contour import EyeContour
 from src.ui.eye_widget import EyeWidget
 from src.ui.ui_utils import get_qimage_from_cv2, build_button
 
-dc_logger = setup_logger('dc_logger', 'data_collector.log')
+dc_logger = setup_logger('dc_logger', './logs/data_collector.log')
 
 class DataCollectorGUI(QtWidgets.QMainWindow):
     def __init__(self, controller):

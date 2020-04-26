@@ -6,6 +6,8 @@ from threading import Lock
 import json
 import math
 import time
+import datetime
+from keras.callbacks import Callback
 
 # My files
 import config as Config
@@ -14,7 +16,21 @@ from src.utils import setup_logger
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 last_model_number_lock = Lock()
-train_logger = setup_logger('train_logger', 'train.log')
+train_logger = setup_logger('train_logger', './logs/train.log')
+
+class MyCustomCallback(Callback):
+    global train_logger
+    def on_train_batch_begin(self, batch, logs=None):
+        train_logger.info('Training: batch {} begins at {}'.format(batch, datetime.datetime.now().time()))
+
+    def on_train_batch_end(self, batch, logs=None):
+        train_logger.info('Training: batch {} ends at {}'.format(batch, datetime.datetime.now().time()))
+
+    def on_test_batch_begin(self, batch, logs=None):
+        train_logger.info('Evaluating: batch {} begins at {}'.format(batch, datetime.datetime.now().time()))
+
+    def on_test_batch_end(self, batch, logs=None):
+        train_logger.info('Evaluating: batch {} ends at {}'.format(batch, datetime.datetime.now().time()))
 
 
 def get_last_model_number():
@@ -34,8 +50,7 @@ def train_model(train_parameters):
     st = time.time()
     f = train_cnn_regression_with_keras
     # f = train_cnn_with_keras
-    f_args = (f'eye_strips_regression.pkl',
-              (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
+    f_args = (f'eye_strips_regression.pkl', (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1), train_parameters)
     # f = train_mlp
     # Loading the data specific to the config's grid size
     # f_args = (f'eye_strips_{Config.grid_size}.pkl',
@@ -43,7 +58,6 @@ def train_model(train_parameters):
     # f_args = (f'extracted_faces_{Config.grid_size}.pkl',
     #           (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1))
     # f_args = (f'thresholded_eyes_{Config.grid_size}.pkl',)
-    print(f'Training model with {f} on {f_args[0]}')
     train_logger.info(f'Training model with {f} on {f_args[0]}')
     res = f(*f_args)
     res['training_time'] = time.time() - st
@@ -51,15 +65,14 @@ def train_model(train_parameters):
     return res
 
 
-def train_mlp(which_data):
+def train_mlp(which_data, train_parameters):
     # Lazy import so the app starts faster
     from keras.models import Sequential
     from keras.layers import Dense, ReLU, Dropout, Flatten
     from keras.optimizers import RMSprop, Adam
     from keras import regularizers
-    from keras import backend as K
 
-    print(f'Loading train data: {which_data}')
+    train_logger.info(f'Loading train data: {which_data}')
     X, y = get_data(which_data)
     # shuffle the data
     perm = permutation(len(X))
@@ -69,7 +82,7 @@ def train_mlp(which_data):
     n = X[0].shape[0] * X[0].shape[1]
     X = np.array([x.flatten() for x in X])
 
-    print('Training neural network...')
+    train_logger.info('Training neural network...')
     model = Sequential([
         Dense(100, input_shape=(n,), kernel_initializer='glorot_uniform',
               kernel_regularizer=regularizers.l2(0.01)),
@@ -105,14 +118,14 @@ def train_mlp(which_data):
     }
 
 
-def train_cnn_with_keras(which_data, input_shape):
+def train_cnn_with_keras(which_data, input_shape, train_parameters):
     # Lazy import so the app starts faster
     from keras.models import Sequential
     from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
     from keras.optimizers import RMSprop, Adam, Adagrad, SGD
     from keras import backend as K
 
-    print('Loading train data...')
+    train_logger.info('Loading train data...')
     X, y = get_data(which_data)
     # shuffle the data
     n = len(X)
@@ -144,7 +157,7 @@ def train_cnn_with_keras(which_data, input_shape):
     fit_history = model.fit(
         X, y, epochs=train_parameters["epochs"], batch_size=train_parameters["batch_size"], validation_split=0.2, verbose=1)
     end_time = time.time()
-    print('Training done')
+    train_logger.info('Training done')
     return {
         "model": model,
         "type": "CNN",
@@ -160,14 +173,13 @@ def train_cnn_with_keras(which_data, input_shape):
     }
 
 
-def train_cnn_regression_with_keras(which_data, input_shape):
+def train_cnn_regression_with_keras(which_data, input_shape, train_parameters):
     # Lazy import so the app starts faster
     from keras.models import Sequential
     from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
     from keras.optimizers import RMSprop, Adam, Adagrad, SGD
-    from keras import backend as K
 
-    print('Loading train data...')
+    train_logger.info('Loading train data...')
     X, y = get_data(which_data)
     # shuffle the data
     n = len(X)
@@ -199,7 +211,7 @@ def train_cnn_regression_with_keras(which_data, input_shape):
     fit_history = model.fit(
         X, y, epochs=train_parameters["epochs"], batch_size=train_parameters["batch_size"], validation_split=0.2, verbose=1)
     end_time = time.time()
-    print('Training done')
+    train_logger.info('Training done')
     return {
         "model": model,
         "type": "CNN",
@@ -278,8 +290,8 @@ def save_model(model, train_parameters={}):
     """
     `model` is a dictionary containing information about the model and the model itself.
     """
-    print(model["model"])
-    print('Saving model...')
+    train_logger.info(model["model"])
+    train_logger.info('Saving model...')
     model_name = get_next_model_name()
     model_path = os.path.join(
         os.getcwd(), Config.models_directory_path, model_name)
@@ -294,7 +306,7 @@ def save_model(model, train_parameters={}):
         with open(conf_path, 'w') as f:
             json.dump(config, f)
     except Exception as e:
-        print(f'Could not save model configuration: {e}')
+        train_logger.info(f'Could not save model configuration: {e}')
         return
     # finally, save the serialized model
     if config["trained_with"] == "pytorch":
@@ -302,7 +314,7 @@ def save_model(model, train_parameters={}):
         torch.save(model["model"].state_dict(), model_path)
     else:
         joblib.dump(model["model"], model_path)
-    print(f'Model saved as {model_name}')
+    train_logger.info(f'Model saved as {model_name}')
 
 
 def get_next_model_name():
@@ -318,7 +330,7 @@ def get_next_model_name():
 
 
 def get_best_trained_model(prediction_type, trained_with=None, data_used=None, get_last_or_best="last"):
-    print(
+    train_logger.info(
         f'Loading model trained with {trained_with} on {data_used} for a grid size of {Config.grid_size}')
     # Check that the directory with models exists
     if os.path.exists(Config.models_directory_path) is False:
@@ -377,7 +389,7 @@ def get_best_trained_model(prediction_type, trained_with=None, data_used=None, g
             best_model_info = data
 
     if best_model_name == '':
-        print('No model was found')
+        train_logger.info('No model was found')
         return None
     try:
         if best_model_info['trained_with'] == 'keras':
@@ -390,17 +402,20 @@ def get_best_trained_model(prediction_type, trained_with=None, data_used=None, g
             # TODO maybe trained with pytorch, do this case too
             return None
     except Exception as e:
-        print(f'Could not load model {best_model_name}: {str(e)}')
+        train_logger.info(f'Could not load model {best_model_name}: {str(e)}')
         return None
 
-    print(f'Model chosen: {best_model_name}')
+    train_logger.info(f'Model chosen: {best_model_name}')
     return model
 
 
-if __name__ == '__main__':
+def main():
     train_parameters = {
         "epochs": 100,
         "batch_size": 32,
     }
     res = train_model(train_parameters)
     save_model(res, train_parameters=train_parameters)
+
+if __name__ == '__main__':
+    main()

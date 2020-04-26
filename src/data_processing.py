@@ -47,7 +47,7 @@ def load_collected_data():
     images_path = os.path.join(data_path, "images")
 
     if os.path.exists(os.path.join(data_path, "sessions.json")) is False:
-        return []
+        return None
 
     with open(os.path.join(data_path, "sessions.json")) as f:
         sessions_info = json.load(f)
@@ -60,7 +60,7 @@ def load_collected_data():
             try:
                 session_items = json.load(f)
             except Exception as e:
-                print(f'Could not process session {i}: {str(e)}')
+                dp_logger.info(f'Could not process session {i}: {str(e)}')
 
         # TODO try to do this, but careful; test before and after
         # temp = [None] * len(session_items)
@@ -79,6 +79,7 @@ def load_collected_data():
             mouse_position = session_items[x]["mouse_position"]
             data.append(DataObject(
                 img, mouse_position, screen_size, Config.grid_size))
+        
     dp_logger.info(f'Loading data took {time.time() - st} seconds')
     return data
 
@@ -134,6 +135,7 @@ def extract_eye_strips(X):
     """This extracts eye strips from the images.
 
     Returns a `np.array`."""
+
     for i in range(0, len(X)):
         X[i] = face_detector.extract_eye_strip(X[i])
         # in case no face was detected
@@ -161,28 +163,28 @@ def process_data(data, how_to_process_it):
     # # right now, get data close to the corners
     # data = [x for x in data if x.cell in [0, Config.grid_size - 1,
     #                                       Config.grid_size * (Config.grid_size - 1), Config.grid_size * Config.grid_size - 1]]
-    # print(f'Only selected corner data: {len(data)} items')
+    # dp_logger.info(f'Only selected corner data: {len(data)} items')
 
     # process it
-    print(f'Processing data using {how_to_process_it}')
+    dp_logger.info(f'Processing data using {how_to_process_it}')
     X = how_to_process_it([x.image for x in data])
     y = [[1 if i == x.cell else 0 for i in range(0, Config.grid_size * Config.grid_size)]
          for x in data]
     y = np.array(y)
     # it's possible that some instances couldn't be processed, therefore eliminate those
-    print(f'Selecting data for which faces were found. Before: {len(X)} items')
+    dp_logger.info(f'Selecting data for which faces were found. Before: {len(X)} items')
     instances_success = [True] * len(X)
     for (index, x) in enumerate(X):
         if x is None:
             instances_success[index] = False
     X = X[instances_success]
     y = y[instances_success]
-    print(f'After: {len(X)} items')
+    dp_logger.info(f'After: {len(X)} items')
 
     assert (np.amax(X) <= 1), "Data isn't normalised"
 
     # save processed data
-    print(f'Saving processed data: {len(X)} final items')
+    dp_logger.info(f'Saving processed data: {len(X)} final items')
     if how_to_process_it == extract_eye_strips:
         name = f'eye_strips_{Config.grid_size}.pkl'
     elif how_to_process_it == extract_faces:
@@ -194,24 +196,24 @@ def process_data(data, how_to_process_it):
 
 def process_data_for_regression(data, how_to_process_it):
     # process it
-    print(f'Processing data using {how_to_process_it}')
+    dp_logger.info(f'Processing data using {how_to_process_it}')
     X = how_to_process_it([x.image for x in data])
     y = [x.mouse_position for x in data]
     y = np.array(y)
     # it's possible that some instances couldn't be processed, therefore eliminate those
-    print(f'Selecting data for which faces were found. Before: {len(X)} items')
+    dp_logger.info(f'Selecting data for which faces were found. Before: {len(X)} items')
     instances_success = [True] * len(X)
     for (index, x) in enumerate(X):
         if x is None:
             instances_success[index] = False
     X = X[instances_success]
     y = y[instances_success]
-    print(f'After: {len(X)} items')
+    dp_logger.info(f'After: {len(X)} items')
 
     assert (np.amax(X) <= 1), "Data isn't normalised"
 
     # save processed data
-    print(f'Saving processed data: {len(X)} final items')
+    dp_logger.info(f'Saving processed data: {len(X)} final items')
     if how_to_process_it == extract_eye_strips:
         name = f'eye_strips_regression.pkl'
     elif how_to_process_it == extract_faces:
@@ -223,9 +225,12 @@ def process_data_for_regression(data, how_to_process_it):
 
 def main():
     # load the data
-    print('Loading collected data...')
+    dp_logger.info('Loading collected data...')
     data = load_collected_data()
-    print(f'Loaded {len(data)} items')
+    if data is None:
+        dp_logger.info('No collected data found')
+        raise Exception('No collected data found')
+    dp_logger.info(f'Loaded {len(data)} items')
 
     # f = extract_thresholded_eyes
     # f = extract_faces
@@ -235,7 +240,6 @@ def main():
     # process_data(data, f)
     process_data_for_regression(data, f)
     s = f'Processing data with {f} took {time.time() - start} seconds for {len(data)} original items'
-    print(s)
     dp_logger.info(s)
 
 if __name__ == '__main__':
