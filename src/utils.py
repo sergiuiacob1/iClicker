@@ -76,6 +76,16 @@ def get_binary_thresholded_image(cv2_image):
 #     input[start:end] = [func(x, *f_args) for x in input[start:end]]
 
 
+def attach_logger_to_stdout():
+    # print every message that I log
+    console = logging.StreamHandler()
+    console.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+    # tell the handler to use this format
+    console.setFormatter(formatter)
+    # add the handler to the root logger
+    logging.getLogger('').addHandler(console)
+
 def setup_logger(name, log_file, level=logging.INFO):
     """To setup as many loggers as you want"""
     os.makedirs('./logs', exist_ok=True)

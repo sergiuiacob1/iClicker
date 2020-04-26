@@ -135,3 +135,298 @@
 2020-04-26 14:18:16,892: Loading train data...
 2020-04-26 14:19:19,555: Training model with <function train_cnn_regression_with_keras at 0x6436b3830> on eye_strips_regression.pkl
 2020-04-26 14:19:19,555: Loading train data...
+2020-04-26 14:25:50,672: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-04-26 14:25:50,821: Could not load model model_23.pkl: '_thread._local' object has no attribute 'value'
+2020-04-26 14:28:40,347: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-04-26 14:28:40,369: Could not load model model_23.pkl: module 'tensorflow' has no attribute 'reset_default_graph'
+2020-04-26 14:29:20,958: Training model with <function train_cnn_regression_with_keras at 0x638f670e0> on eye_strips_regression.pkl
+2020-04-26 14:29:20,958: Loading train data...
+2020-04-26 14:30:15,503: Training model with <function train_cnn_regression_with_keras at 0x63d7130e0> on eye_strips_regression.pkl
+2020-04-26 14:30:15,503: Loading train data...
+2020-04-26 14:30:41,963: Training model with <function train_cnn_regression_with_keras at 0x63c5db170> on eye_strips_regression.pkl
+2020-04-26 14:30:41,964: Loading train data...
+2020-04-26 14:31:48,379: Training model with <function train_cnn_regression_with_keras at 0x63c31a9e0> on eye_strips_regression.pkl
+2020-04-26 14:31:48,380: Loading train data...
+2020-04-26 14:32:03,366: Training model with <function train_cnn_regression_with_keras at 0x6415039e0> on eye_strips_regression.pkl
+2020-04-26 14:32:03,371: Loading train data...
+2020-04-26 14:33:01,686: Training model with <function train_cnn_regression_with_keras at 0x63f254a70> on eye_strips_regression.pkl
+2020-04-26 14:33:01,691: Loading train data...
+2020-04-26 14:33:02,329: Training: batch 0 begins at 14:33:02.329807
+2020-04-26 14:33:03,779: Training: batch 0 ends at 14:33:03.779029
+2020-04-26 14:33:03,779: Training: batch 1 begins at 14:33:03.779696
+2020-04-26 14:33:04,080: Training: batch 1 ends at 14:33:04.080343
+2020-04-26 14:33:04,081: Training: batch 2 begins at 14:33:04.081015
+2020-04-26 14:33:04,358: Training: batch 2 ends at 14:33:04.358779
+2020-04-26 14:33:04,359: Training: batch 3 begins at 14:33:04.359491
+2020-04-26 14:33:04,614: Training: batch 3 ends at 14:33:04.614496
+2020-04-26 14:33:04,615: Training: batch 4 begins at 14:33:04.615038
+2020-04-26 14:33:04,902: Training: batch 4 ends at 14:33:04.902704
+2020-04-26 14:33:04,903: Training: batch 5 begins at 14:33:04.903245
+2020-04-26 14:33:05,161: Training: batch 5 ends at 14:33:05.161594
+2020-04-26 14:33:05,162: Training: batch 6 begins at 14:33:05.162200
+2020-04-26 14:33:05,447: Training: batch 6 ends at 14:33:05.447800
+2020-04-26 14:33:05,448: Training: batch 7 begins at 14:33:05.448411
+2020-04-26 14:33:05,731: Training: batch 7 ends at 14:33:05.731776
+2020-04-26 14:33:05,732: Training: batch 8 begins at 14:33:05.732286
+2020-04-26 14:33:06,051: Training: batch 8 ends at 14:33:06.051410
+2020-04-26 14:33:06,051: Training: batch 9 begins at 14:33:06.051911
+2020-04-26 14:33:06,397: Training: batch 9 ends at 14:33:06.397327
+2020-04-26 14:33:06,397: Training: batch 10 begins at 14:33:06.397800
+2020-04-26 14:33:06,699: Training: batch 10 ends at 14:33:06.699569
+2020-04-26 14:33:06,700: Training: batch 11 begins at 14:33:06.700287
+2020-04-26 14:33:06,997: Training: batch 11 ends at 14:33:06.997708
+2020-04-26 14:33:06,998: Training: batch 12 begins at 14:33:06.998354
+2020-04-26 14:33:07,323: Training: batch 12 ends at 14:33:07.323154
+2020-04-26 14:33:07,323: Training: batch 13 begins at 14:33:07.323577
+2020-04-26 14:33:07,627: Training: batch 13 ends at 14:33:07.627727
+2020-04-26 14:33:07,628: Training: batch 14 begins at 14:33:07.628188
+2020-04-26 14:33:07,904: Training: batch 14 ends at 14:33:07.904297
+2020-04-26 14:33:07,904: Training: batch 15 begins at 14:33:07.904865
+2020-04-26 14:33:08,247: Training: batch 15 ends at 14:33:08.247473
+2020-04-26 14:33:08,248: Training: batch 16 begins at 14:33:08.248154
+2020-04-26 14:33:08,557: Training: batch 16 ends at 14:33:08.557863
+2020-04-26 14:33:08,558: Training: batch 17 begins at 14:33:08.558407
+2020-04-26 14:33:08,872: Training: batch 17 ends at 14:33:08.872571
+2020-04-26 14:33:08,873: Training: batch 18 begins at 14:33:08.873045
+2020-04-26 14:33:09,151: Training: batch 18 ends at 14:33:09.151676
+2020-04-26 14:33:09,152: Training: batch 19 begins at 14:33:09.152250
+2020-04-26 14:33:09,478: Training: batch 19 ends at 14:33:09.478000
+2020-04-26 14:33:09,478: Training: batch 20 begins at 14:33:09.478615
+2020-04-26 14:33:09,770: Training: batch 20 ends at 14:33:09.770262
+2020-04-26 14:33:09,770: Training: batch 21 begins at 14:33:09.770700
+2020-04-26 14:33:10,024: Training: batch 21 ends at 14:33:10.024658
+2020-04-26 14:33:10,025: Training: batch 22 begins at 14:33:10.025305
+2020-04-26 14:33:10,298: Training: batch 22 ends at 14:33:10.298852
+2020-04-26 14:33:10,299: Training: batch 23 begins at 14:33:10.299589
+2020-04-26 14:33:10,572: Training: batch 23 ends at 14:33:10.572028
+2020-04-26 14:33:10,572: Training: batch 24 begins at 14:33:10.572771
+2020-04-26 14:33:10,842: Training: batch 24 ends at 14:33:10.842810
+2020-04-26 14:33:10,843: Training: batch 25 begins at 14:33:10.843639
+2020-04-26 14:33:11,152: Training: batch 25 ends at 14:33:11.152695
+2020-04-26 14:33:11,153: Training: batch 26 begins at 14:33:11.153238
+2020-04-26 14:33:11,413: Training: batch 26 ends at 14:33:11.413406
+2020-04-26 14:33:11,414: Training: batch 27 begins at 14:33:11.414080
+2020-04-26 14:33:11,707: Training: batch 27 ends at 14:33:11.707879
+2020-04-26 14:33:11,708: Training: batch 28 begins at 14:33:11.708545
+2020-04-26 14:33:11,974: Training: batch 28 ends at 14:33:11.974752
+2020-04-26 14:33:11,975: Training: batch 29 begins at 14:33:11.975387
+2020-04-26 14:33:12,247: Training: batch 29 ends at 14:33:12.247317
+2020-04-26 14:33:12,248: Training: batch 30 begins at 14:33:12.247988
+2020-04-26 14:33:12,559: Training: batch 30 ends at 14:33:12.559054
+2020-04-26 14:33:12,559: Training: batch 31 begins at 14:33:12.559596
+2020-04-26 14:33:12,817: Training: batch 31 ends at 14:33:12.816980
+2020-04-26 14:33:12,817: Training: batch 32 begins at 14:33:12.817689
+2020-04-26 14:33:13,083: Training: batch 32 ends at 14:33:13.083619
+2020-04-26 14:33:13,084: Training: batch 33 begins at 14:33:13.084631
+2020-04-26 14:33:13,358: Training: batch 33 ends at 14:33:13.358932
+2020-04-26 14:33:13,359: Training: batch 34 begins at 14:33:13.359449
+2020-04-26 14:33:13,629: Training: batch 34 ends at 14:33:13.629087
+2020-04-26 14:33:13,629: Training: batch 35 begins at 14:33:13.629520
+2020-04-26 14:33:13,920: Training: batch 35 ends at 14:33:13.920294
+2020-04-26 14:33:13,920: Training: batch 36 begins at 14:33:13.920924
+2020-04-26 14:33:14,213: Training: batch 36 ends at 14:33:14.213338
+2020-04-26 14:33:14,213: Training: batch 37 begins at 14:33:14.213771
+2020-04-26 14:33:14,468: Training: batch 37 ends at 14:33:14.468292
+2020-04-26 14:33:14,468: Training: batch 38 begins at 14:33:14.468912
+2020-04-26 14:33:14,737: Training: batch 38 ends at 14:33:14.737369
+2020-04-26 14:33:14,737: Training: batch 39 begins at 14:33:14.737884
+2020-04-26 14:33:15,031: Training: batch 39 ends at 14:33:15.031858
+2020-04-26 14:33:15,032: Training: batch 40 begins at 14:33:15.032404
+2020-04-26 14:33:15,317: Training: batch 40 ends at 14:33:15.317610
+2020-04-26 14:33:15,318: Training: batch 41 begins at 14:33:15.318163
+2020-04-26 14:33:15,601: Training: batch 41 ends at 14:33:15.601545
+2020-04-26 14:33:15,602: Training: batch 42 begins at 14:33:15.602101
+2020-04-26 14:33:15,854: Training: batch 42 ends at 14:33:15.854559
+2020-04-26 14:33:15,855: Training: batch 43 begins at 14:33:15.855206
+2020-04-26 14:33:16,155: Training: batch 43 ends at 14:33:16.154990
+2020-04-26 14:33:16,155: Training: batch 44 begins at 14:33:16.155644
+2020-04-26 14:33:16,418: Training: batch 44 ends at 14:33:16.418657
+2020-04-26 14:33:16,419: Training: batch 45 begins at 14:33:16.419295
+2020-04-26 14:33:16,725: Training: batch 45 ends at 14:33:16.725936
+2020-04-26 14:33:16,726: Training: batch 46 begins at 14:33:16.726479
+2020-04-26 14:33:16,986: Training: batch 46 ends at 14:33:16.986704
+2020-04-26 14:33:16,987: Training: batch 47 begins at 14:33:16.987229
+2020-04-26 14:33:17,249: Training: batch 47 ends at 14:33:17.249097
+2020-04-26 14:33:17,249: Training: batch 48 begins at 14:33:17.249679
+2020-04-26 14:33:17,517: Training: batch 48 ends at 14:33:17.517014
+2020-04-26 14:33:17,517: Training: batch 49 begins at 14:33:17.517593
+2020-04-26 14:33:17,794: Training: batch 49 ends at 14:33:17.794740
+2020-04-26 14:33:17,795: Training: batch 50 begins at 14:33:17.795319
+2020-04-26 14:33:18,086: Training: batch 50 ends at 14:33:18.086188
+2020-04-26 14:33:18,086: Training: batch 51 begins at 14:33:18.086807
+2020-04-26 14:33:18,377: Training: batch 51 ends at 14:33:18.377117
+2020-04-26 14:33:18,377: Training: batch 52 begins at 14:33:18.377736
+2020-04-26 14:33:18,638: Training: batch 52 ends at 14:33:18.638587
+2020-04-26 14:33:18,639: Training: batch 53 begins at 14:33:18.639270
+2020-04-26 14:33:18,900: Training: batch 53 ends at 14:33:18.900420
+2020-04-26 14:33:18,901: Training: batch 54 begins at 14:33:18.901416
+2020-04-26 14:33:19,190: Training: batch 54 ends at 14:33:19.190705
+2020-04-26 14:33:19,191: Training: batch 55 begins at 14:33:19.191607
+2020-04-26 14:33:19,517: Training: batch 55 ends at 14:33:19.517671
+2020-04-26 14:33:19,518: Training: batch 56 begins at 14:33:19.518264
+2020-04-26 14:33:19,807: Training: batch 56 ends at 14:33:19.807926
+2020-04-26 14:33:19,808: Training: batch 57 begins at 14:33:19.808626
+2020-04-26 14:33:20,132: Training: batch 57 ends at 14:33:20.132011
+2020-04-26 14:33:20,132: Training: batch 58 begins at 14:33:20.132650
+2020-04-26 14:33:20,439: Training: batch 58 ends at 14:33:20.439425
+2020-04-26 14:33:20,440: Training: batch 59 begins at 14:33:20.440057
+2020-04-26 14:33:20,753: Training: batch 59 ends at 14:33:20.753391
+2020-04-26 14:33:20,754: Training: batch 60 begins at 14:33:20.754008
+2020-04-26 14:33:21,077: Training: batch 60 ends at 14:33:21.077187
+2020-04-26 14:33:21,077: Training: batch 61 begins at 14:33:21.077776
+2020-04-26 14:33:21,378: Training: batch 61 ends at 14:33:21.378125
+2020-04-26 14:33:21,378: Training: batch 62 begins at 14:33:21.378751
+2020-04-26 14:33:21,668: Training: batch 62 ends at 14:33:21.668618
+2020-04-26 14:33:21,669: Training: batch 63 begins at 14:33:21.669236
+2020-04-26 14:33:21,964: Training: batch 63 ends at 14:33:21.964493
+2020-04-26 14:33:21,965: Training: batch 64 begins at 14:33:21.965043
+2020-04-26 14:33:22,291: Training: batch 64 ends at 14:33:22.291529
+2020-04-26 14:33:22,292: Training: batch 65 begins at 14:33:22.292066
+2020-04-26 14:33:22,641: Training: batch 65 ends at 14:33:22.641637
+2020-04-26 14:33:22,642: Training: batch 66 begins at 14:33:22.642451
+2020-04-26 14:33:22,943: Training: batch 66 ends at 14:33:22.943755
+2020-04-26 14:33:22,944: Training: batch 67 begins at 14:33:22.944299
+2020-04-26 14:33:23,239: Training: batch 67 ends at 14:33:23.239861
+2020-04-26 14:33:23,240: Training: batch 68 begins at 14:33:23.240502
+2020-04-26 14:33:23,547: Training: batch 68 ends at 14:33:23.547610
+2020-04-26 14:33:23,548: Training: batch 69 begins at 14:33:23.548274
+2020-04-26 14:33:23,836: Training: batch 69 ends at 14:33:23.836532
+2020-04-26 14:33:23,837: Training: batch 70 begins at 14:33:23.837077
+2020-04-26 14:33:24,131: Training: batch 70 ends at 14:33:24.131561
+2020-04-26 14:33:24,132: Training: batch 71 begins at 14:33:24.132192
+2020-04-26 14:33:24,448: Training: batch 71 ends at 14:33:24.448687
+2020-04-26 14:33:24,449: Training: batch 72 begins at 14:33:24.449427
+2020-04-26 14:33:24,752: Training: batch 72 ends at 14:33:24.752829
+2020-04-26 14:33:24,753: Training: batch 73 begins at 14:33:24.753479
+2020-04-26 14:33:25,048: Training: batch 73 ends at 14:33:25.048777
+2020-04-26 14:33:25,049: Training: batch 74 begins at 14:33:25.049464
+2020-04-26 14:33:25,357: Training: batch 74 ends at 14:33:25.357042
+2020-04-26 14:33:25,357: Training: batch 75 begins at 14:33:25.357611
+2020-04-26 14:33:25,664: Training: batch 75 ends at 14:33:25.664654
+2020-04-26 14:33:25,665: Training: batch 76 begins at 14:33:25.665168
+2020-04-26 14:33:25,965: Training: batch 76 ends at 14:33:25.965254
+2020-04-26 14:33:25,965: Training: batch 77 begins at 14:33:25.965913
+2020-04-26 14:33:26,153: Training: batch 77 ends at 14:33:26.153394
+2020-04-26 14:33:26,257: Evaluating: batch 0 begins at 14:33:26.257920
+2020-04-26 14:33:26,567: Evaluating: batch 0 ends at 14:33:26.567629
+2020-04-26 14:33:26,568: Evaluating: batch 1 begins at 14:33:26.568075
+2020-04-26 14:33:26,686: Evaluating: batch 1 ends at 14:33:26.686000
+2020-04-26 14:33:26,686: Evaluating: batch 2 begins at 14:33:26.686686
+2020-04-26 14:33:26,815: Evaluating: batch 2 ends at 14:33:26.815414
+2020-04-26 14:33:26,816: Evaluating: batch 3 begins at 14:33:26.816095
+2020-04-26 14:33:26,955: Evaluating: batch 3 ends at 14:33:26.955060
+2020-04-26 14:33:26,955: Evaluating: batch 4 begins at 14:33:26.955646
+2020-04-26 14:33:27,081: Evaluating: batch 4 ends at 14:33:27.081481
+2020-04-26 14:33:27,082: Evaluating: batch 5 begins at 14:33:27.082040
+2020-04-26 14:33:27,217: Evaluating: batch 5 ends at 14:33:27.217022
+2020-04-26 14:33:27,217: Evaluating: batch 6 begins at 14:33:27.217667
+2020-04-26 14:33:27,361: Evaluating: batch 6 ends at 14:33:27.361375
+2020-04-26 14:33:27,361: Evaluating: batch 7 begins at 14:33:27.361955
+2020-04-26 14:33:27,480: Evaluating: batch 7 ends at 14:33:27.480040
+2020-04-26 14:33:27,480: Evaluating: batch 8 begins at 14:33:27.480593
+2020-04-26 14:33:27,612: Evaluating: batch 8 ends at 14:33:27.612862
+2020-04-26 14:33:27,613: Evaluating: batch 9 begins at 14:33:27.613562
+2020-04-26 14:33:27,741: Evaluating: batch 9 ends at 14:33:27.741038
+2020-04-26 14:33:27,741: Evaluating: batch 10 begins at 14:33:27.741644
+2020-04-26 14:33:27,862: Evaluating: batch 10 ends at 14:33:27.862430
+2020-04-26 14:33:27,863: Evaluating: batch 11 begins at 14:33:27.863094
+2020-04-26 14:33:27,983: Evaluating: batch 11 ends at 14:33:27.983134
+2020-04-26 14:33:27,983: Evaluating: batch 12 begins at 14:33:27.983778
+2020-04-26 14:33:28,104: Evaluating: batch 12 ends at 14:33:28.104796
+2020-04-26 14:33:28,105: Evaluating: batch 13 begins at 14:33:28.105428
+2020-04-26 14:33:28,222: Evaluating: batch 13 ends at 14:33:28.222942
+2020-04-26 14:33:28,223: Evaluating: batch 14 begins at 14:33:28.223488
+2020-04-26 14:33:28,353: Evaluating: batch 14 ends at 14:33:28.353165
+2020-04-26 14:33:28,353: Evaluating: batch 15 begins at 14:33:28.353717
+2020-04-26 14:33:28,474: Evaluating: batch 15 ends at 14:33:28.474815
+2020-04-26 14:33:28,475: Evaluating: batch 16 begins at 14:33:28.475362
+2020-04-26 14:33:28,596: Evaluating: batch 16 ends at 14:33:28.596553
+2020-04-26 14:33:28,597: Evaluating: batch 17 begins at 14:33:28.597189
+2020-04-26 14:33:28,714: Evaluating: batch 17 ends at 14:33:28.714069
+2020-04-26 14:33:28,714: Evaluating: batch 18 begins at 14:33:28.714620
+2020-04-26 14:33:28,830: Evaluating: batch 18 ends at 14:33:28.830122
+2020-04-26 14:33:28,830: Evaluating: batch 19 begins at 14:33:28.830759
+2020-04-26 14:33:28,895: Evaluating: batch 19 ends at 14:33:28.895259
+2020-04-26 14:33:28,898: Training: batch 0 begins at 14:33:28.898300
+2020-04-26 14:33:29,228: Training: batch 0 ends at 14:33:29.228584
+2020-04-26 14:33:29,229: Training: batch 1 begins at 14:33:29.229325
+2020-04-26 14:33:29,548: Training: batch 1 ends at 14:33:29.548718
+2020-04-26 14:33:29,549: Training: batch 2 begins at 14:33:29.549385
+2020-04-26 14:33:29,837: Training: batch 2 ends at 14:33:29.837714
+2020-04-26 14:33:29,838: Training: batch 3 begins at 14:33:29.838338
+2020-04-26 14:33:30,151: Training: batch 3 ends at 14:33:30.150996
+2020-04-26 14:33:30,151: Training: batch 4 begins at 14:33:30.151787
+2020-04-26 14:33:30,455: Training: batch 4 ends at 14:33:30.455703
+2020-04-26 14:33:30,456: Training: batch 5 begins at 14:33:30.456341
+2020-04-26 14:33:30,763: Training: batch 5 ends at 14:33:30.763870
+2020-04-26 14:33:30,764: Training: batch 6 begins at 14:33:30.764391
+2020-04-26 14:33:31,056: Training: batch 6 ends at 14:33:31.056691
+2020-04-26 14:33:31,057: Training: batch 7 begins at 14:33:31.057668
+2020-04-26 14:33:31,356: Training: batch 7 ends at 14:33:31.356100
+2020-04-26 14:33:31,356: Training: batch 8 begins at 14:33:31.356746
+2020-04-26 14:33:31,627: Training: batch 8 ends at 14:33:31.627236
+2020-04-26 14:33:31,627: Training: batch 9 begins at 14:33:31.627942
+2020-04-26 14:33:31,896: Training: batch 9 ends at 14:33:31.896447
+2020-04-26 14:33:31,897: Training: batch 10 begins at 14:33:31.897031
+2020-04-26 14:33:32,213: Training: batch 10 ends at 14:33:32.213325
+2020-04-26 14:38:39,811: Training model with <function train_cnn_regression_with_keras at 0x6465cc440> on eye_strips_regression.pkl
+2020-04-26 14:38:39,812: Loading train data...
+2020-04-26 14:38:40,290: Starting epoch 0
+2020-04-26 14:39:33,132: Training model with <function train_cnn_regression_with_keras at 0x645279440> on eye_strips_regression.pkl
+2020-04-26 14:39:33,137: Loading train data...
+2020-04-26 14:39:33,721: Starting epoch 0
+2020-04-26 14:40:59,669: Training model with <function train_cnn_regression_with_keras at 0x647454440> on eye_strips_regression.pkl
+2020-04-26 14:40:59,671: Loading train data...
+2020-04-26 14:41:00,263: Starting epoch 0
+2020-04-26 14:53:01,050: Training model with <function train_cnn_regression_with_keras at 0x6393873b0> on eye_strips_regression.pkl
+2020-04-26 14:53:01,051: Loading train data...
+2020-04-26 14:53:01,517: Starting epoch 0
+2020-04-26 14:53:27,840: Training model with <function train_cnn_regression_with_keras at 0x63f4be3b0> on eye_strips_regression.pkl
+2020-04-26 14:53:27,841: Loading train data...
+2020-04-26 14:53:28,300: Starting epoch 0
+2020-04-26 14:58:53,513: Training model with <function train_cnn_regression_with_keras at 0x63c32b440> on eye_strips_regression.pkl
+2020-04-26 14:58:53,515: Loading train data...
+2020-04-26 14:58:53,973: Starting epoch 0
+2020-04-26 15:05:29,129: Training model with <function train_cnn_regression_with_keras at 0x641b97440> on eye_strips_regression.pkl
+2020-04-26 15:05:29,132: Loading train data...
+2020-04-26 15:05:29,708: Starting epoch 0
+2020-04-26 15:05:53,710: The average loss for epoch 0 is 158589.81110187425
+2020-04-26 15:05:53,710: Starting epoch 1
+2020-04-26 15:06:00,778: The average loss for epoch 1 is 88651.04774305556
+2020-04-26 15:07:44,159: Training model with <function train_cnn_regression_with_keras at 0x64ae5e3b0> on eye_strips_regression.pkl
+2020-04-26 15:07:44,165: Loading train data...
+2020-04-26 15:07:44,720: Starting epoch 0
+2020-04-26 15:08:08,966: The average loss for epoch 0 is 217477.89530431278
+2020-04-26 15:08:08,966: Starting epoch 1
+2020-04-26 15:08:31,321: The average loss for epoch 1 is 112480.34405544639
+2020-04-26 15:08:31,322: Starting epoch 2
+2020-04-26 15:09:10,283: The average loss for epoch 2 is 38227.120880409864
+2020-04-26 15:09:10,283: Starting epoch 3
+2020-04-26 15:09:47,757: The average loss for epoch 3 is 14158.49003284336
+2020-04-26 15:09:47,757: Starting epoch 4
+2020-04-26 15:11:51,712: Training model with <function train_cnn_regression_with_keras at 0x63cd8c440> on eye_strips_regression.pkl
+2020-04-26 15:11:51,713: Loading train data...
+2020-04-26 15:11:52,225: Starting epoch 0
+2020-04-26 15:12:12,804: The average loss for epoch 0 is 144631.86046006944
+2020-04-26 15:13:22,904: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-04-26 15:13:23,182: Could not load model model_23.pkl: module 'tensorflow' has no attribute 'reset_default_graph'
+2020-04-26 15:22:04,537: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-04-26 15:22:04,840: Could not load model model_23.pkl: module 'tensorflow' has no attribute 'placeholder'
+2020-04-26 15:23:09,419: Training model with <function train_cnn_regression_with_keras at 0x6391f0440> on eye_strips_regression.pkl
+2020-04-26 15:23:09,421: Loading train data...
+2020-04-26 15:23:09,882: Starting epoch 0
+2020-04-26 15:23:35,451: The average loss for epoch 0 is 133883.90689867997
+2020-04-26 15:23:35,454: Training done
+2020-04-26 15:23:35,454: Training with <function train_cnn_regression_with_keras at 0x6391f0440> took 26.034480094909668 seconds
+2020-04-26 15:23:35,454: <tensorflow.python.keras.engine.sequential.Sequential object at 0x6391fd110>
+2020-04-26 15:23:35,454: Saving model...
+2020-04-26 15:25:00,363: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-04-26 15:25:00,375: Could not load model model_26.pkl: 
+2020-04-26 15:35:59,777: Training model with <function train_cnn_regression_with_keras at 0x6470845f0> on eye_strips_regression.pkl
+2020-04-26 15:35:59,783: Loading train data...
+2020-04-26 15:36:00,353: Starting epoch 0
+2020-04-26 15:36:27,243: The average loss for epoch 0 is 174735.71657093914
+2020-04-26 15:36:27,246: Training done
+2020-04-26 15:36:27,247: Training with <function train_cnn_regression_with_keras at 0x6470845f0> took 27.469924926757812 seconds
+2020-04-26 15:36:27,247: <tensorflow.python.keras.engine.sequential.Sequential object at 0x1a52420610>
+2020-04-26 15:36:27,247: Saving model...

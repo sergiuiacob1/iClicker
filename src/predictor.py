@@ -36,7 +36,6 @@ class Predictor():
         model = get_best_trained_model(
             prediction_type=prediction_type, trained_with=trained_with, data_used=data_used, get_last_or_best="last")
         if model is None:
-            print('No trained models')
             self.gui.close()
             return
 

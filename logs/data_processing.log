@@ -637,3 +637,13 @@
 2020-04-25 19:42:07,712: 
 2020-04-25 19:42:07,712: [          ] 7 % 
 2020-04-25 19:42:07,754: 
+2020-04-26 15:30:17,746: Loading collected data...
+2020-04-26 15:30:49,521: Loading data took 31.774125814437866 seconds
+2020-04-26 15:30:49,522: Loaded 3102 items
+2020-04-26 15:30:49,522: Processing data using <function extract_eye_strips at 0x64a09b440>
+2020-04-26 15:33:10,819: Loading collected data...
+2020-04-26 15:34:54,645: Loading collected data...
+2020-04-26 15:35:07,866: Loading collected data...
+2020-04-26 15:35:31,262: Loading data took 23.395586729049683 seconds
+2020-04-26 15:35:31,262: Loaded 3102 items
+2020-04-26 15:35:31,262: Processing data using <function extract_eye_strips at 0x10f745d40>

@@ -10,7 +10,7 @@ from multiprocessing import Pool
 # My files
 import config as Config
 import src.face_detector as face_detector
-from src.utils import resize_cv2_image, get_binary_thresholded_image, convert_to_gray_image, setup_logger
+from src.utils import resize_cv2_image, get_binary_thresholded_image, convert_to_gray_image, setup_logger, attach_logger_to_stdout
 from src.data_object import DataObject
 
 dp_logger = setup_logger('dp_logger', './logs/data_processing.log')
@@ -243,4 +243,5 @@ def main():
     dp_logger.info(s)
 
 if __name__ == '__main__':
+    attach_logger_to_stdout()
     main()

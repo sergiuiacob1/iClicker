@@ -118,8 +118,8 @@ class App(QtWidgets.QMainWindow):
         self.data_viewer.view_data(data)
 
     def train_model(self):
-        # run_function_on_thread(Trainer.main)
-        Trainer.main()
+        run_function_on_thread(Trainer.main)
+        # Trainer.main()
 
     def collect_data(self):
         self.data_collector.collect_data()

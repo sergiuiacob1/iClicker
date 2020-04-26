@@ -6,8 +6,7 @@ from threading import Lock
 import json
 import math
 import time
-import datetime
-from keras.callbacks import Callback
+from tensorflow.keras.callbacks import Callback
 
 # My files
 import config as Config
@@ -20,19 +19,13 @@ train_logger = setup_logger('train_logger', './logs/train.log')
 
 class MyCustomCallback(Callback):
     global train_logger
-    def on_train_batch_begin(self, batch, logs=None):
-        train_logger.info('Training: batch {} begins at {}'.format(batch, datetime.datetime.now().time()))
 
-    def on_train_batch_end(self, batch, logs=None):
-        train_logger.info('Training: batch {} ends at {}'.format(batch, datetime.datetime.now().time()))
+    def on_epoch_begin(self, epoch, logs=None):
+        train_logger.info(f'Starting epoch {epoch}')
 
-    def on_test_batch_begin(self, batch, logs=None):
-        train_logger.info('Evaluating: batch {} begins at {}'.format(batch, datetime.datetime.now().time()))
-
-    def on_test_batch_end(self, batch, logs=None):
-        train_logger.info('Evaluating: batch {} ends at {}'.format(batch, datetime.datetime.now().time()))
-
-
+    def on_epoch_end(self, epoch, logs=None):
+        train_logger.info(f"The average loss for epoch {epoch} is {logs['loss']}")
+                                                 
 def get_last_model_number():
     path = os.path.join(os.getcwd(), Config.models_directory_path)
     os.makedirs(path, exist_ok=True)
@@ -67,9 +60,9 @@ def train_model(train_parameters):
 
 def train_mlp(which_data, train_parameters):
     # Lazy import so the app starts faster
-    from keras.models import Sequential
-    from keras.layers import Dense, ReLU, Dropout, Flatten
-    from keras.optimizers import RMSprop, Adam
+    from tensorflow.keras.models import Sequential
+    from tensorflow.keras.layers import Dense, ReLU, Dropout, Flatten
+    from tensorflow.keras.optimizers import RMSprop, Adam
     from keras import regularizers
 
     train_logger.info(f'Loading train data: {which_data}')
@@ -120,9 +113,9 @@ def train_mlp(which_data, train_parameters):
 
 def train_cnn_with_keras(which_data, input_shape, train_parameters):
     # Lazy import so the app starts faster
-    from keras.models import Sequential
-    from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
-    from keras.optimizers import RMSprop, Adam, Adagrad, SGD
+    from tensorflow.keras.models import Sequential
+    from tensorflow.keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
+    from tensorflow.keras.optimizers import RMSprop, Adam, Adagrad, SGD
     from keras import backend as K
 
     train_logger.info('Loading train data...')
@@ -175,9 +168,9 @@ def train_cnn_with_keras(which_data, input_shape, train_parameters):
 
 def train_cnn_regression_with_keras(which_data, input_shape, train_parameters):
     # Lazy import so the app starts faster
-    from keras.models import Sequential
-    from keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
-    from keras.optimizers import RMSprop, Adam, Adagrad, SGD
+    from tensorflow.keras.models import Sequential
+    from tensorflow.keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
+    from tensorflow.keras.optimizers import RMSprop, Adam, Adagrad, SGD
 
     train_logger.info('Loading train data...')
     X, y = get_data(which_data)
@@ -209,7 +202,7 @@ def train_cnn_regression_with_keras(which_data, input_shape, train_parameters):
     model.compile(optimizer=opt, loss=loss)
     start_time = time.time()
     fit_history = model.fit(
-        X, y, epochs=train_parameters["epochs"], batch_size=train_parameters["batch_size"], validation_split=0.2, verbose=1)
+        X, y, epochs=train_parameters["epochs"], batch_size=train_parameters["batch_size"], validation_split=0.2, verbose=0, callbacks=[MyCustomCallback()])
     end_time = time.time()
     train_logger.info('Training done')
     return {
@@ -394,7 +387,7 @@ def get_best_trained_model(prediction_type, trained_with=None, data_used=None, g
     try:
         if best_model_info['trained_with'] == 'keras':
             # Lazy library loading so app starts faster
-            from keras.backend import clear_session
+            from tensorflow.keras.backend import clear_session
             # This is necessary if I want to load a model multiple times
             clear_session()
             model = joblib.load(os.path.join(path, best_model_name))
