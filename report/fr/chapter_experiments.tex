@@ -69,6 +69,18 @@ Nous pouvons voir que la précision est vraiment bonne pour tous les modèles, m
 Les conditions d'éclairage et la façon dont l'utilisateur est positionné devant la caméra sont très importantes.
 
 \paragraph{}
+Un élément important à noter, qui sera présent dans la plupart des graphiques, sont les pics, la précision allant de haut en bas.
+Cela est dû à la façon dont la couche ``Dropout'' fonctionne : ``by randomly dropping units during training to prevent their co-adaptation'', comme mentionné par \cite{dropout_algorithm}.
+Elle élimine les neurones aléatoires du réseau afin d'aider les autres neurones à apprendre.
+Lorsqu'elle élimine les ``bons'' neurones, c'est-à-dire ceux qui donnent le plus d'informations, la précision est plus faible et l'erreur plus élevée.
+Lorsqu'il élimine les neurones qui n'aident pas beaucoup à la prédiction, la précision ne sera pas trop affectée.
+% An important thing to notice, that will be present in most of the graphs, are the spikes, the accuracy going up and down.
+% That is caused by how the ``Dropout'' layer works.
+% It eliminates random neurons from the network so it can help other neurons learn.
+% When it eliminates the ``good'' neurons, that is the ones that give the most information, then the accuracy will be lower and the error higher.
+% When it eliminates the neurons that don't help much in the prediction, then the accuracy will not be impacted too much.
+
+\paragraph{}
 J'ai procédé à la formation du même modèle sur la grille 3x3, mais cette fois en utilisant toutes les données dont je disposais.
 Malheureusement, cela n'a pas beaucoup aidé.
 J'ai également observé qu'après une certaine période, le réseau ne serait plus précis sur les données de test et qu'il serait surdimensionné.
@@ -79,7 +91,7 @@ J'ai également observé qu'après une certaine période, le réseau ne serait p
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth - 5pt]{graphs/model_4.png}
+    \includegraphics[width=\textwidth - 20pt]{graphs/model_4.png}
     \caption{Modèle 4}
 \end{figure}
 
@@ -359,10 +371,12 @@ Pour mes prochaines expériences, j'ai essayé de prédire la position exacte de
 Au début, l'expérience $22$ était chaotique, mais j'ai découvert que si je tiens l'ordinateur portable dans le bon angle et à la bonne hauteur, les prédictions sont assez bonnes.
 Par la suite, j'ai formé le même modèle pour d'autres époques et j'ai également introduit une diminution du taux d'apprentissage, qui actualise le taux d'apprentissage par cette formule :
 \lstinline{lr = initial_lr * (1 / (1 + decay * iteration))}.
+Cela a permis au réseau d'apprendre rapidement au début, puis d'apprendre plus lentement, mais de s'améliorer encore à la fin.
 Ces modèles étaient les meilleurs jusqu'à présent.
 % At first, experiment 22 was chaotic, but I found that if I hold the laptop at the right angle and at the right height, the predictions are quite good.
 % Afterwards, I trained the same model for more epochs and I also introduced a ``learning rate decay'', which updates the learning rate by this formula:
 % \lstinline{lr = initial_lr * (1 / (1 + decay * iteration))}.
+% This allowed the network to learn fast at the beggining, and then learn slower, but still improve in the latter epochs
 % These models were the best so far.
 
 \begin{figure}[H]
