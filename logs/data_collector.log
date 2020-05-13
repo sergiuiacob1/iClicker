@@ -119,3 +119,279 @@
 
 2020-04-25 19:10:20,646: Saving data done
 2020-04-25 19:10:20,646: Saving data done
+2020-05-12 15:08:02,624: Start collecting data in background mode
+2020-05-12 15:08:02,624: Start collecting data in background mode
+2020-05-12 15:08:03,418: Displaying images from webcam...
+2020-05-12 15:08:03,418: Displaying images from webcam...
+2020-05-12 15:08:03,418: DataCollectorGUI started
+2020-05-12 15:08:03,418: DataCollectorGUI started
+2020-05-12 15:08:03,450: Mouse listener started
+2020-05-12 15:08:03,450: Mouse listener started
+2020-05-12 15:11:55,904: Start collecting data in background mode
+2020-05-12 15:11:55,904: Start collecting data in background mode
+2020-05-12 15:11:56,718: Displaying images from webcam...
+2020-05-12 15:11:56,718: Displaying images from webcam...
+2020-05-12 15:11:56,718: DataCollectorGUI started
+2020-05-12 15:11:56,718: DataCollectorGUI started
+2020-05-12 15:11:56,739: Mouse listener started
+2020-05-12 15:11:56,739: Mouse listener started
+2020-05-12 15:11:59,730: Closing DataCollectorGUI
+2020-05-12 15:11:59,730: Closing DataCollectorGUI
+2020-05-12 15:11:59,735: EyeWidget was closed
+2020-05-12 15:11:59,735: EyeWidget was closed
+2020-05-12 15:11:59,737: DataCollectorGUI closed
+2020-05-12 15:11:59,737: DataCollectorGUI closed
+2020-05-12 15:11:59,738: Saving collected data: 0 items
+2020-05-12 15:11:59,738: Saving collected data: 0 items
+2020-05-12 15:12:00,151: Stop displaying images from the webcam
+2020-05-12 15:12:00,151: Stop displaying images from the webcam
+2020-05-12 15:12:05,153: Start collecting data in active mode
+2020-05-12 15:12:05,153: Start collecting data in active mode
+2020-05-12 15:12:05,798: Displaying images from webcam...
+2020-05-12 15:12:05,798: Displaying images from webcam...
+2020-05-12 15:12:05,798: DataCollectorGUI started
+2020-05-12 15:12:05,798: DataCollectorGUI started
+2020-05-12 15:12:19,775: Triggered pause
+2020-05-12 15:12:19,775: Triggered pause
+2020-05-12 15:12:25,560: Triggered pause
+2020-05-12 15:12:25,560: Triggered pause
+2020-05-12 15:12:27,216: Increasing speed
+2020-05-12 15:12:27,216: Increasing speed
+2020-05-12 15:12:30,277: Decreasing speed
+2020-05-12 15:12:30,277: Decreasing speed
+2020-05-12 15:12:30,455: Decreasing speed
+2020-05-12 15:12:30,455: Decreasing speed
+2020-05-12 15:12:32,216: Decreasing speed
+2020-05-12 15:12:32,216: Decreasing speed
+2020-05-12 15:12:32,365: Decreasing speed
+2020-05-12 15:12:32,365: Decreasing speed
+2020-05-12 15:12:39,548: Triggered pause
+2020-05-12 15:12:39,548: Triggered pause
+2020-05-12 15:12:49,709: Triggered pause
+2020-05-12 15:12:49,709: Triggered pause
+2020-05-12 15:12:53,374: Triggered pause
+2020-05-12 15:12:53,374: Triggered pause
+2020-05-12 15:12:56,362: Triggered pause
+2020-05-12 15:12:56,362: Triggered pause
+2020-05-12 15:13:01,916: Increasing speed
+2020-05-12 15:13:01,916: Increasing speed
+2020-05-12 15:13:02,083: Increasing speed
+2020-05-12 15:13:02,083: Increasing speed
+2020-05-12 15:13:18,893: Triggered pause
+2020-05-12 15:13:18,893: Triggered pause
+2020-05-12 15:13:43,266: Triggered pause
+2020-05-12 15:13:43,266: Triggered pause
+2020-05-12 15:13:49,278: Increasing speed
+2020-05-12 15:13:49,278: Increasing speed
+2020-05-12 15:13:49,438: Increasing speed
+2020-05-12 15:13:49,438: Increasing speed
+2020-05-12 15:13:49,932: Increasing speed
+2020-05-12 15:13:49,932: Increasing speed
+2020-05-12 15:13:56,759: Decreasing speed
+2020-05-12 15:13:56,759: Decreasing speed
+2020-05-12 15:14:08,046: Triggered pause
+2020-05-12 15:14:08,046: Triggered pause
+2020-05-12 15:14:09,294: Triggered pause
+2020-05-12 15:14:09,294: Triggered pause
+2020-05-12 15:14:20,542: Triggered pause
+2020-05-12 15:14:20,542: Triggered pause
+2020-05-12 15:14:41,101: Triggered pause
+2020-05-12 15:14:41,101: Triggered pause
+2020-05-12 15:14:48,950: Increasing speed
+2020-05-12 15:14:48,950: Increasing speed
+2020-05-12 15:14:49,124: Increasing speed
+2020-05-12 15:14:49,124: Increasing speed
+2020-05-12 15:15:06,839: Triggered pause
+2020-05-12 15:15:06,839: Triggered pause
+2020-05-12 15:15:11,587: Triggered pause
+2020-05-12 15:15:11,587: Triggered pause
+2020-05-12 15:15:13,705: Triggered pause
+2020-05-12 15:15:13,705: Triggered pause
+2020-05-12 15:15:18,720: Triggered pause
+2020-05-12 15:15:18,720: Triggered pause
+2020-05-12 15:15:33,542: Triggered pause
+2020-05-12 15:15:33,542: Triggered pause
+2020-05-12 15:15:50,052: Triggered pause
+2020-05-12 15:15:50,052: Triggered pause
+2020-05-12 15:16:08,424: Triggered pause
+2020-05-12 15:16:08,424: Triggered pause
+2020-05-12 15:16:12,973: Triggered pause
+2020-05-12 15:16:12,973: Triggered pause
+2020-05-12 15:16:15,031: Increasing speed
+2020-05-12 15:16:15,031: Increasing speed
+2020-05-12 15:16:15,172: Increasing speed
+2020-05-12 15:16:15,172: Increasing speed
+2020-05-12 15:16:15,309: Increasing speed
+2020-05-12 15:16:15,309: Increasing speed
+2020-05-12 15:16:15,461: Increasing speed
+2020-05-12 15:16:15,461: Increasing speed
+2020-05-12 15:16:15,607: Increasing speed
+2020-05-12 15:16:15,607: Increasing speed
+2020-05-12 15:16:32,235: Decreasing speed
+2020-05-12 15:16:32,235: Decreasing speed
+2020-05-12 15:16:32,392: Decreasing speed
+2020-05-12 15:16:32,392: Decreasing speed
+2020-05-12 15:16:32,528: Decreasing speed
+2020-05-12 15:16:32,528: Decreasing speed
+2020-05-12 15:16:35,228: Decreasing speed
+2020-05-12 15:16:35,228: Decreasing speed
+2020-05-12 15:16:36,629: Triggered pause
+2020-05-12 15:16:36,629: Triggered pause
+2020-05-12 15:16:47,179: Triggered pause
+2020-05-12 15:16:47,179: Triggered pause
+2020-05-12 15:16:48,742: Increasing speed
+2020-05-12 15:16:48,742: Increasing speed
+2020-05-12 15:16:48,875: Increasing speed
+2020-05-12 15:16:48,875: Increasing speed
+2020-05-12 15:16:53,077: Triggered pause
+2020-05-12 15:16:53,077: Triggered pause
+2020-05-12 15:16:59,787: Triggered pause
+2020-05-12 15:16:59,787: Triggered pause
+2020-05-12 15:17:03,337: Increasing speed
+2020-05-12 15:17:03,337: Increasing speed
+2020-05-12 15:17:07,498: Triggered pause
+2020-05-12 15:17:07,498: Triggered pause
+2020-05-12 15:17:10,072: Triggered pause
+2020-05-12 15:17:10,072: Triggered pause
+2020-05-12 15:17:14,444: Triggered pause
+2020-05-12 15:17:14,444: Triggered pause
+2020-05-12 15:17:25,715: Triggered pause
+2020-05-12 15:17:25,715: Triggered pause
+2020-05-12 15:17:31,357: Triggered pause
+2020-05-12 15:17:31,357: Triggered pause
+2020-05-12 15:17:34,536: Triggered pause
+2020-05-12 15:17:34,536: Triggered pause
+2020-05-12 15:17:53,306: Triggered pause
+2020-05-12 15:17:53,306: Triggered pause
+2020-05-12 15:17:55,151: Triggered pause
+2020-05-12 15:17:55,151: Triggered pause
+2020-05-12 15:17:59,471: Collecting data items ended
+2020-05-12 15:17:59,471: Collecting data items ended
+2020-05-12 15:18:07,463: Closing DataCollectorGUI
+2020-05-12 15:18:07,463: Closing DataCollectorGUI
+2020-05-12 15:18:07,465: EyeWidget was closed
+2020-05-12 15:18:07,465: EyeWidget was closed
+2020-05-12 15:18:07,465: DataCollectorGUI closed
+2020-05-12 15:18:07,465: DataCollectorGUI closed
+2020-05-12 15:18:07,466: Saving collected data: 2575 items
+2020-05-12 15:18:07,466: Saving collected data: 2575 items
+2020-05-12 15:18:07,837: Acquiring lock for data collection. Locked = False
+2020-05-12 15:18:07,837: Acquiring lock for data collection. Locked = False
+2020-05-12 15:18:07,838: Lock acquired
+2020-05-12 15:18:07,838: Lock acquired
+2020-05-12 15:18:07,841: Saving data for session_9
+2020-05-12 15:18:07,841: Saving data for session_9
+2020-05-12 15:18:07,879: Stop displaying images from the webcam
+2020-05-12 15:18:07,879: Stop displaying images from the webcam
+2020-05-12 15:18:07,898: 
+
+2020-05-12 15:18:07,898: 
+
+2020-05-12 15:18:07,902: Thread 1: Saving images from 0 to 643
+2020-05-12 15:18:07,902: Thread 1: Saving images from 0 to 643
+2020-05-12 15:18:07,903: Thread 2: Saving images from 643 to 1286
+2020-05-12 15:18:07,903: Thread 2: Saving images from 643 to 1286
+2020-05-12 15:18:07,904: Thread 3: Saving images from 1286 to 1929
+2020-05-12 15:18:07,904: Thread 3: Saving images from 1286 to 1929
+2020-05-12 15:18:07,904: Thread 4: Saving images from 1929 to 2575
+2020-05-12 15:18:07,904: Thread 4: Saving images from 1929 to 2575
+2020-05-12 15:18:09,918: Thread 2: saved 52/643 images
+2020-05-12 15:18:09,918: Thread 2: saved 52/643 images
+2020-05-12 15:18:09,926: Thread 1: saved 51/643 images
+2020-05-12 15:18:09,926: Thread 1: saved 51/643 images
+2020-05-12 15:18:09,956: Thread 3: saved 54/643 images
+2020-05-12 15:18:09,956: Thread 3: saved 54/643 images
+2020-05-12 15:18:10,005: Thread 4: saved 52/646 images
+2020-05-12 15:18:10,005: Thread 4: saved 52/646 images
+2020-05-12 15:18:11,933: Thread 1: saved 104/643 images
+2020-05-12 15:18:11,933: Thread 1: saved 104/643 images
+2020-05-12 15:18:11,949: Thread 2: saved 112/643 images
+2020-05-12 15:18:11,949: Thread 2: saved 112/643 images
+2020-05-12 15:18:11,990: Thread 3: saved 109/643 images
+2020-05-12 15:18:11,990: Thread 3: saved 109/643 images
+2020-05-12 15:18:12,010: Thread 4: saved 108/646 images
+2020-05-12 15:18:12,010: Thread 4: saved 108/646 images
+2020-05-12 15:18:13,935: Thread 1: saved 166/643 images
+2020-05-12 15:18:13,935: Thread 1: saved 166/643 images
+2020-05-12 15:18:13,995: Thread 3: saved 170/643 images
+2020-05-12 15:18:13,995: Thread 3: saved 170/643 images
+2020-05-12 15:18:13,998: Thread 2: saved 177/643 images
+2020-05-12 15:18:13,998: Thread 2: saved 177/643 images
+2020-05-12 15:18:14,029: Thread 4: saved 171/646 images
+2020-05-12 15:18:14,029: Thread 4: saved 171/646 images
+2020-05-12 15:18:15,946: Thread 1: saved 227/643 images
+2020-05-12 15:18:15,946: Thread 1: saved 227/643 images
+2020-05-12 15:18:16,018: Thread 2: saved 239/643 images
+2020-05-12 15:18:16,018: Thread 2: saved 239/643 images
+2020-05-12 15:18:16,072: Thread 3: saved 229/643 images
+2020-05-12 15:18:16,072: Thread 3: saved 229/643 images
+2020-05-12 15:18:16,075: Thread 4: saved 230/646 images
+2020-05-12 15:18:16,075: Thread 4: saved 230/646 images
+2020-05-12 15:18:17,967: Thread 1: saved 291/643 images
+2020-05-12 15:18:17,967: Thread 1: saved 291/643 images
+2020-05-12 15:18:18,023: Thread 2: saved 300/643 images
+2020-05-12 15:18:18,023: Thread 2: saved 300/643 images
+2020-05-12 15:18:18,081: Thread 4: saved 289/646 images
+2020-05-12 15:18:18,081: Thread 4: saved 289/646 images
+2020-05-12 15:18:18,085: Thread 3: saved 291/643 images
+2020-05-12 15:18:18,085: Thread 3: saved 291/643 images
+2020-05-12 15:18:19,990: Thread 1: saved 324/643 images
+2020-05-12 15:18:19,990: Thread 1: saved 324/643 images
+2020-05-12 15:18:20,048: Thread 2: saved 335/643 images
+2020-05-12 15:18:20,048: Thread 2: saved 335/643 images
+2020-05-12 15:18:20,092: Thread 3: saved 323/643 images
+2020-05-12 15:18:20,092: Thread 3: saved 323/643 images
+2020-05-12 15:18:20,094: Thread 4: saved 324/646 images
+2020-05-12 15:18:20,094: Thread 4: saved 324/646 images
+2020-05-12 15:18:22,090: Thread 2: saved 380/643 images
+2020-05-12 15:18:22,090: Thread 2: saved 380/643 images
+2020-05-12 15:18:22,097: Thread 1: saved 369/643 images
+2020-05-12 15:18:22,097: Thread 1: saved 369/643 images
+2020-05-12 15:18:22,106: Thread 3: saved 366/643 images
+2020-05-12 15:18:22,106: Thread 3: saved 366/643 images
+2020-05-12 15:18:22,188: Thread 4: saved 366/646 images
+2020-05-12 15:18:22,188: Thread 4: saved 366/646 images
+2020-05-12 15:18:24,104: Thread 1: saved 398/643 images
+2020-05-12 15:18:24,104: Thread 1: saved 398/643 images
+2020-05-12 15:18:24,122: Thread 2: saved 410/643 images
+2020-05-12 15:18:24,122: Thread 2: saved 410/643 images
+2020-05-12 15:18:24,127: Thread 3: saved 395/643 images
+2020-05-12 15:18:24,127: Thread 3: saved 395/643 images
+2020-05-12 15:18:24,205: Thread 4: saved 395/646 images
+2020-05-12 15:18:24,205: Thread 4: saved 395/646 images
+2020-05-12 15:18:26,123: Thread 1: saved 457/643 images
+2020-05-12 15:18:26,123: Thread 1: saved 457/643 images
+2020-05-12 15:18:26,129: Thread 2: saved 470/643 images
+2020-05-12 15:18:26,129: Thread 2: saved 470/643 images
+2020-05-12 15:18:26,175: Thread 3: saved 455/643 images
+2020-05-12 15:18:26,175: Thread 3: saved 455/643 images
+2020-05-12 15:18:26,213: Thread 4: saved 453/646 images
+2020-05-12 15:18:26,213: Thread 4: saved 453/646 images
+2020-05-12 15:18:28,145: Thread 1: saved 518/643 images
+2020-05-12 15:18:28,145: Thread 1: saved 518/643 images
+2020-05-12 15:18:28,154: Thread 2: saved 529/643 images
+2020-05-12 15:18:28,154: Thread 2: saved 529/643 images
+2020-05-12 15:18:28,192: Thread 3: saved 515/643 images
+2020-05-12 15:18:28,192: Thread 3: saved 515/643 images
+2020-05-12 15:18:28,234: Thread 4: saved 512/646 images
+2020-05-12 15:18:28,234: Thread 4: saved 512/646 images
+2020-05-12 15:18:30,158: Thread 2: saved 587/643 images
+2020-05-12 15:18:30,158: Thread 2: saved 587/643 images
+2020-05-12 15:18:30,165: Thread 1: saved 578/643 images
+2020-05-12 15:18:30,165: Thread 1: saved 578/643 images
+2020-05-12 15:18:30,235: Thread 3: saved 575/643 images
+2020-05-12 15:18:30,235: Thread 3: saved 575/643 images
+2020-05-12 15:18:30,256: Thread 4: saved 572/646 images
+2020-05-12 15:18:30,256: Thread 4: saved 572/646 images
+2020-05-12 15:18:32,176: Thread 1: saved 642/643 images
+2020-05-12 15:18:32,176: Thread 1: saved 642/643 images
+2020-05-12 15:18:32,239: Thread 3: saved 636/643 images
+2020-05-12 15:18:32,239: Thread 3: saved 636/643 images
+2020-05-12 15:18:32,270: Thread 4: saved 636/646 images
+2020-05-12 15:18:32,270: Thread 4: saved 636/646 images
+2020-05-12 15:18:32,499: 
+
+2020-05-12 15:18:32,499: 
+
+2020-05-12 15:18:32,819: Saving data done
+2020-05-12 15:18:32,819: Saving data done

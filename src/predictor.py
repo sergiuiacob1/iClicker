@@ -47,22 +47,25 @@ class Predictor():
             if success is False:
                 print('Failed capturing image')
                 continue
-
-            if prediction_type == 'regression':
-                prediction = self.predict_regression(model, image)
-            else:
-                if data_used.startswith('eye_strips'):
-                    prediction = self.predict_based_on_eye_strips(model, image)
-                elif data_used.startswith('extracted_faces'):
-                    prediction = self.predict_based_on_extracted_face(
-                        model, image)
-                elif data_used.startswith('thresholded_eyes'):
-                    prediction = self.predict_based_on_thresholded_eyes(
-                        model, image)
+            
+            try:
+                if prediction_type == 'regression':
+                    prediction = self.predict_regression(model, image)
                 else:
-                    prediction = None
-            if prediction is None:
-                continue
+                    if data_used.startswith('eye_strips'):
+                        prediction = self.predict_based_on_eye_strips(model, image)
+                    elif data_used.startswith('extracted_faces'):
+                        prediction = self.predict_based_on_extracted_face(
+                            model, image)
+                    elif data_used.startswith('thresholded_eyes'):
+                        prediction = self.predict_based_on_thresholded_eyes(
+                            model, image)
+                    else:
+                        prediction = None
+                if prediction is None:
+                    continue
+            except Exception as e:
+                print (f'Exception: {str(e)}')
             self.gui.update_prediction(prediction)
 
     def predict_regression(self, model, img):

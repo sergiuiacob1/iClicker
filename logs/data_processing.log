@@ -647,3 +647,11 @@
 2020-04-26 15:35:31,262: Loading data took 23.395586729049683 seconds
 2020-04-26 15:35:31,262: Loaded 3102 items
 2020-04-26 15:35:31,262: Processing data using <function extract_eye_strips at 0x10f745d40>
+2020-05-12 21:17:52,231: Loading collected data...
+2020-05-12 21:18:57,172: Loading data took 64.93950510025024 seconds
+2020-05-12 21:18:57,175: Loaded 5677 items
+2020-05-12 21:18:57,175: Processing data using <function extract_eye_strips at 0x11492cd40>
+2020-05-12 21:22:17,744: Selecting data for which faces were found. Before: 5677 items
+2020-05-12 21:22:17,866: After: 5677 items
+2020-05-12 21:22:17,883: Saving processed data: 5677 final items
+2020-05-12 21:22:18,272: Processing data with <function extract_eye_strips at 0x11492cd40> took 201.09772992134094 seconds for 5677 original items

@@ -430,3 +430,786 @@
 2020-04-26 15:36:27,247: Training with <function train_cnn_regression_with_keras at 0x6470845f0> took 27.469924926757812 seconds
 2020-04-26 15:36:27,247: <tensorflow.python.keras.engine.sequential.Sequential object at 0x1a52420610>
 2020-04-26 15:36:27,247: Saving model...
+2020-05-12 21:02:29,074: Training model with <function train_cnn_regression_with_keras at 0x6448cdf80> on eye_strips_regression.pkl
+2020-05-12 21:02:29,076: Loading train data...
+2020-05-12 21:02:30,207: Starting epoch 0
+2020-05-12 21:03:20,432: The average loss for epoch 0 is 223144.3794336961
+2020-05-12 21:03:20,433: Starting epoch 1
+2020-05-12 21:03:43,818: The average loss for epoch 1 is 120636.34664071946
+2020-05-12 21:03:43,819: Starting epoch 2
+2020-05-12 21:04:06,235: The average loss for epoch 2 is 50490.821328817765
+2020-05-12 21:04:06,235: Starting epoch 3
+2020-05-12 21:04:27,745: The average loss for epoch 3 is 15725.5289339606
+2020-05-12 21:04:27,745: Starting epoch 4
+2020-05-12 21:04:49,206: The average loss for epoch 4 is 10162.64488274952
+2020-05-12 21:04:49,206: Starting epoch 5
+2020-05-12 21:05:10,809: The average loss for epoch 5 is 9787.665788901904
+2020-05-12 21:05:10,809: Starting epoch 6
+2020-05-12 21:05:32,249: The average loss for epoch 6 is 8304.13735719594
+2020-05-12 21:05:32,249: Starting epoch 7
+2020-05-12 21:05:58,990: The average loss for epoch 7 is 8159.13301737738
+2020-05-12 21:05:58,992: Starting epoch 8
+2020-05-12 21:06:26,422: The average loss for epoch 8 is 7205.073722793229
+2020-05-12 21:06:26,423: Starting epoch 9
+2020-05-12 21:06:48,100: The average loss for epoch 9 is 7084.608691681781
+2020-05-12 21:06:48,100: Starting epoch 10
+2020-05-12 21:07:09,444: The average loss for epoch 10 is 7025.710320702968
+2020-05-12 21:07:09,444: Starting epoch 11
+2020-05-12 21:07:31,342: The average loss for epoch 11 is 6057.3797224137825
+2020-05-12 21:07:31,342: Starting epoch 12
+2020-05-12 21:07:53,432: The average loss for epoch 12 is 5188.815409219443
+2020-05-12 21:07:53,433: Starting epoch 13
+2020-05-12 21:08:15,098: The average loss for epoch 13 is 4668.367132000076
+2020-05-12 21:08:15,098: Starting epoch 14
+2020-05-12 21:08:38,903: The average loss for epoch 14 is 4276.189164112096
+2020-05-12 21:08:38,904: Starting epoch 15
+2020-05-12 21:09:10,968: The average loss for epoch 15 is 3880.3675921377467
+2020-05-12 21:09:10,968: Starting epoch 16
+2020-05-12 21:09:32,641: The average loss for epoch 16 is 4295.908844523063
+2020-05-12 21:09:32,641: Starting epoch 17
+2020-05-12 21:09:58,477: The average loss for epoch 17 is 3294.3258731200876
+2020-05-12 21:09:58,478: Starting epoch 18
+2020-05-12 21:10:20,326: The average loss for epoch 18 is 3510.5525663007606
+2020-05-12 21:10:20,326: Starting epoch 19
+2020-05-12 21:10:44,502: The average loss for epoch 19 is 2812.0520073653515
+2020-05-12 21:10:44,502: Starting epoch 20
+2020-05-12 21:11:07,147: The average loss for epoch 20 is 2980.017898528819
+2020-05-12 21:11:07,148: Starting epoch 21
+2020-05-12 21:11:34,275: The average loss for epoch 21 is 2814.515859989042
+2020-05-12 21:11:34,276: Starting epoch 22
+2020-05-12 21:12:01,222: The average loss for epoch 22 is 2544.4119954230273
+2020-05-12 21:12:01,222: Starting epoch 23
+2020-05-12 21:12:34,595: The average loss for epoch 23 is 2227.310804890606
+2020-05-12 21:12:34,595: Starting epoch 24
+2020-05-12 21:12:56,937: The average loss for epoch 24 is 2521.4372231892066
+2020-05-12 21:12:56,937: Starting epoch 25
+2020-05-12 21:13:26,370: The average loss for epoch 25 is 2163.7770123249193
+2020-05-12 21:13:26,370: Starting epoch 26
+2020-05-12 21:13:55,234: The average loss for epoch 26 is 2171.490723738695
+2020-05-12 21:13:55,234: Starting epoch 27
+2020-05-12 21:14:19,741: The average loss for epoch 27 is 1971.981342332587
+2020-05-12 21:14:19,741: Starting epoch 28
+2020-05-12 21:14:42,023: The average loss for epoch 28 is 1959.1670305651073
+2020-05-12 21:14:42,023: Starting epoch 29
+2020-05-12 21:15:03,481: The average loss for epoch 29 is 1963.6141574402961
+2020-05-12 21:15:03,481: Starting epoch 30
+2020-05-12 21:15:27,359: The average loss for epoch 30 is 1774.4349201883533
+2020-05-12 21:15:27,360: Starting epoch 31
+2020-05-12 21:15:49,558: The average loss for epoch 31 is 1795.4738799298498
+2020-05-12 21:15:49,558: Starting epoch 32
+2020-05-12 21:16:11,813: The average loss for epoch 32 is 1726.2090709214247
+2020-05-12 21:16:11,814: Starting epoch 33
+2020-05-12 21:16:34,321: The average loss for epoch 33 is 1802.8046183219028
+2020-05-12 21:16:34,321: Starting epoch 34
+2020-05-12 21:16:56,670: The average loss for epoch 34 is 1507.433912480949
+2020-05-12 21:16:56,671: Starting epoch 35
+2020-05-12 21:17:19,662: The average loss for epoch 35 is 1677.6243026099921
+2020-05-12 21:17:19,663: Starting epoch 36
+2020-05-12 21:17:23,008: The average loss for epoch 36 is 1191.088623046875
+2020-05-12 21:23:23,917: Training model with <function train_cnn_regression_with_keras at 0x63aebaf80> on eye_strips_regression.pkl
+2020-05-12 21:23:23,919: Loading train data...
+2020-05-12 21:23:24,658: Starting epoch 0
+2020-05-12 21:24:11,862: The average loss for epoch 0 is 124437.11929245348
+2020-05-12 21:24:11,862: Starting epoch 1
+2020-05-12 21:24:54,737: The average loss for epoch 1 is 16242.732784241838
+2020-05-12 21:24:54,737: Starting epoch 2
+2020-05-12 21:25:40,603: The average loss for epoch 2 is 10423.018034900766
+2020-05-12 21:25:40,603: Starting epoch 3
+2020-05-12 21:26:22,897: The average loss for epoch 3 is 7643.535006679593
+2020-05-12 21:26:22,898: Starting epoch 4
+2020-05-12 21:27:09,051: The average loss for epoch 4 is 5947.400295355855
+2020-05-12 21:27:09,052: Starting epoch 5
+2020-05-12 21:27:54,806: The average loss for epoch 5 is 4720.365187170536
+2020-05-12 21:27:54,806: Starting epoch 6
+2020-05-12 21:28:44,337: The average loss for epoch 6 is 3785.3724967655803
+2020-05-12 21:28:44,337: Starting epoch 7
+2020-05-12 21:29:34,083: The average loss for epoch 7 is 3081.8044947574012
+2020-05-12 21:29:34,085: Starting epoch 8
+2020-05-12 21:30:20,990: The average loss for epoch 8 is 2692.2774433739987
+2020-05-12 21:30:20,991: Starting epoch 9
+2020-05-12 21:31:10,101: The average loss for epoch 9 is 2416.7545792630685
+2020-05-12 21:31:10,101: Starting epoch 10
+2020-05-12 21:31:54,926: The average loss for epoch 10 is 2119.186097844638
+2020-05-12 21:31:54,926: Starting epoch 11
+2020-05-12 21:32:36,785: The average loss for epoch 11 is 1944.1269315120223
+2020-05-12 21:32:36,785: Starting epoch 12
+2020-05-12 21:33:21,634: The average loss for epoch 12 is 1727.561830239631
+2020-05-12 21:33:21,634: Starting epoch 13
+2020-05-12 21:34:03,585: The average loss for epoch 13 is 1896.0491261098962
+2020-05-12 21:34:03,586: Starting epoch 14
+2020-05-12 21:34:47,662: The average loss for epoch 14 is 1627.5078931454389
+2020-05-12 21:34:47,662: Starting epoch 15
+2020-05-12 21:35:29,468: The average loss for epoch 15 is 1666.2916283152801
+2020-05-12 21:35:29,468: Starting epoch 16
+2020-05-12 21:36:13,214: The average loss for epoch 16 is 1432.0118406859035
+2020-05-12 21:36:13,214: Starting epoch 17
+2020-05-12 21:37:04,106: The average loss for epoch 17 is 1501.8056805679332
+2020-05-12 21:37:04,107: Starting epoch 18
+2020-05-12 21:37:50,465: The average loss for epoch 18 is 1387.8900723636898
+2020-05-12 21:37:50,465: Starting epoch 19
+2020-05-12 21:38:40,067: The average loss for epoch 19 is 1388.8761604072185
+2020-05-12 21:38:40,067: Starting epoch 20
+2020-05-12 21:39:27,334: The average loss for epoch 20 is 1247.4166043904668
+2020-05-12 21:39:27,334: Starting epoch 21
+2020-05-12 21:40:10,890: The average loss for epoch 21 is 1430.583243028363
+2020-05-12 21:40:10,891: Starting epoch 22
+2020-05-12 21:40:56,728: The average loss for epoch 22 is 1331.9177228351753
+2020-05-12 21:40:56,728: Starting epoch 23
+2020-05-12 21:41:42,863: The average loss for epoch 23 is 1127.7934391817262
+2020-05-12 21:41:42,863: Starting epoch 24
+2020-05-12 21:42:32,023: The average loss for epoch 24 is 1242.6646505396577
+2020-05-12 21:42:32,023: Starting epoch 25
+2020-05-12 21:43:32,353: The average loss for epoch 25 is 1113.6551478725519
+2020-05-12 21:43:32,353: Starting epoch 26
+2020-05-12 21:44:23,965: The average loss for epoch 26 is 1044.150620975255
+2020-05-12 21:44:23,965: Starting epoch 27
+2020-05-12 21:45:12,733: The average loss for epoch 27 is 997.4043532461617
+2020-05-12 21:45:12,733: Starting epoch 28
+2020-05-12 21:46:03,011: The average loss for epoch 28 is 1088.6448555253094
+2020-05-12 21:46:03,011: Starting epoch 29
+2020-05-12 21:46:44,929: The average loss for epoch 29 is 1006.4633907611295
+2020-05-12 21:46:44,930: Starting epoch 30
+2020-05-12 21:47:33,552: The average loss for epoch 30 is 1079.0854590978163
+2020-05-12 21:47:33,552: Starting epoch 31
+2020-05-12 21:48:16,588: The average loss for epoch 31 is 951.0046640617473
+2020-05-12 21:48:16,589: Starting epoch 32
+2020-05-12 21:49:00,809: The average loss for epoch 32 is 860.214549743612
+2020-05-12 21:49:00,809: Starting epoch 33
+2020-05-12 21:49:48,228: The average loss for epoch 33 is 943.8298851539059
+2020-05-12 21:49:48,229: Starting epoch 34
+2020-05-12 21:50:41,043: The average loss for epoch 34 is 927.4669213243529
+2020-05-12 21:50:41,043: Starting epoch 35
+2020-05-12 21:51:40,401: The average loss for epoch 35 is 877.7559503699367
+2020-05-12 21:51:40,402: Starting epoch 36
+2020-05-12 21:52:28,830: The average loss for epoch 36 is 813.5339263667358
+2020-05-12 21:52:28,831: Starting epoch 37
+2020-05-12 21:53:15,659: The average loss for epoch 37 is 861.4762396292654
+2020-05-12 21:53:15,660: Starting epoch 38
+2020-05-12 21:54:03,242: The average loss for epoch 38 is 820.1725192226468
+2020-05-12 21:54:03,242: Starting epoch 39
+2020-05-12 21:54:51,048: The average loss for epoch 39 is 893.2746193723463
+2020-05-12 21:54:51,048: Starting epoch 40
+2020-05-12 21:55:35,683: The average loss for epoch 40 is 924.6335356207677
+2020-05-12 21:55:35,684: Starting epoch 41
+2020-05-12 21:56:19,918: The average loss for epoch 41 is 789.2944441448616
+2020-05-12 21:56:19,918: Starting epoch 42
+2020-05-12 21:57:04,893: The average loss for epoch 42 is 725.0208685933113
+2020-05-12 21:57:04,893: Starting epoch 43
+2020-05-12 21:57:52,753: The average loss for epoch 43 is 701.9927435771822
+2020-05-12 21:57:52,753: Starting epoch 44
+2020-05-12 21:58:35,383: The average loss for epoch 44 is 778.9637795662308
+2020-05-12 21:58:35,383: Starting epoch 45
+2020-05-12 21:59:19,972: The average loss for epoch 45 is 721.9291783181404
+2020-05-12 21:59:19,973: Starting epoch 46
+2020-05-12 22:00:05,632: The average loss for epoch 46 is 721.258585728467
+2020-05-12 22:00:05,632: Starting epoch 47
+2020-05-12 22:00:52,923: The average loss for epoch 47 is 738.4454238915123
+2020-05-12 22:00:52,923: Starting epoch 48
+2020-05-12 22:01:37,036: The average loss for epoch 48 is 771.0020044289399
+2020-05-12 22:01:37,037: Starting epoch 49
+2020-05-12 22:02:25,116: The average loss for epoch 49 is 648.8596661569159
+2020-05-12 22:02:25,116: Starting epoch 50
+2020-05-12 22:03:08,687: The average loss for epoch 50 is 696.2413495670093
+2020-05-12 22:03:08,687: Starting epoch 51
+2020-05-12 22:03:53,442: The average loss for epoch 51 is 628.5778291522079
+2020-05-12 22:03:53,443: Starting epoch 52
+2020-05-12 22:04:38,757: The average loss for epoch 52 is 614.6068505020662
+2020-05-12 22:04:38,757: Starting epoch 53
+2020-05-12 22:05:27,045: The average loss for epoch 53 is 609.180568007062
+2020-05-12 22:05:27,045: Starting epoch 54
+2020-05-12 22:06:18,226: The average loss for epoch 54 is 614.4995621087083
+2020-05-12 22:06:18,226: Starting epoch 55
+2020-05-12 22:07:10,177: The average loss for epoch 55 is 570.8531008923902
+2020-05-12 22:07:10,177: Starting epoch 56
+2020-05-12 22:08:01,036: The average loss for epoch 56 is 581.9913730415524
+2020-05-12 22:08:01,036: Starting epoch 57
+2020-05-12 22:08:46,333: The average loss for epoch 57 is 549.8432436272899
+2020-05-12 22:08:46,334: Starting epoch 58
+2020-05-12 22:09:32,836: The average loss for epoch 58 is 547.2669137745958
+2020-05-12 22:09:32,836: Starting epoch 59
+2020-05-12 22:10:22,267: The average loss for epoch 59 is 595.0826918033481
+2020-05-12 22:10:22,267: Starting epoch 60
+2020-05-12 22:11:13,425: The average loss for epoch 60 is 585.9205274012771
+2020-05-12 22:11:13,425: Starting epoch 61
+2020-05-12 22:11:57,410: The average loss for epoch 61 is 543.7396420947363
+2020-05-12 22:11:57,410: Starting epoch 62
+2020-05-12 22:12:41,469: The average loss for epoch 62 is 549.120624017201
+2020-05-12 22:12:41,469: Starting epoch 63
+2020-05-12 22:13:31,933: The average loss for epoch 63 is 511.78914688873124
+2020-05-12 22:13:31,933: Starting epoch 64
+2020-05-12 22:14:23,654: The average loss for epoch 64 is 508.499739044801
+2020-05-12 22:14:23,654: Starting epoch 65
+2020-05-12 22:15:08,779: The average loss for epoch 65 is 499.2339558184501
+2020-05-12 22:15:08,779: Starting epoch 66
+2020-05-12 22:15:50,725: The average loss for epoch 66 is 467.8578036101845
+2020-05-12 22:15:50,725: Starting epoch 67
+2020-05-12 22:16:30,822: The average loss for epoch 67 is 456.1699004703565
+2020-05-12 22:16:30,823: Starting epoch 68
+2020-05-12 22:17:12,291: The average loss for epoch 68 is 508.80484130429267
+2020-05-12 22:17:12,292: Starting epoch 69
+2020-05-12 22:17:53,214: The average loss for epoch 69 is 476.3597682674822
+2020-05-12 22:17:53,214: Starting epoch 70
+2020-05-12 22:18:34,178: The average loss for epoch 70 is 493.0928701985856
+2020-05-12 22:18:34,178: Starting epoch 71
+2020-05-12 22:19:15,133: The average loss for epoch 71 is 516.4045732334778
+2020-05-12 22:19:15,133: Starting epoch 72
+2020-05-12 22:19:55,737: The average loss for epoch 72 is 450.49803363570715
+2020-05-12 22:19:55,737: Starting epoch 73
+2020-05-12 22:20:37,510: The average loss for epoch 73 is 437.33710274594495
+2020-05-12 22:20:37,510: Starting epoch 74
+2020-05-12 22:21:18,727: The average loss for epoch 74 is 391.76963176781896
+2020-05-12 22:21:18,727: Starting epoch 75
+2020-05-12 22:22:01,784: The average loss for epoch 75 is 417.4627420458597
+2020-05-12 22:22:01,785: Starting epoch 76
+2020-05-12 22:22:46,358: The average loss for epoch 76 is 380.362614782653
+2020-05-12 22:22:46,358: Starting epoch 77
+2020-05-12 22:23:31,049: The average loss for epoch 77 is 407.90159665065516
+2020-05-12 22:23:31,049: Starting epoch 78
+2020-05-12 22:24:14,639: The average loss for epoch 78 is 425.36464819690775
+2020-05-12 22:24:14,639: Starting epoch 79
+2020-05-12 22:24:57,348: The average loss for epoch 79 is 421.5918514047575
+2020-05-12 22:24:57,348: Starting epoch 80
+2020-05-12 22:25:42,950: The average loss for epoch 80 is 393.46583977493253
+2020-05-12 22:25:42,950: Starting epoch 81
+2020-05-12 22:26:30,474: The average loss for epoch 81 is 391.1461043804129
+2020-05-12 22:26:30,474: Starting epoch 82
+2020-05-12 22:27:13,525: The average loss for epoch 82 is 349.64485354277565
+2020-05-12 22:27:13,526: Starting epoch 83
+2020-05-12 22:27:56,533: The average loss for epoch 83 is 356.8640985243175
+2020-05-12 22:27:56,533: Starting epoch 84
+2020-05-12 22:28:42,730: The average loss for epoch 84 is 388.0968140764033
+2020-05-12 22:28:42,731: Starting epoch 85
+2020-05-12 22:29:24,361: The average loss for epoch 85 is 352.04925314662376
+2020-05-12 22:29:24,362: Starting epoch 86
+2020-05-12 22:30:10,459: The average loss for epoch 86 is 370.7508409840765
+2020-05-12 22:30:10,460: Starting epoch 87
+2020-05-12 22:30:54,653: The average loss for epoch 87 is 388.1457055954386
+2020-05-12 22:30:54,653: Starting epoch 88
+2020-05-12 22:31:36,755: The average loss for epoch 88 is 357.9582463953102
+2020-05-12 22:31:36,755: Starting epoch 89
+2020-05-12 22:32:18,176: The average loss for epoch 89 is 346.5433876996942
+2020-05-12 22:32:18,176: Starting epoch 90
+2020-05-12 22:32:59,185: The average loss for epoch 90 is 349.578076142305
+2020-05-12 22:32:59,185: Starting epoch 91
+2020-05-12 22:33:40,804: The average loss for epoch 91 is 338.22835583614375
+2020-05-12 22:33:40,804: Starting epoch 92
+2020-05-12 22:34:22,820: The average loss for epoch 92 is 322.7886155495374
+2020-05-12 22:34:22,821: Starting epoch 93
+2020-05-12 22:35:04,147: The average loss for epoch 93 is 339.2513831633614
+2020-05-12 22:35:04,147: Starting epoch 94
+2020-05-12 22:35:45,284: The average loss for epoch 94 is 316.66257395993193
+2020-05-12 22:35:45,284: Starting epoch 95
+2020-05-12 22:36:26,560: The average loss for epoch 95 is 305.36263156362475
+2020-05-12 22:36:26,560: Starting epoch 96
+2020-05-12 22:37:07,482: The average loss for epoch 96 is 323.3532510340358
+2020-05-12 22:37:07,482: Starting epoch 97
+2020-05-12 22:37:48,635: The average loss for epoch 97 is 328.02560343487204
+2020-05-12 22:37:48,635: Starting epoch 98
+2020-05-12 22:38:29,701: The average loss for epoch 98 is 309.0396122465153
+2020-05-12 22:38:29,702: Starting epoch 99
+2020-05-12 22:39:10,620: The average loss for epoch 99 is 301.8952222738831
+2020-05-12 22:39:10,622: Training done
+2020-05-12 22:39:10,623: Training with <function train_cnn_regression_with_keras at 0x63aebaf80> took 4546.705955982208 seconds
+2020-05-12 22:39:10,623: <tensorflow.python.keras.engine.sequential.Sequential object at 0x63a8d0f10>
+2020-05-12 22:39:10,623: Saving model...
+2020-05-12 22:54:53,917: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-05-12 22:54:54,027: Could not load model model_28.pkl: 
+2020-05-12 22:57:20,467: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-05-12 22:57:20,771: Could not load model model_23.pkl: module 'tensorflow' has no attribute 'placeholder'
+2020-05-12 23:22:01,271: Training model with <function train_cnn_regression_with_keras at 0x645ed3440> on eye_strips_regression.pkl
+2020-05-13 16:48:17,647: Training model with <function train_cnn_regression_with_keras at 0x63b3b64d0> on eye_strips_regression.pkl
+2020-05-13 16:48:40,665: Training model with <function train_cnn_regression_with_keras at 0x64033b0e0> on eye_strips_regression.pkl
+2020-05-13 16:48:40,667: Loading train data...
+2020-05-13 16:48:41,568: Starting epoch 0
+2020-05-13 16:49:29,310: The average loss for epoch 0 is 181238.57650779013
+2020-05-13 16:49:29,310: Starting epoch 1
+2020-05-13 16:50:11,082: The average loss for epoch 1 is 39373.37608559513
+2020-05-13 16:50:11,082: Starting epoch 2
+2020-05-13 16:50:32,694: The average loss for epoch 2 is 14331.03802333734
+2020-05-13 16:50:41,602: Training model with <function train_cnn_regression_with_keras at 0x6459af0e0> on eye_strips_regression.pkl
+2020-05-13 16:50:41,603: Loading train data...
+2020-05-13 16:50:42,275: Starting epoch 0
+2020-05-13 16:51:24,226: The average loss for epoch 0 is 67425.61071134868
+2020-05-13 16:51:24,228: Training done
+2020-05-13 16:51:24,228: Training with <function train_cnn_regression_with_keras at 0x6459af0e0> took 42.62651586532593 seconds
+2020-05-13 16:51:24,228: <tensorflow.python.keras.engine.sequential.Sequential object at 0x64551f490>
+2020-05-13 16:51:24,228: Saving model...
+2020-05-13 16:51:25,374: Model saved as model_26.pkl
+2020-05-13 17:07:58,729: Training model with <function train_cnn_regression_with_keras at 0x644ecc0e0> on eye_strips_regression.pkl
+2020-05-13 17:07:58,730: Loading train data...
+2020-05-13 17:07:59,465: Starting epoch 0
+2020-05-13 17:08:44,343: The average loss for epoch 0 is 184732.4399550622
+2020-05-13 17:08:44,344: Starting epoch 1
+2020-05-13 17:09:24,959: The average loss for epoch 1 is 48432.54724919484
+2020-05-13 17:09:24,959: Starting epoch 2
+2020-05-13 17:10:13,006: The average loss for epoch 2 is 12617.718571074653
+2020-05-13 17:10:13,006: Starting epoch 3
+2020-05-13 17:10:53,997: The average loss for epoch 3 is 10374.094392797911
+2020-05-13 17:10:53,997: Starting epoch 4
+2020-05-13 17:11:34,586: The average loss for epoch 4 is 8652.336869976327
+2020-05-13 17:11:34,586: Starting epoch 5
+2020-05-13 17:12:15,314: The average loss for epoch 5 is 7928.4776052992875
+2020-05-13 17:12:15,314: Starting epoch 6
+2020-05-13 17:12:56,517: The average loss for epoch 6 is 6604.329372638702
+2020-05-13 17:12:56,517: Starting epoch 7
+2020-05-13 17:13:38,497: The average loss for epoch 7 is 5873.460885026701
+2020-05-13 17:13:38,497: Starting epoch 8
+2020-05-13 17:14:19,576: The average loss for epoch 8 is 5472.937433655686
+2020-05-13 17:14:19,576: Starting epoch 9
+2020-05-13 17:15:01,877: The average loss for epoch 9 is 4814.417706491033
+2020-05-13 17:15:01,880: Training done
+2020-05-13 17:15:01,880: Training with <function train_cnn_regression_with_keras at 0x644ecc0e0> took 423.1513102054596 seconds
+2020-05-13 17:15:01,880: <tensorflow.python.keras.engine.sequential.Sequential object at 0x644ee95d0>
+2020-05-13 17:15:01,880: Saving model...
+2020-05-13 17:15:02,982: Model saved as model_27.pkl
+2020-05-13 17:21:18,824: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-05-13 17:21:18,897: Could not load model model_27.pkl: cannot import name 'tf' from 'tensorflow' (/usr/local/Caskroom/miniconda/base/envs/iClicker/lib/python3.7/site-packages/tensorflow/__init__.py)
+2020-05-13 17:21:48,138: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-05-13 17:21:49,117: Model chosen: model_27.pkl
+2020-05-13 17:24:47,358: Training model with <function train_cnn_regression_with_keras at 0x643fa5320> on eye_strips_regression.pkl
+2020-05-13 17:24:47,360: Loading train data...
+2020-05-13 17:24:48,143: Starting epoch 0
+2020-05-13 17:25:30,691: The average loss for epoch 0 is 126677.5800729637
+2020-05-13 17:25:30,691: Starting epoch 1
+2020-05-13 17:26:11,910: The average loss for epoch 1 is 19073.204103282937
+2020-05-13 17:26:11,911: Starting epoch 2
+2020-05-13 17:26:53,548: The average loss for epoch 2 is 10431.36856976282
+2020-05-13 17:26:53,548: Starting epoch 3
+2020-05-13 17:27:34,892: The average loss for epoch 3 is 6981.5186737201675
+2020-05-13 17:27:34,892: Starting epoch 4
+2020-05-13 17:28:20,715: The average loss for epoch 4 is 5624.588972080334
+2020-05-13 17:28:20,715: Starting epoch 5
+2020-05-13 17:29:11,027: The average loss for epoch 5 is 4482.15850323356
+2020-05-13 17:29:11,028: Starting epoch 6
+2020-05-13 17:29:52,582: The average loss for epoch 6 is 3830.8923810544293
+2020-05-13 17:29:52,583: Starting epoch 7
+2020-05-13 17:30:33,689: The average loss for epoch 7 is 3259.771586955998
+2020-05-13 17:30:33,689: Starting epoch 8
+2020-05-13 17:31:14,836: The average loss for epoch 8 is 2714.117128521302
+2020-05-13 17:31:14,836: Starting epoch 9
+2020-05-13 17:31:56,002: The average loss for epoch 9 is 3100.1260363207703
+2020-05-13 17:31:56,003: Starting epoch 10
+2020-05-13 17:32:36,993: The average loss for epoch 10 is 2260.9963619767295
+2020-05-13 17:32:36,993: Starting epoch 11
+2020-05-13 17:33:18,007: The average loss for epoch 11 is 2156.7300819475936
+2020-05-13 17:33:18,007: Starting epoch 12
+2020-05-13 17:33:58,891: The average loss for epoch 12 is 1752.3200295420372
+2020-05-13 17:33:58,891: Starting epoch 13
+2020-05-13 17:34:40,006: The average loss for epoch 13 is 1762.869134173365
+2020-05-13 17:34:40,006: Starting epoch 14
+2020-05-13 17:35:20,975: The average loss for epoch 14 is 1533.8696581805443
+2020-05-13 17:35:20,975: Starting epoch 15
+2020-05-13 17:36:01,840: The average loss for epoch 15 is 1603.030637712947
+2020-05-13 17:36:01,841: Starting epoch 16
+2020-05-13 17:36:43,071: The average loss for epoch 16 is 1444.3156316505606
+2020-05-13 17:36:43,072: Starting epoch 17
+2020-05-13 17:37:24,064: The average loss for epoch 17 is 1480.8974245395252
+2020-05-13 17:37:24,064: Starting epoch 18
+2020-05-13 17:38:05,126: The average loss for epoch 18 is 1307.4112569527122
+2020-05-13 17:38:05,127: Starting epoch 19
+2020-05-13 17:38:46,151: The average loss for epoch 19 is 1244.5279500692905
+2020-05-13 17:38:46,151: Starting epoch 20
+2020-05-13 17:39:27,459: The average loss for epoch 20 is 1603.0426807651381
+2020-05-13 17:39:27,459: Starting epoch 21
+2020-05-13 17:40:09,357: The average loss for epoch 21 is 1179.5949699369933
+2020-05-13 17:40:09,358: Starting epoch 22
+2020-05-13 17:40:57,976: The average loss for epoch 22 is 1289.8982937629462
+2020-05-13 17:40:57,976: Starting epoch 23
+2020-05-13 17:41:45,251: The average loss for epoch 23 is 1226.1118235702531
+2020-05-13 17:41:45,252: Starting epoch 24
+2020-05-13 17:42:27,033: The average loss for epoch 24 is 975.6625281667635
+2020-05-13 17:42:27,033: Starting epoch 25
+2020-05-13 17:43:08,201: The average loss for epoch 25 is 1050.4303592093006
+2020-05-13 17:43:08,201: Starting epoch 26
+2020-05-13 17:43:48,818: The average loss for epoch 26 is 951.170489323189
+2020-05-13 17:43:48,818: Starting epoch 27
+2020-05-13 17:44:30,514: The average loss for epoch 27 is 1018.2745899098793
+2020-05-13 17:44:30,514: Starting epoch 28
+2020-05-13 17:45:13,558: The average loss for epoch 28 is 999.3516884950571
+2020-05-13 17:45:13,558: Starting epoch 29
+2020-05-13 17:45:59,678: The average loss for epoch 29 is 832.5581730093049
+2020-05-13 17:45:59,678: Starting epoch 30
+2020-05-13 17:46:43,074: The average loss for epoch 30 is 951.0233608868332
+2020-05-13 17:46:43,074: Starting epoch 31
+2020-05-13 17:47:24,648: The average loss for epoch 31 is 841.8493401267617
+2020-05-13 17:47:24,648: Starting epoch 32
+2020-05-13 17:48:07,144: The average loss for epoch 32 is 775.6008019597487
+2020-05-13 17:48:07,146: Starting epoch 33
+2020-05-13 17:48:54,167: The average loss for epoch 33 is 746.40131632711
+2020-05-13 17:48:54,167: Starting epoch 34
+2020-05-13 17:49:35,549: The average loss for epoch 34 is 901.44001584199
+2020-05-13 17:49:35,549: Starting epoch 35
+2020-05-13 17:50:16,713: The average loss for epoch 35 is 782.7711446964119
+2020-05-13 17:50:16,713: Starting epoch 36
+2020-05-13 17:50:58,014: The average loss for epoch 36 is 740.7759126294843
+2020-05-13 17:50:58,015: Starting epoch 37
+2020-05-13 17:51:39,317: The average loss for epoch 37 is 808.6536109721022
+2020-05-13 17:51:39,317: Starting epoch 38
+2020-05-13 17:52:23,565: The average loss for epoch 38 is 757.0172222366787
+2020-05-13 17:52:23,565: Starting epoch 39
+2020-05-13 17:53:06,453: The average loss for epoch 39 is 693.3639065612914
+2020-05-13 17:53:06,453: Starting epoch 40
+2020-05-13 17:53:48,464: The average loss for epoch 40 is 654.4429970888071
+2020-05-13 17:53:48,465: Starting epoch 41
+2020-05-13 17:54:29,712: The average loss for epoch 41 is 692.5649800488561
+2020-05-13 17:54:29,712: Starting epoch 42
+2020-05-13 17:55:11,224: The average loss for epoch 42 is 727.4864204640274
+2020-05-13 17:55:11,224: Starting epoch 43
+2020-05-13 17:55:52,987: The average loss for epoch 43 is 599.0245078800272
+2020-05-13 17:55:52,987: Starting epoch 44
+2020-05-13 17:56:34,067: The average loss for epoch 44 is 569.4610809279129
+2020-05-13 17:56:34,068: Starting epoch 45
+2020-05-13 17:57:14,707: The average loss for epoch 45 is 567.8736374348277
+2020-05-13 17:57:14,708: Starting epoch 46
+2020-05-13 17:57:55,163: The average loss for epoch 46 is 674.1137210767822
+2020-05-13 17:57:55,163: Starting epoch 47
+2020-05-13 17:58:35,558: The average loss for epoch 47 is 678.5971832510606
+2020-05-13 17:58:35,558: Starting epoch 48
+2020-05-13 17:59:16,064: The average loss for epoch 48 is 588.0679298036295
+2020-05-13 17:59:16,064: Starting epoch 49
+2020-05-13 18:00:00,131: The average loss for epoch 49 is 667.1059163254648
+2020-05-13 18:00:00,131: Starting epoch 50
+2020-05-13 18:00:42,800: The average loss for epoch 50 is 551.5452781262259
+2020-05-13 18:00:42,800: Starting epoch 51
+2020-05-13 18:01:26,788: The average loss for epoch 51 is 545.3606076050477
+2020-05-13 18:01:26,788: Starting epoch 52
+2020-05-13 18:02:09,587: The average loss for epoch 52 is 544.4953842851933
+2020-05-13 18:02:09,588: Starting epoch 53
+2020-05-13 18:02:53,557: The average loss for epoch 53 is 568.0145237932539
+2020-05-13 18:02:53,558: Starting epoch 54
+2020-05-13 18:03:37,365: The average loss for epoch 54 is 506.5789819249916
+2020-05-13 18:03:37,365: Starting epoch 55
+2020-05-13 18:04:23,186: The average loss for epoch 55 is 544.4189211995138
+2020-05-13 18:04:23,186: Starting epoch 56
+2020-05-13 18:05:14,761: The average loss for epoch 56 is 510.10490155718816
+2020-05-13 18:05:14,761: Starting epoch 57
+2020-05-13 18:05:57,195: The average loss for epoch 57 is 486.8275057707188
+2020-05-13 18:05:57,195: Starting epoch 58
+2020-05-13 18:06:40,247: The average loss for epoch 58 is 512.5043850554109
+2020-05-13 18:06:40,248: Starting epoch 59
+2020-05-13 18:07:23,408: The average loss for epoch 59 is 502.899835381154
+2020-05-13 18:07:23,408: Starting epoch 60
+2020-05-13 18:08:29,106: The average loss for epoch 60 is 487.6263758515083
+2020-05-13 18:08:29,106: Starting epoch 61
+2020-05-13 18:09:33,024: The average loss for epoch 61 is 437.24715842436234
+2020-05-13 18:09:33,026: Starting epoch 62
+2020-05-13 18:10:19,341: The average loss for epoch 62 is 437.17857259024976
+2020-05-13 18:10:19,342: Starting epoch 63
+2020-05-13 18:11:02,040: The average loss for epoch 63 is 436.4691075012301
+2020-05-13 18:11:02,040: Starting epoch 64
+2020-05-13 18:11:53,345: The average loss for epoch 64 is 447.05736956568023
+2020-05-13 18:11:53,346: Starting epoch 65
+2020-05-13 18:12:46,178: The average loss for epoch 65 is 461.8291273690404
+2020-05-13 18:12:46,180: Starting epoch 66
+2020-05-13 18:13:34,640: The average loss for epoch 66 is 479.1967339766653
+2020-05-13 18:13:34,640: Starting epoch 67
+2020-05-13 18:14:20,818: The average loss for epoch 67 is 409.6608732282735
+2020-05-13 18:14:20,818: Starting epoch 68
+2020-05-13 18:15:03,271: The average loss for epoch 68 is 413.84471742940406
+2020-05-13 18:15:03,271: Starting epoch 69
+2020-05-13 18:15:44,913: The average loss for epoch 69 is 415.7757970981728
+2020-05-13 18:15:44,913: Starting epoch 70
+2020-05-13 18:16:26,868: The average loss for epoch 70 is 380.02687684651175
+2020-05-13 18:16:26,868: Starting epoch 71
+2020-05-13 18:17:11,448: The average loss for epoch 71 is 423.01791719874734
+2020-05-13 18:17:11,448: Starting epoch 72
+2020-05-13 18:18:02,829: The average loss for epoch 72 is 395.3042083115232
+2020-05-13 18:18:02,830: Starting epoch 73
+2020-05-13 18:18:44,644: The average loss for epoch 73 is 406.4485677396954
+2020-05-13 18:18:44,644: Starting epoch 74
+2020-05-13 18:19:27,481: The average loss for epoch 74 is 392.2782100433034
+2020-05-13 18:19:27,481: Starting epoch 75
+2020-05-13 18:20:09,501: The average loss for epoch 75 is 365.33649334196633
+2020-05-13 18:20:09,502: Starting epoch 76
+2020-05-13 18:20:51,487: The average loss for epoch 76 is 365.7889383597879
+2020-05-13 18:20:51,487: Starting epoch 77
+2020-05-13 18:21:33,542: The average loss for epoch 77 is 364.51535815096355
+2020-05-13 18:21:33,544: Starting epoch 78
+2020-05-13 18:22:16,761: The average loss for epoch 78 is 403.0882387579183
+2020-05-13 18:22:16,762: Starting epoch 79
+2020-05-13 18:23:03,718: The average loss for epoch 79 is 387.7940714251651
+2020-05-13 18:23:03,718: Starting epoch 80
+2020-05-13 18:23:49,146: The average loss for epoch 80 is 369.81751148229756
+2020-05-13 18:23:49,146: Starting epoch 81
+2020-05-13 18:24:35,300: The average loss for epoch 81 is 407.72213263932736
+2020-05-13 18:24:35,300: Starting epoch 82
+2020-05-13 18:25:18,613: The average loss for epoch 82 is 342.1555178066204
+2020-05-13 18:25:18,613: Starting epoch 83
+2020-05-13 18:26:06,323: The average loss for epoch 83 is 341.4259177491256
+2020-05-13 18:26:06,325: Starting epoch 84
+2020-05-13 18:26:51,989: The average loss for epoch 84 is 319.8241741799542
+2020-05-13 18:26:51,990: Starting epoch 85
+2020-05-13 18:27:44,501: The average loss for epoch 85 is 388.70828075698756
+2020-05-13 18:27:44,503: Starting epoch 86
+2020-05-13 18:28:33,267: The average loss for epoch 86 is 400.5330056848045
+2020-05-13 18:28:33,267: Starting epoch 87
+2020-05-13 18:29:16,405: The average loss for epoch 87 is 316.6970591121926
+2020-05-13 18:29:16,405: Starting epoch 88
+2020-05-13 18:29:59,684: The average loss for epoch 88 is 294.155606308269
+2020-05-13 18:29:59,684: Starting epoch 89
+2020-05-13 18:30:42,472: The average loss for epoch 89 is 288.484816291841
+2020-05-13 18:30:42,472: Starting epoch 90
+2020-05-13 18:31:26,405: The average loss for epoch 90 is 324.2568357090046
+2020-05-13 18:31:26,405: Starting epoch 91
+2020-05-13 18:32:09,412: The average loss for epoch 91 is 331.14680041103367
+2020-05-13 18:32:09,412: Starting epoch 92
+2020-05-13 18:32:52,076: The average loss for epoch 92 is 328.96543928968356
+2020-05-13 18:32:52,077: Starting epoch 93
+2020-05-13 18:33:34,627: The average loss for epoch 93 is 316.9046093659946
+2020-05-13 18:33:34,628: Starting epoch 94
+2020-05-13 18:34:17,935: The average loss for epoch 94 is 316.52398418198857
+2020-05-13 18:34:17,936: Starting epoch 95
+2020-05-13 18:34:59,939: The average loss for epoch 95 is 309.3820352325406
+2020-05-13 18:34:59,939: Starting epoch 96
+2020-05-13 18:35:42,372: The average loss for epoch 96 is 315.2440645696308
+2020-05-13 18:35:42,374: Starting epoch 97
+2020-05-13 18:36:29,880: The average loss for epoch 97 is 304.20673070797125
+2020-05-13 18:36:29,882: Starting epoch 98
+2020-05-13 18:37:12,095: The average loss for epoch 98 is 313.9100525534066
+2020-05-13 18:37:12,095: Starting epoch 99
+2020-05-13 18:37:53,961: The average loss for epoch 99 is 281.41741013248645
+2020-05-13 18:37:53,965: Training done
+2020-05-13 18:37:53,966: Training with <function train_cnn_regression_with_keras at 0x643fa5320> took 4386.6079018116 seconds
+2020-05-13 18:37:53,966: <tensorflow.python.keras.engine.sequential.Sequential object at 0x13e192f90>
+2020-05-13 18:37:53,966: Saving model...
+2020-05-13 18:37:55,112: Model saved as model_26.pkl
+2020-05-13 18:47:46,028: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-05-13 18:47:46,969: Model chosen: model_26.pkl
+2020-05-13 18:55:54,906: Training model with <function train_cnn_regression_with_keras at 0x639888f80> on eye_strips_regression.pkl
+2020-05-13 18:55:54,908: Loading train data...
+2020-05-13 18:55:55,769: Starting epoch 0
+2020-05-13 18:56:06,663: The average loss for epoch 0 is 321476.6675
+2020-05-13 18:56:16,500: Training model with <function train_cnn_regression_with_keras at 0x641195050> on eye_strips_regression.pkl
+2020-05-13 18:56:16,502: Loading train data...
+2020-05-13 18:56:17,213: Starting epoch 0
+2020-05-13 18:57:11,927: The average loss for epoch 0 is 73448.3225863788
+2020-05-13 18:57:11,928: Starting epoch 1
+2020-05-13 18:58:05,764: The average loss for epoch 1 is 9345.007574864774
+2020-05-13 18:58:05,764: Starting epoch 2
+2020-05-13 18:58:31,150: The average loss for epoch 2 is 9566.235044537169
+2020-05-13 18:58:59,506: Training model with <function train_cnn_regression_with_keras at 0x647992f80> on eye_strips_regression.pkl
+2020-05-13 18:58:59,507: Loading train data...
+2020-05-13 18:59:00,334: Starting epoch 0
+2020-05-13 18:59:54,372: The average loss for epoch 0 is 1018476.4889995321
+2020-05-13 18:59:54,372: Starting epoch 1
+2020-05-13 19:00:45,035: The average loss for epoch 1 is 32750.76802758891
+2020-05-13 19:00:45,035: Starting epoch 2
+2020-05-13 19:01:15,314: The average loss for epoch 2 is 16726.95276025979
+2020-05-13 19:02:22,187: Training model with <function train_cnn_regression_with_keras at 0x640253050> on eye_strips_regression.pkl
+2020-05-13 19:02:22,190: Loading train data...
+2020-05-13 19:02:23,129: Starting epoch 0
+2020-05-13 19:03:41,445: The average loss for epoch 0 is 219440.43638085635
+2020-05-13 19:03:41,445: Starting epoch 1
+2020-05-13 19:04:36,609: The average loss for epoch 1 is 18964.274855999505
+2020-05-13 19:04:36,609: Starting epoch 2
+2020-05-13 19:05:35,849: The average loss for epoch 2 is 13598.166452615751
+2020-05-13 19:05:35,850: Starting epoch 3
+2020-05-13 19:06:31,735: The average loss for epoch 3 is 12328.624159567
+2020-05-13 19:06:31,737: Starting epoch 4
+2020-05-13 19:07:24,760: The average loss for epoch 4 is 10437.754468294945
+2020-05-13 19:07:24,760: Starting epoch 5
+2020-05-13 19:08:21,746: The average loss for epoch 5 is 8263.8344476024
+2020-05-13 19:08:21,746: Starting epoch 6
+2020-05-13 19:09:21,031: The average loss for epoch 6 is 8151.278361925546
+2020-05-13 19:09:21,031: Starting epoch 7
+2020-05-13 19:10:14,346: The average loss for epoch 7 is 5926.452634675732
+2020-05-13 19:10:14,346: Starting epoch 8
+2020-05-13 19:11:05,450: The average loss for epoch 8 is 4794.312292364877
+2020-05-13 19:11:05,450: Starting epoch 9
+2020-05-13 19:11:56,453: The average loss for epoch 9 is 5079.678896314482
+2020-05-13 19:11:56,453: Starting epoch 10
+2020-05-13 19:12:50,240: The average loss for epoch 10 is 4629.2699659826785
+2020-05-13 19:12:50,241: Starting epoch 11
+2020-05-13 19:13:41,826: The average loss for epoch 11 is 3739.964594878176
+2020-05-13 19:13:41,826: Starting epoch 12
+2020-05-13 19:14:35,439: The average loss for epoch 12 is 3060.0678428140827
+2020-05-13 19:14:35,439: Starting epoch 13
+2020-05-13 19:15:31,244: The average loss for epoch 13 is 2561.362000923014
+2020-05-13 19:15:31,245: Starting epoch 14
+2020-05-13 19:16:27,832: The average loss for epoch 14 is 2328.3479973264425
+2020-05-13 19:16:27,832: Starting epoch 15
+2020-05-13 19:17:32,753: The average loss for epoch 15 is 2223.8623899566105
+2020-05-13 19:17:32,754: Starting epoch 16
+2020-05-13 19:18:36,599: The average loss for epoch 16 is 2734.1929584327604
+2020-05-13 19:18:36,599: Starting epoch 17
+2020-05-13 19:19:30,505: The average loss for epoch 17 is 2154.217304564919
+2020-05-13 19:19:30,505: Starting epoch 18
+2020-05-13 19:20:39,575: The average loss for epoch 18 is 2096.7126829092317
+2020-05-13 19:20:39,576: Starting epoch 19
+2020-05-13 19:21:40,941: The average loss for epoch 19 is 1773.2863373830965
+2020-05-13 19:21:40,941: Starting epoch 20
+2020-05-13 19:22:33,896: The average loss for epoch 20 is 1840.6000569303035
+2020-05-13 19:22:33,896: Starting epoch 21
+2020-05-13 19:23:25,096: The average loss for epoch 21 is 1840.4367728469604
+2020-05-13 19:23:25,096: Starting epoch 22
+2020-05-13 19:24:19,025: The average loss for epoch 22 is 1976.7375460861801
+2020-05-13 19:24:19,025: Starting epoch 23
+2020-05-13 19:25:13,013: The average loss for epoch 23 is 1790.8164718953872
+2020-05-13 19:25:13,014: Starting epoch 24
+2020-05-13 19:26:05,292: The average loss for epoch 24 is 1631.5605491061904
+2020-05-13 19:26:05,293: Starting epoch 25
+2020-05-13 19:26:58,755: The average loss for epoch 25 is 1627.4220880114856
+2020-05-13 19:26:58,755: Starting epoch 26
+2020-05-13 19:27:49,906: The average loss for epoch 26 is 1510.2476832178347
+2020-05-13 19:27:49,906: Starting epoch 27
+2020-05-13 19:28:41,686: The average loss for epoch 27 is 1766.0826616822767
+2020-05-13 19:28:41,686: Starting epoch 28
+2020-05-13 19:29:34,386: The average loss for epoch 28 is 1498.8450381764756
+2020-05-13 19:29:34,386: Starting epoch 29
+2020-05-13 19:30:28,211: The average loss for epoch 29 is 1694.6720246241707
+2020-05-13 19:30:28,211: Starting epoch 30
+2020-05-13 19:31:20,902: The average loss for epoch 30 is 1456.5739751470112
+2020-05-13 19:31:20,903: Starting epoch 31
+2020-05-13 19:32:12,911: The average loss for epoch 31 is 1390.4639699701117
+2020-05-13 19:32:12,911: Starting epoch 32
+2020-05-13 19:33:04,734: The average loss for epoch 32 is 1428.6221724633892
+2020-05-13 19:33:04,734: Starting epoch 33
+2020-05-13 19:33:55,903: The average loss for epoch 33 is 1283.921540751538
+2020-05-13 19:33:55,904: Starting epoch 34
+2020-05-13 19:34:46,984: The average loss for epoch 34 is 1389.5508538443357
+2020-05-13 19:34:46,984: Starting epoch 35
+2020-05-13 19:35:38,039: The average loss for epoch 35 is 1195.836298186725
+2020-05-13 19:35:38,039: Starting epoch 36
+2020-05-13 19:36:29,730: The average loss for epoch 36 is 1358.2606256279591
+2020-05-13 19:36:29,730: Starting epoch 37
+2020-05-13 19:37:22,578: The average loss for epoch 37 is 1306.1977783418179
+2020-05-13 19:37:22,578: Starting epoch 38
+2020-05-13 19:38:15,032: The average loss for epoch 38 is 1304.4256837227827
+2020-05-13 19:38:15,032: Starting epoch 39
+2020-05-13 19:39:06,172: The average loss for epoch 39 is 1175.9441086248899
+2020-05-13 19:39:06,173: Starting epoch 40
+2020-05-13 19:39:57,334: The average loss for epoch 40 is 1158.9482957360713
+2020-05-13 19:39:57,334: Starting epoch 41
+2020-05-13 19:40:56,653: The average loss for epoch 41 is 1171.3948697189066
+2020-05-13 19:40:56,654: Starting epoch 42
+2020-05-13 19:41:48,971: The average loss for epoch 42 is 1037.1868107234347
+2020-05-13 19:41:48,971: Starting epoch 43
+2020-05-13 19:42:40,112: The average loss for epoch 43 is 1191.736908530223
+2020-05-13 19:42:40,113: Starting epoch 44
+2020-05-13 19:43:31,200: The average loss for epoch 44 is 1272.87129867006
+2020-05-13 19:43:31,200: Starting epoch 45
+2020-05-13 19:44:22,319: The average loss for epoch 45 is 1104.8738931682346
+2020-05-13 19:44:22,319: Starting epoch 46
+2020-05-13 19:45:13,461: The average loss for epoch 46 is 1478.7174317696577
+2020-05-13 19:45:13,461: Starting epoch 47
+2020-05-13 19:46:04,456: The average loss for epoch 47 is 1131.0442138080475
+2020-05-13 19:46:04,456: Starting epoch 48
+2020-05-13 19:46:55,514: The average loss for epoch 48 is 1155.759254789909
+2020-05-13 19:46:55,514: Starting epoch 49
+2020-05-13 19:47:46,548: The average loss for epoch 49 is 1209.607762279397
+2020-05-13 19:47:46,548: Starting epoch 50
+2020-05-13 19:48:37,673: The average loss for epoch 50 is 986.0855686815266
+2020-05-13 19:48:37,674: Starting epoch 51
+2020-05-13 19:49:28,914: The average loss for epoch 51 is 898.4297187769894
+2020-05-13 19:49:28,914: Starting epoch 52
+2020-05-13 19:50:19,916: The average loss for epoch 52 is 874.9540240622333
+2020-05-13 19:50:19,916: Starting epoch 53
+2020-05-13 19:51:14,770: The average loss for epoch 53 is 1014.2077293034772
+2020-05-13 19:51:14,770: Starting epoch 54
+2020-05-13 19:52:14,817: The average loss for epoch 54 is 1140.9295283865492
+2020-05-13 19:52:14,817: Starting epoch 55
+2020-05-13 19:53:05,891: The average loss for epoch 55 is 1119.580281176774
+2020-05-13 19:53:05,891: Starting epoch 56
+2020-05-13 19:53:57,213: The average loss for epoch 56 is 1016.4016088818801
+2020-05-13 19:53:57,214: Starting epoch 57
+2020-05-13 19:54:48,421: The average loss for epoch 57 is 875.1103777991494
+2020-05-13 19:54:48,421: Starting epoch 58
+2020-05-13 19:55:41,007: The average loss for epoch 58 is 947.8843359057795
+2020-05-13 19:55:41,008: Starting epoch 59
+2020-05-13 19:56:42,706: The average loss for epoch 59 is 1110.498221902484
+2020-05-13 19:56:42,706: Starting epoch 60
+2020-05-13 19:57:39,809: The average loss for epoch 60 is 876.3405667901222
+2020-05-13 19:57:39,809: Starting epoch 61
+2020-05-13 19:58:37,761: The average loss for epoch 61 is 1059.460795080155
+2020-05-13 19:58:37,761: Starting epoch 62
+2020-05-13 19:59:39,677: The average loss for epoch 62 is 963.967407871726
+2020-05-13 19:59:39,677: Starting epoch 63
+2020-05-13 20:00:33,200: The average loss for epoch 63 is 993.7588682025572
+2020-05-13 20:00:33,200: Starting epoch 64
+2020-05-13 20:01:39,537: The average loss for epoch 64 is 890.5599387949507
+2020-05-13 20:01:39,538: Starting epoch 65
+2020-05-13 20:02:37,148: The average loss for epoch 65 is 1030.4151983641234
+2020-05-13 20:02:37,150: Starting epoch 66
+2020-05-13 20:03:32,703: The average loss for epoch 66 is 1026.668343079245
+2020-05-13 20:03:32,703: Starting epoch 67
+2020-05-13 20:04:33,563: The average loss for epoch 67 is 972.215896186417
+2020-05-13 20:04:33,563: Starting epoch 68
+2020-05-13 20:05:42,797: The average loss for epoch 68 is 756.2681709496205
+2020-05-13 20:05:42,797: Starting epoch 69
+2020-05-13 20:06:43,555: The average loss for epoch 69 is 771.6858753035494
+2020-05-13 20:06:43,555: Starting epoch 70
+2020-05-13 20:07:46,350: The average loss for epoch 70 is 847.7610883849278
+2020-05-13 20:07:46,351: Starting epoch 71
+2020-05-13 20:08:48,956: The average loss for epoch 71 is 874.2279580693181
+2020-05-13 20:08:48,956: Starting epoch 72
+2020-05-13 20:09:47,231: The average loss for epoch 72 is 737.4615053245344
+2020-05-13 20:09:47,232: Starting epoch 73
+2020-05-13 20:10:43,053: The average loss for epoch 73 is 932.0883494975467
+2020-05-13 20:10:43,054: Starting epoch 74
+2020-05-13 20:11:38,782: The average loss for epoch 74 is 764.8968887312301
+2020-05-13 20:11:38,782: Starting epoch 75
+2020-05-13 20:12:31,047: The average loss for epoch 75 is 1071.3451865640827
+2020-05-13 20:12:31,047: Starting epoch 76
+2020-05-13 20:13:22,849: The average loss for epoch 76 is 957.460028773755
+2020-05-13 20:13:22,849: Starting epoch 77
+2020-05-13 20:14:15,515: The average loss for epoch 77 is 786.2256032762693
+2020-05-13 20:14:15,516: Starting epoch 78
+2020-05-13 20:15:08,282: The average loss for epoch 78 is 762.8859641237475
+2020-05-13 20:15:08,282: Starting epoch 79
+2020-05-13 20:16:01,125: The average loss for epoch 79 is 777.004367515028
+2020-05-13 20:16:01,125: Starting epoch 80
+2020-05-13 20:16:54,804: The average loss for epoch 80 is 787.4922305512234
+2020-05-13 20:16:54,805: Starting epoch 81
+2020-05-13 20:17:51,841: The average loss for epoch 81 is 649.2200139290802
+2020-05-13 20:17:51,841: Starting epoch 82
+2020-05-13 20:18:44,334: The average loss for epoch 82 is 802.968590496763
+2020-05-13 20:18:44,334: Starting epoch 83
+2020-05-13 20:19:36,383: The average loss for epoch 83 is 710.3025687561505
+2020-05-13 20:19:36,383: Starting epoch 84
+2020-05-13 20:20:33,177: The average loss for epoch 84 is 689.8800752728397
+2020-05-13 20:20:33,178: Starting epoch 85
+2020-05-13 20:21:36,944: The average loss for epoch 85 is 954.5805618901054
+2020-05-13 20:21:36,945: Starting epoch 86
+2020-05-13 20:22:28,646: The average loss for epoch 86 is 673.5991536005823
+2020-05-13 20:22:28,646: Starting epoch 87
+2020-05-13 20:23:27,111: The average loss for epoch 87 is 689.8513962091052
+2020-05-13 20:23:27,112: Starting epoch 88
+2020-05-13 20:24:34,800: The average loss for epoch 88 is 746.2551545741878
+2020-05-13 20:24:34,801: Starting epoch 89
+2020-05-13 20:25:28,498: The average loss for epoch 89 is 862.5172347904853
+2020-05-13 20:25:28,498: Starting epoch 90
+2020-05-13 20:26:25,922: The average loss for epoch 90 is 796.5150097290657
+2020-05-13 20:26:25,922: Starting epoch 91
+2020-05-13 20:27:17,549: The average loss for epoch 91 is 633.2620859690055
+2020-05-13 20:27:17,549: Starting epoch 92
+2020-05-13 20:28:10,548: The average loss for epoch 92 is 664.961928135129
+2020-05-13 20:28:10,548: Starting epoch 93
+2020-05-13 20:29:02,268: The average loss for epoch 93 is 765.6292324070363
+2020-05-13 20:29:02,269: Starting epoch 94
+2020-05-13 20:29:53,633: The average loss for epoch 94 is 627.4262390069514
+2020-05-13 20:29:53,633: Starting epoch 95
+2020-05-13 20:30:45,061: The average loss for epoch 95 is 680.6244865237709
+2020-05-13 20:30:45,061: Starting epoch 96
+2020-05-13 20:31:36,401: The average loss for epoch 96 is 600.1094220700544
+2020-05-13 20:31:36,402: Starting epoch 97
+2020-05-13 20:32:27,825: The average loss for epoch 97 is 655.3466441766251
+2020-05-13 20:32:27,825: Starting epoch 98
+2020-05-13 20:33:19,819: The average loss for epoch 98 is 621.491657834199
+2020-05-13 20:33:19,819: Starting epoch 99
+2020-05-13 20:34:11,496: The average loss for epoch 99 is 632.7478127478503
+2020-05-13 20:34:11,499: Training done
+2020-05-13 20:34:11,499: Training with <function train_cnn_regression_with_keras at 0x640253050> took 5509.312132835388 seconds
+2020-05-13 20:34:11,499: <tensorflow.python.keras.engine.sequential.Sequential object at 0x64026e690>
+2020-05-13 20:34:11,499: Saving model...
+2020-05-13 20:34:13,134: Model saved as model_27.pkl
+2020-05-13 20:37:11,753: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-05-13 20:37:13,059: Model chosen: model_27.pkl
+2020-05-13 20:56:26,053: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-05-13 20:56:27,483: Model chosen: model_27.pkl
+2020-05-13 21:15:12,324: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-05-13 21:15:13,459: Model chosen: model_27.pkl
+2020-05-13 21:17:06,727: Training model with <function train_cnn_regression_with_keras at 0x63ebd2ef0> on eye_strips_regression.pkl
+2020-05-13 21:17:06,732: Loading train data...
+2020-05-13 21:17:08,135: Starting epoch 0
+2020-05-13 21:17:33,755: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-05-13 21:17:35,144: Model chosen: model_27.pkl

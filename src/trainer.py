@@ -10,7 +10,7 @@ from tensorflow.keras.callbacks import Callback
 
 # My files
 import config as Config
-from src.utils import setup_logger
+from src.utils import setup_logger, attach_logger_to_stdout
 
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
@@ -24,7 +24,7 @@ class MyCustomCallback(Callback):
         train_logger.info(f'Starting epoch {epoch}')
 
     def on_epoch_end(self, epoch, logs=None):
-        train_logger.info(f"The average loss for epoch {epoch} is {logs['loss']}")
+        train_logger.info(f"Train loss: {logs['loss']}, test loss: {logs['val_loss']}")
                                                  
 def get_last_model_number():
     path = os.path.join(os.getcwd(), Config.models_directory_path)
@@ -171,6 +171,7 @@ def train_cnn_regression_with_keras(which_data, input_shape, train_parameters):
     from tensorflow.keras.models import Sequential
     from tensorflow.keras.layers import Dense, ReLU, Dropout, Conv2D, MaxPooling2D, Flatten
     from tensorflow.keras.optimizers import RMSprop, Adam, Adagrad, SGD
+    from tensorflow.keras import regularizers
 
     train_logger.info('Loading train data...')
     X, y = get_data(which_data)
@@ -186,6 +187,8 @@ def train_cnn_regression_with_keras(which_data, input_shape, train_parameters):
     initial_input_shape = X[0].shape
 
     model = Sequential()
+    model.add(Conv2D(32, kernel_size=(4, 4),
+                     input_shape=input_shape))
     model.add(Conv2D(64, kernel_size=(3, 3),
                      input_shape=input_shape))
     model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -194,10 +197,11 @@ def train_cnn_regression_with_keras(which_data, input_shape, train_parameters):
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(ReLU())
     model.add(Flatten())
-    model.add(Dense(128, activation='relu'))
+    model.add(Dense(128, activation='relu', kernel_regularizer = regularizers.l2(0.01)))
+    model.add(Dense(32, activation='relu', kernel_regularizer = regularizers.l2(0.01)))
     model.add(Dense(2, activation='linear'))
 
-    opt = Adam(lr=0.01, decay=0.01 / train_parameters["epochs"])
+    opt = Adam(lr=0.02, decay=0.01 / train_parameters["epochs"])
     loss = 'mean_squared_error'
     model.compile(optimizer=opt, loss=loss)
     start_time = time.time()
@@ -306,7 +310,8 @@ def save_model(model, train_parameters={}):
         import torch
         torch.save(model["model"].state_dict(), model_path)
     else:
-        joblib.dump(model["model"], model_path)
+        # joblib.dump(model["model"], model_path)
+        model["model"].save(model_path)
     train_logger.info(f'Model saved as {model_name}')
 
 
@@ -387,10 +392,13 @@ def get_best_trained_model(prediction_type, trained_with=None, data_used=None, g
     try:
         if best_model_info['trained_with'] == 'keras':
             # Lazy library loading so app starts faster
-            from tensorflow.keras.backend import clear_session
-            # This is necessary if I want to load a model multiple times
-            clear_session()
-            model = joblib.load(os.path.join(path, best_model_name))
+            import tensorflow as tf
+            model = tf.keras.models.load_model(os.path.join(path, best_model_name))
+            ## this below is for version 1.4 of tensorflow/keras
+            # from tensorflow.keras.backend import clear_session
+            # # This is necessary if I want to load a model multiple times
+            # clear_session()
+            # model = joblib.load(os.path.join(path, best_model_name))
         else:
             # TODO maybe trained with pytorch, do this case too
             return None
@@ -411,4 +419,5 @@ def main():
     save_model(res, train_parameters=train_parameters)
 
 if __name__ == '__main__':
+    attach_logger_to_stdout()
     main()
