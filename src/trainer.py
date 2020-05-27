@@ -17,6 +17,7 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 last_model_number_lock = Lock()
 train_logger = setup_logger('train_logger', './logs/train.log')
 
+
 class MyCustomCallback(Callback):
     global train_logger
 
@@ -24,8 +25,10 @@ class MyCustomCallback(Callback):
         train_logger.info(f'Starting epoch {epoch}')
 
     def on_epoch_end(self, epoch, logs=None):
-        train_logger.info(f"Train loss: {logs['loss']}, test loss: {logs['val_loss']}")
-                                                 
+        train_logger.info(
+            f"Train loss: {logs['loss']}, test loss: {logs['val_loss']}")
+
+
 def get_last_model_number():
     path = os.path.join(os.getcwd(), Config.models_directory_path)
     os.makedirs(path, exist_ok=True)
@@ -43,7 +46,8 @@ def train_model(train_parameters):
     st = time.time()
     f = train_cnn_regression_with_keras
     # f = train_cnn_with_keras
-    f_args = (f'eye_strips_regression.pkl', (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1), train_parameters)
+    f_args = (f'eye_strips_regression.pkl', (Config.EYE_STRIP_HEIGHT,
+                                             Config.EYE_STRIP_WIDTH, 1), train_parameters)
     # f = train_mlp
     # Loading the data specific to the config's grid size
     # f_args = (f'eye_strips_{Config.grid_size}.pkl',
@@ -197,8 +201,10 @@ def train_cnn_regression_with_keras(which_data, input_shape, train_parameters):
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(ReLU())
     model.add(Flatten())
-    model.add(Dense(128, activation='relu', kernel_regularizer = regularizers.l2(0.01)))
-    model.add(Dense(32, activation='relu', kernel_regularizer = regularizers.l2(0.01)))
+    model.add(Dense(128, activation='relu',
+                    kernel_regularizer=regularizers.l2(0.01)))
+    model.add(Dense(32, activation='relu',
+                    kernel_regularizer=regularizers.l2(0.01)))
     model.add(Dense(2, activation='linear'))
 
     opt = Adam(lr=0.02, decay=0.01 / train_parameters["epochs"])
@@ -220,51 +226,6 @@ def train_cnn_regression_with_keras(which_data, input_shape, train_parameters):
         "grid_size": Config.grid_size,
         f"train_loss_{loss}": fit_history.history['loss'],
         f"test_loss_{loss}": fit_history.history['val_loss'],
-    }
-
-
-def train_cnn(which_data):
-    import torch.nn as nn
-    import torch.optim as optim
-
-    class ConvNet(nn.Module):
-        def __init__(self, output_dim):
-            super(ConvNet, self).__init__()
-
-            self.conv = nn.Sequential()
-            self.conv.add_module("conv_1", nn.Conv2d(1, 16, kernel_size=3))
-            self.conv.add_module("maxpool_1", nn.MaxPool2d(kernel_size=2))
-            self.conv.add_module("relu_1", nn.ReLU())
-            self.conv.add_module("conv_2", nn.Conv2d(16, 32, kernel_size=3))
-            self.conv.add_module("maxpool_2", nn.MaxPool2d(kernel_size=2))
-            self.conv.add_module("relu_2", nn.ReLU())
-
-            self.fc = nn.Sequential()
-            self.fc.add_module("fc_1", nn.Linear(320, 128))
-            self.fc.add_module("relu_3", nn.ReLU())
-            self.fc.add_module("fc_2", nn.Linear(50, output_dim))
-            self.fc.add_module("softmax_1", nn.Softmax())
-
-        def forward(self, x):
-            x = self.conv.forward(x)
-            x = x.view(-1, 320)
-            return self.fc.forward(x)
-
-    cnn = ConvNet(4)
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(cnn.parameters())
-
-    X, y = get_data(which_data)
-    n = len(X)
-    perm = permutation(n)
-    X = X[perm]
-    y = y[perm]
-
-    return {
-        "model": cnn,
-        "trained_with": "pytorch",
-        "data_used": which_data,
-        "score": None,
     }
 
 
@@ -393,8 +354,9 @@ def get_best_trained_model(prediction_type, trained_with=None, data_used=None, g
         if best_model_info['trained_with'] == 'keras':
             # Lazy library loading so app starts faster
             import tensorflow as tf
-            model = tf.keras.models.load_model(os.path.join(path, best_model_name))
-            ## this below is for version 1.4 of tensorflow/keras
+            model = tf.keras.models.load_model(
+                os.path.join(path, best_model_name))
+            # this below is for version 1.4 of tensorflow/keras
             # from tensorflow.keras.backend import clear_session
             # # This is necessary if I want to load a model multiple times
             # clear_session()
@@ -417,6 +379,7 @@ def main():
     }
     res = train_model(train_parameters)
     save_model(res, train_parameters=train_parameters)
+
 
 if __name__ == '__main__':
     attach_logger_to_stdout()

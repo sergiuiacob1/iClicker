@@ -98,3 +98,37 @@ def extract_eye_strip(cv2_image):
             end[i] += int(percents[i]/100 * distance[i])
         return cv2_image[start[1]:end[1], start[0]:end[0]]
     return None
+
+def extract_eyes_for_heatmap(cv2_image):
+    global stuff_was_initialized, face_detector, face_predictor
+    if stuff_was_initialized == False:
+        initialize_stuff()
+
+    gray_image = Utils.convert_to_gray_image(cv2_image)
+    rects = face_detector(gray_image, 0)
+    if len(rects) > 0:
+        shape = face_predictor(gray_image, rects[0])
+        shape = face_utils.shape_to_np(shape)
+
+        eyes = []
+        for eye in ["left_eye", "right_eye"]:
+            # get the points for the contour
+            (eye_start, eye_end) = face_utils.FACIAL_LANDMARKS_IDXS[eye]
+            # increase a little bit the size of the eye
+            contour = shape[eye_start:eye_end]
+            # get the upper left point, lower right point for this eye
+            start = [min(contour, key=lambda x: x[0])[0],
+                    min(contour, key=lambda x: x[1])[1]]
+            end = [max(contour, key=lambda x: x[0])[0],
+                max(contour, key=lambda x: x[1])[1]]
+            # increase a little bit the size of the eye
+            distance = (end[0] - start[0], end[1] - start[1])
+            percents = [40, 40]
+            for i in range(0, 2):
+                start[i] -= int(percents[i]/100 * distance[i])
+                end[i] += int(percents[i]/100 * distance[i])
+            # extract the current eye
+            eyes.append(cv2_image[start[1]:end[1], start[0]:end[0]])
+        return eyes
+
+    return None
