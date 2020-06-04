@@ -9,7 +9,7 @@ from src.data_processing import extract_faces, extract_eye_strips, extract_thres
 from src.trainer import get_best_trained_model
 from src.ui.predictor_gui import PredictorGUI
 import src.webcam_capturer as WebcamCapturer
-from src.face_detector import is_mouth_opened, are_eyes_opened
+from src.face_detector import get_img_info
 import config as Config
 
 _screen_width, _screen_height = get_screen_dimensions()
@@ -18,11 +18,22 @@ _dx_value = _screen_width * 0.01
 _dy_value = _screen_height * 0.01
 _frames_left_closed = 0
 _frames_right_closed = 0
+_prediction_info = None
+
+
+def _clear_prediction_info():
+    global _prediction_info
+    _prediction_info = {
+        "image": None,
+        "mouth_is_opened": [None, None],
+        "eyes_are_opened": [None, None],
+    }
 
 
 class Predictor():
     def __init__(self):
         self.gui = PredictorGUI(self)
+        _clear_prediction_info()
 
     def ui_was_closed(self):
         WebcamCapturer.stop_capturing()
@@ -47,15 +58,19 @@ class Predictor():
             return
 
         self.last_prediction = None
+        Thread(target=self._update_info_for_prediction).start()
         Thread(target=self._check_info).start()
+        Thread(target=self._update_prediction, args=(
+            model, prediction_type, data_used)).start()
 
+    def _update_prediction(self, model, prediction_type, data_used):
+        """Currently uses eye strips to predict where the user is looking"""
+        global _prediction_info
         while self.gui.isVisible():
-            time.sleep(1/Config.PREDICT_LOOK_FPS)
-            success, image = WebcamCapturer.get_webcam_image()
-            if success is False:
-                print('Failed capturing image')
+            image = _prediction_info["image"]
+            if image is None:
                 continue
-            # TODO clean this up
+            prediction = None
             try:
                 if prediction_type == 'regression':
                     prediction = self.predict_regression(model, image)
@@ -69,50 +84,50 @@ class Predictor():
                     elif data_used.startswith('thresholded_eyes'):
                         prediction = self.predict_based_on_thresholded_eyes(
                             model, image)
-                    else:
-                        prediction = None
-                if prediction is None:
-                    self.last_prediction = None
-                    continue
             except Exception as e:
                 print(f'Exception: {str(e)}')
             self.gui.update_prediction(prediction)
             self.last_prediction = prediction
+            time.sleep(1/Config.PREDICT_LOOK_FPS)
+
+    def _update_info_for_prediction(self):
+        """Every 60 FPS, update the info necessary to make predictions.
+        Info updated are things like eye strips, if mouth is opened, if eyes are opened etc."""
+        global _prediction_info
+        while self.gui.isVisible():
+            success, image = WebcamCapturer.get_webcam_image()
+            if success is False:
+                _clear_prediction_info()
+                continue
+            _prediction_info = get_img_info(image)
+            time.sleep(1/Config.UPDATE_FPS)
 
     def _check_info(self):
         """Moves the mouse cursor if it's the case"""
-        global _frames_left_closed, _frames_right_closed
-        # TODO rename variables
+        global _frames_left_closed, _frames_right_closed, _prediction_info
         while self.gui.isVisible():
-            time.sleep(1/Config.INTERACT_FPS)
-            success, image = WebcamCapturer.get_webcam_image()
-            if success is False:
-                continue
-            is_opened, ratio = is_mouth_opened(image)
-            eyes_are_opened = are_eyes_opened(image)
-            self.gui.update_info({
-                "mouth_is_opened": is_opened,
-                "eyes": eyes_are_opened
-            })
-            if is_opened == True:
+            self.gui.update_info(dict((k, _prediction_info[k]) for k in (
+                'mouth_is_opened', 'eyes_are_opened')))
+            if _prediction_info["mouth_is_opened"][0] == True:
                 self._move_mouse()
-            if eyes_are_opened[0] is False:
+            if _prediction_info["eyes_are_opened"][0] == False:
                 _frames_left_closed += 1
             else:
                 _frames_left_closed = 0
-            if eyes_are_opened[1] is False:
+            if _prediction_info["eyes_are_opened"][1] == False:
                 _frames_right_closed += 1
             else:
                 _frames_right_closed = 0
 
             self._check_mouse_clicks()
+            time.sleep(1/Config.UPDATE_FPS)
 
     def _check_mouse_clicks(self):
         global _frames_left_closed, _frames_right_closed
         buttons = [Button.left, Button.right]
         frames = [_frames_left_closed, _frames_right_closed]
         for i in range(2):
-            if frames[i] >= Config.INTERACT_FPS/8:
+            if frames[i] >= Config.UPDATE_FPS/8:
                 _mouse_controller.press(buttons[i])
                 _mouse_controller.release(buttons[i])
 

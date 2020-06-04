@@ -146,68 +146,83 @@ def extract_eyes_for_heatmap(cv2_image):
     return None
 
 
+def _extract_eye_strip_from_image(image, shape):
+    """Returns the eye strip by already knowing the shape (facial landmarks) of the face"""
+    (left_eye_start,
+     left_eye_end) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
+    (right_eye_start,
+        right_eye_end) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
+    # get the contour
+    start, end = min(left_eye_start, right_eye_start), max(
+        left_eye_end, right_eye_end)
+    strip = shape[start:end]
+    # get the upper left point, lower right point
+    start = [min(strip, key=lambda x: x[0])[0],
+             min(strip, key=lambda x: x[1])[1]]
+    end = [max(strip, key=lambda x: x[0])[0],
+           max(strip, key=lambda x: x[1])[1]]
+    # go a little outside the bounding box, to capture more details
+    distance = (end[0] - start[0], end[1] - start[1])
+    # 20 percent more details on the X axis, 60% more details on the Y axis
+    percents = [20, 60]
+    for i in range(0, 2):
+        start[i] -= int(percents[i]/100 * distance[i])
+        end[i] += int(percents[i]/100 * distance[i])
+    return image[start[1]:end[1], start[0]:end[0]]
+
+
 def _dist2d(a, b):
     return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2
 
-
-def is_mouth_opened(cv2_image):
-    global _stuff_was_initialized, _face_detector, _face_predictor
-    if detectors_are_initialised() == False:
-        initialize_stuff()
-
-    gray_image = Utils.convert_to_gray_image(cv2_image)
-    rects = _face_detector(gray_image, 0)
-    if len(rects) > 0:
-        shape = _face_predictor(gray_image, rects[0])
-        shape = face_utils.shape_to_np(shape)
-
-        up1 = _dist2d(shape[50], shape[61])
-        up2 = _dist2d(shape[51], shape[62])
-        up3 = _dist2d(shape[52], shape[63])
-        bottom1 = _dist2d(shape[67], shape[58])
-        bottom2 = _dist2d(shape[66], shape[57])
-        bottom3 = _dist2d(shape[65], shape[56])
-        m1 = _dist2d(shape[61], shape[67])
-        m2 = _dist2d(shape[62], shape[66])
-        m3 = _dist2d(shape[63], shape[65])
-        up_height = (up1 + up2 + up3) / 3
-        bottom_height = (bottom1 + bottom2 + bottom3) / 3
-        mouth_height = (m1 + m2 + m3) / 3
-        return mouth_height > up_height + bottom_height, mouth_height / (up_height + bottom_height)
-
-    return (None, None)
+# TODO use MAR here
+def _is_mouth_opened(shape):
+    up1 = _dist2d(shape[50], shape[61])
+    up2 = _dist2d(shape[51], shape[62])
+    up3 = _dist2d(shape[52], shape[63])
+    bottom1 = _dist2d(shape[67], shape[58])
+    bottom2 = _dist2d(shape[66], shape[57])
+    bottom3 = _dist2d(shape[65], shape[56])
+    m1 = _dist2d(shape[61], shape[67])
+    m2 = _dist2d(shape[62], shape[66])
+    m3 = _dist2d(shape[63], shape[65])
+    up_height = (up1 + up2 + up3) / 3
+    bottom_height = (bottom1 + bottom2 + bottom3) / 3
+    mouth_height = (m1 + m2 + m3) / 3
+    return bool(mouth_height > up_height + bottom_height), mouth_height / (up_height + bottom_height)
 
 
-def are_eyes_opened(cv2_image):
+def _are_eyes_opened(shape):
     """Idea from here: https://www.pyimagesearch.com/2017/04/24/eye-blink-detection-opencv-python-dlib/"""
-    global _stuff_was_initialized, _face_detector, _face_predictor
-    if detectors_are_initialised() == False:
-        initialize_stuff()
+    left_v1 = _dist2d(shape[43], shape[47])
+    left_v2 = _dist2d(shape[44], shape[46])
+    left_h = _dist2d(shape[42], shape[45])
+    right_v1 = _dist2d(shape[37], shape[41])
+    right_v2 = _dist2d(shape[38], shape[40])
+    right_h = _dist2d(shape[36], shape[39])
 
-    gray_image = Utils.convert_to_gray_image(cv2_image)
-    rects = _face_detector(gray_image, 0)
-    if len(rects) > 0:
-        shape = _face_predictor(gray_image, rects[0])
-        shape = face_utils.shape_to_np(shape)
+    left_ratio = (left_v1 + left_v2) / (2 * left_h)
+    right_ratio = (right_v1 + right_v2) / (2 * right_h)
+    return (bool(left_ratio > Config.EAR_THRESHOLD), bool(right_ratio > Config.EAR_THRESHOLD))
 
-        left_v1 = _dist2d(shape[43], shape[47])
-        left_v2 = _dist2d(shape[44], shape[46])
-        left_h = _dist2d(shape[42], shape[45])
-        right_v1 = _dist2d(shape[37], shape[41])
-        right_v2 = _dist2d(shape[38], shape[40])
-        right_h = _dist2d(shape[36], shape[39])
-
-        left_ratio = (left_v1 + left_v2) / (2 * left_h)
-        right_ratio = (right_v1 + right_v2) / (2 * right_h)
-        return (bool(left_ratio > Config.EAR_THRESHOLD), bool(right_ratio > Config.EAR_THRESHOLD))
-
-    return (None, None)
-
-
-# TODO unify all the information into a single function
-# because right now I'm detecting the same face in multiple places.
 
 def get_img_info(cv2_image):
     """Returns a dictionary with necessary info about the image:
     eye strip, if mouth is opened, if eyes are opened."""
-    ...
+    global _stuff_was_initialized, _face_detector, _face_predictor
+    res = {
+        "image": cv2_image,
+        "mouth_is_opened": [None, None],
+        "eyes_are_opened": [None, None],
+    }
+    if detectors_are_initialised() == False:
+        initialize_stuff()
+
+    gray_image = Utils.convert_to_gray_image(cv2_image)
+    rects = _face_detector(gray_image, 0)
+    if len(rects) > 0:
+        shape = _face_predictor(gray_image, rects[0])
+        shape = face_utils.shape_to_np(shape)
+        res["mouth_is_opened"] = _is_mouth_opened(shape)
+        res["eyes_are_opened"] = _are_eyes_opened(shape)
+
+    return res

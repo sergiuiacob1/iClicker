@@ -24,6 +24,7 @@ class PredictorGUI(BaseGUI):
                 self.coordinates[cell] = (
                     j * dx, i * dy, (j + 1) * dx, (i + 1) * dy)
 
+    # TODO only update this widget from here
     def create_window(self):
         self.setWindowTitle('Predictor')
         self.resize(screen_width, screen_height)
@@ -72,4 +73,4 @@ class PredictorGUI(BaseGUI):
     def _draw_mouth_info(self, event, qp):
         # qp.setPen(QColor(168, 34, 3))
         # qp.drawText(event.rect(), Qt.AlignTop, f'Mouth is opened: {self.info["mouth_is_opened"]}\nLeft eye ratio: {int(self.info["eyes"][1][0]*100)/100}')
-        qp.drawText(event.rect(), Qt.AlignTop, f'Mouth is opened: {self.info["mouth_is_opened"]}\nEyes open: {self.info["eyes"]}')
+        qp.drawText(event.rect(), Qt.AlignTop, f'Mouth is opened: {self.info["mouth_is_opened"]}\nEyes open: {self.info["eyes_are_opened"]}')
