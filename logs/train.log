@@ -1259,3 +1259,56 @@
 2020-06-04 16:37:00,819: Model chosen: model_27.pkl
 2020-06-04 16:38:23,079: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
 2020-06-04 16:38:24,254: Model chosen: model_27.pkl
+2020-06-04 17:24:57,454: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:24:58,904: Model chosen: model_27.pkl
+2020-06-04 17:26:57,469: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:26:58,625: Model chosen: model_27.pkl
+2020-06-04 17:27:45,266: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:27:46,479: Model chosen: model_27.pkl
+2020-06-04 17:28:52,448: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:28:53,605: Model chosen: model_27.pkl
+2020-06-04 17:31:02,642: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:31:03,872: Model chosen: model_27.pkl
+2020-06-04 17:32:28,392: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:32:29,611: Model chosen: model_27.pkl
+2020-06-04 17:36:20,304: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:36:21,493: Model chosen: model_27.pkl
+2020-06-04 17:39:54,244: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:39:55,391: Model chosen: model_27.pkl
+2020-06-04 17:40:35,007: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:40:36,239: Model chosen: model_27.pkl
+2020-06-04 17:41:51,496: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:41:52,850: Model chosen: model_27.pkl
+2020-06-04 17:54:52,144: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:54:53,760: Model chosen: model_27.pkl
+2020-06-04 17:58:02,234: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:58:03,414: Model chosen: model_27.pkl
+2020-06-04 17:58:46,022: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:58:47,226: Model chosen: model_27.pkl
+2020-06-04 17:59:16,139: Training model with <function train_cnn_regression_with_keras at 0x7fb68df73d40> on eye_strips_regression.pkl
+2020-06-04 17:59:16,154: Loading train data...
+2020-06-04 17:59:17,230: Starting epoch 0
+2020-06-04 17:59:29,574: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 17:59:30,756: Model chosen: model_27.pkl
+2020-06-04 18:03:33,813: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 18:03:34,999: Model chosen: model_27.pkl
+2020-06-04 18:04:39,005: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 18:04:40,192: Model chosen: model_27.pkl
+2020-06-04 18:05:30,840: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 18:05:31,983: Model chosen: model_27.pkl
+2020-06-04 18:14:12,480: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 18:14:13,660: Model chosen: model_27.pkl
+2020-06-04 18:15:41,830: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 18:15:43,066: Model chosen: model_27.pkl
+2020-06-04 18:16:55,125: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 18:16:57,026: Model chosen: model_27.pkl
+2020-06-04 18:21:46,524: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 18:21:47,635: Model chosen: model_27.pkl
+2020-06-04 18:23:33,757: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 18:23:36,253: Model chosen: model_27.pkl
+2020-06-04 18:27:29,948: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 18:27:31,960: Model chosen: model_27.pkl
+2020-06-04 18:29:06,421: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 18:29:07,535: Model chosen: model_27.pkl
+2020-06-04 18:31:58,111: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-04 18:31:59,907: Model chosen: model_27.pkl

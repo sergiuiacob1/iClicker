@@ -33,8 +33,8 @@ class PredictorGUI(BaseGUI):
         # redraw the widget
         self.update()
 
-    def update_mouth (self, opened):
-        self.mouth_is_opened = opened
+    def update_info (self, info):
+        self.info = info
         self.update()
 
     def paintCells(self):
@@ -70,6 +70,6 @@ class PredictorGUI(BaseGUI):
         painter.end()
 
     def _draw_mouth_info(self, event, qp):
-        qp.setPen(QColor(168, 34, 3))
-        qp.setFont(QFont('Decorative', 15))
-        qp.drawText(event.rect(), Qt.AlignTop, f'Mouth is opened: {self.mouth_is_opened}')
+        # qp.setPen(QColor(168, 34, 3))
+        # qp.drawText(event.rect(), Qt.AlignTop, f'Mouth is opened: {self.info["mouth_is_opened"]}\nLeft eye ratio: {int(self.info["eyes"][1][0]*100)/100}')
+        qp.drawText(event.rect(), Qt.AlignTop, f'Mouth is opened: {self.info["mouth_is_opened"]}\nEyes open: {self.info["eyes"]}')
