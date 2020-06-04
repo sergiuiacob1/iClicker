@@ -114,8 +114,10 @@ return None
 
 \section{``Bandeau oculaire''}
 \paragraph{}
-Next, I'll try to use only the eyes as data, but without modifying them.
-Here's how that looks:
+Ensuite, je vais essayer de n'utiliser que les yeux comme données, mais sans les modifier.
+Voici à quoi cela ressemble :
+% Next, I'll try to use only the eyes as data, but without modifying them.
+% Here's how that looks:
 
 \begin{figure}[H]
     \centering
@@ -125,7 +127,8 @@ Here's how that looks:
 \end{figure}
 
 \paragraph{}
-I extract both eyes from the detected face, I expand the bounding box to have more information, then I convert it to grayscale and normalise it.
+J'extrais les deux yeux du visage détecté, j'élargis la boîte de délimitation pour avoir plus d'informations, puis je la convertis en échelle de gris et la normalise.
+% I extract both eyes from the detected face, I expand the bounding box to have more information, then I convert it to grayscale and normalise it.
 
 \begin{lstlisting}[language=Python, caption=Extraction de ``bandeau oculaire'' en Python3]
 def extract_eye_strip(cv2_image):

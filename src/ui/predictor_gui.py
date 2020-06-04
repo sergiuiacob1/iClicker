@@ -14,6 +14,7 @@ class PredictorGUI(BaseGUI):
     def __init__(self, controller):
         super().__init__(controller)
         self.prediction = None
+        self.mouth_is_opened = None
         self.coordinates = {}
         dx = screen_width / Config.grid_size
         dy = screen_height / Config.grid_size
@@ -30,6 +31,10 @@ class PredictorGUI(BaseGUI):
     def update_prediction(self, prediction):
         self.prediction = prediction
         # redraw the widget
+        self.update()
+
+    def update_mouth (self, opened):
+        self.mouth_is_opened = opened
         self.update()
 
     def paintCells(self):
@@ -59,4 +64,12 @@ class PredictorGUI(BaseGUI):
         c = self.coordinates[self.prediction]
         # i need width and height for the last two, but I currently have the coordinates for the bottom right point
         painter.drawRect(c[0], c[1], c[2] - c[0], c[3] - c[1])
+
+        # draw info about the mouth
+        self._draw_mouth_info(event, painter)
         painter.end()
+
+    def _draw_mouth_info(self, event, qp):
+        qp.setPen(QColor(168, 34, 3))
+        qp.setFont(QFont('Decorative', 15))
+        qp.drawText(event.rect(), Qt.AlignTop, f'Mouth is opened: {self.mouth_is_opened}')

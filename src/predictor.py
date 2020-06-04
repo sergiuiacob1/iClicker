@@ -1,6 +1,7 @@
 import numpy as np
 import time
 from threading import Thread
+from pynput.mouse import Controller
 
 # My files
 from src.utils import get_screen_dimensions, resize_cv2_image
@@ -8,9 +9,13 @@ from src.data_processing import extract_faces, extract_eye_strips, extract_thres
 from src.trainer import get_best_trained_model
 from src.ui.predictor_gui import PredictorGUI
 import src.webcam_capturer as WebcamCapturer
+from src.face_detector import is_mouth_opened
 import config as Config
 
 screen_width, screen_height = get_screen_dimensions()
+_mouse_controller = Controller()
+dx_value = screen_width * 0.01
+dy_value = screen_height * 0.01
 
 
 class Predictor():
@@ -42,18 +47,23 @@ class Predictor():
         # just to draw the initial cells
         self.gui.update_prediction(None)
 
+        # async, move the mouse if it's necessary
+        Thread(target=self._check_if_should_move_mouse).start()
+
         while self.gui.isVisible():
+            time.sleep(1/Config.PREDICT_LOOK_FPS)
             success, image = WebcamCapturer.get_webcam_image()
             if success is False:
                 print('Failed capturing image')
                 continue
-            
+
             try:
                 if prediction_type == 'regression':
                     prediction = self.predict_regression(model, image)
                 else:
                     if data_used.startswith('eye_strips'):
-                        prediction = self.predict_based_on_eye_strips(model, image)
+                        prediction = self.predict_based_on_eye_strips(
+                            model, image)
                     elif data_used.startswith('extracted_faces'):
                         prediction = self.predict_based_on_extracted_face(
                             model, image)
@@ -63,10 +73,35 @@ class Predictor():
                     else:
                         prediction = None
                 if prediction is None:
+                    self.last_prediction = None
                     continue
             except Exception as e:
-                print (f'Exception: {str(e)}')
+                print(f'Exception: {str(e)}')
             self.gui.update_prediction(prediction)
+            self.last_prediction = prediction
+
+    def _check_if_should_move_mouse(self):
+        """Moves the mouse cursor if it's the case"""
+        while self.gui.isVisible():
+            time.sleep(1/Config.CHECK_MOUSE_MOVE_FPS)
+            success, image = WebcamCapturer.get_webcam_image()
+            if success is False:
+                continue
+            is_opened, ratio = is_mouth_opened(image)
+            self.gui.update_mouth(is_opened)
+            if is_opened == True:
+                self._move_mouse()
+
+    def _move_mouse(self):
+        if self.last_prediction is None:
+            return
+        # 0 1 2 3 4 5 6 7 8
+        dx = [-1, 0, 1, -1, 0, 1, -1, 0, 1]
+        dy = [-1, -1, -1, 0, 0, 0, 1, 1, 1]
+        pos = _mouse_controller.position
+        pos = (pos[0] + dx[self.last_prediction] * dx_value,
+               pos[1] + dy[self.last_prediction] * dy_value)
+        _mouse_controller.position = pos
 
     def predict_regression(self, model, img):
         # build data

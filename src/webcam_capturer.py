@@ -41,7 +41,7 @@ def update():
             break
         last_success, last_image = cam.read()
         webcam_lock.release()
-        time.sleep(1.0/Config.WEBCAM_FPS)
+        time.sleep(1.0/Config.WEBCAM_PREVIEW_FPS)
 
 
 def stop_capturing():
