@@ -31,6 +31,7 @@ class PredictorGUI(BaseGUI):
         self.update()                        # refreshing the widget
 
     def closeEvent(self, event):
+        super().closeEvent(event)
         # stop the timer
         self._timer.stop()
 
