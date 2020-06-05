@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPainter, QColor, QPen, QBrush, QFont
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QBasicTimer
+
 
 # My files
 from src.utils import get_screen_dimensions
@@ -24,6 +25,19 @@ class PredictorGUI(BaseGUI):
                 self.coordinates[cell] = (
                     j * dx, i * dy, (j + 1) * dx, (i + 1) * dy)
 
+        self._timer = QBasicTimer()          # creating timer
+
+    def timerEvent(self, QTimerEvent):
+        self.update()                        # refreshing the widget
+
+    def closeEvent(self, event):
+        # stop the timer
+        self._timer.stop()
+
+    def showEvent(self, event):
+        # start the timer
+        self._timer.start(1000 / Config.UPDATE_FPS, self)   # setting up timer ticks to 60 fps
+
     # TODO only update this widget from here
     def create_window(self):
         self.setWindowTitle('Predictor')
@@ -31,12 +45,9 @@ class PredictorGUI(BaseGUI):
 
     def update_prediction(self, prediction):
         self.prediction = prediction
-        # redraw the widget
-        self.update()
 
     def update_info (self, info):
         self.info = info
-        self.update()
 
     def paintCells(self):
         painter = QPainter()

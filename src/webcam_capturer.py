@@ -36,7 +36,7 @@ def update():
     global webcam_lock, last_image, last_success
     while True:
         webcam_lock.acquire()
-        if cam is None or cam.isOpened() is False:
+        if webcam_is_started() is False:
             webcam_lock.release()
             break
         last_success, last_image = cam.read()

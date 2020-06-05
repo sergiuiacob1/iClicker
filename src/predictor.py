@@ -16,9 +16,10 @@ _screen_width, _screen_height = get_screen_dimensions()
 _mouse_controller = Controller()
 _dx_value = _screen_width * 0.01
 _dy_value = _screen_height * 0.01
-_frames_left_closed = 0
-_frames_right_closed = 0
+_frames_closed = [0, 0]
+_should_click = [True, True]
 _prediction_info = None
+_time_last_opened = [time.time(), time.time()]
 
 
 def _clear_prediction_info():
@@ -104,32 +105,35 @@ class Predictor():
 
     def _check_info(self):
         """Moves the mouse cursor if it's the case"""
-        global _frames_left_closed, _frames_right_closed, _prediction_info
+        global _frames_closed, _prediction_info, _should_click, _time_last_opened
         while self.gui.isVisible():
             self.gui.update_info(dict((k, _prediction_info[k]) for k in (
                 'mouth_is_opened', 'eyes_are_opened')))
             if _prediction_info["mouth_is_opened"][0] == True:
                 self._move_mouse()
-            if _prediction_info["eyes_are_opened"][0] == False:
-                _frames_left_closed += 1
-            else:
-                _frames_left_closed = 0
-            if _prediction_info["eyes_are_opened"][1] == False:
-                _frames_right_closed += 1
-            else:
-                _frames_right_closed = 0
+            for i in range (2):
+                if _prediction_info["eyes_are_opened"][i] == False and _should_click[i] == True:
+                    _frames_closed[i] += 1
+                else:
+                    _frames_closed[i] = 0
+                    if time.time() - _time_last_opened[i] >= 0.5:
+                        _should_click[i] = True
+                    _time_last_opened[i] = time.time()
+                    
 
             self._check_mouse_clicks()
             time.sleep(1/Config.UPDATE_FPS)
 
     def _check_mouse_clicks(self):
-        global _frames_left_closed, _frames_right_closed
+        global _frames_closed, _should_click, _time_last_opened
         buttons = [Button.left, Button.right]
-        frames = [_frames_left_closed, _frames_right_closed]
         for i in range(2):
-            if frames[i] >= Config.UPDATE_FPS/8:
+            # if _frames_closed[i] >= Config.UPDATE_FPS/4:
+            if time.time() - _time_last_opened[i] >= 0.5:
                 _mouse_controller.press(buttons[i])
                 _mouse_controller.release(buttons[i])
+                _frames_closed[i] = 0
+                _should_click[i] = False
 
     def _move_mouse(self):
         if self.last_prediction is None:
