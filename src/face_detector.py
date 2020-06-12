@@ -9,22 +9,22 @@ import src.utils as Utils
 
 _face_detector = None
 _face_predictor = None
-_stuff_was_initialized = False
+_initialised = False
 _initialize_lock = Lock()
 
 
-def initialize_stuff():
-    global _stuff_was_initialized, _face_detector, _face_predictor
+def _initialize_detectors():
+    global _initialised, _face_detector, _face_predictor
     _initialize_lock.acquire()
     _face_detector = dlib.get_frontal_face_detector()
     _face_predictor = dlib.shape_predictor(Config.face_landmarks_path)
-    _stuff_was_initialized = True
+    _initialised = True
     _initialize_lock.release()
 
 
-def detectors_are_initialised():
+def _detectors_are_initialised():
     _initialize_lock.acquire()
-    res = (_stuff_was_initialized == True)
+    res = (_initialised == True)
     _initialize_lock.release()
     return res
 
@@ -33,9 +33,9 @@ def extract_eyes(cv2_image):
     """Returns a list of images that contain the eyes extracted from the original image.
 
     First result is the left eye, second result is the right eye."""
-    global _stuff_was_initialized, _face_detector, _face_predictor
-    if detectors_are_initialised() == False:
-        initialize_stuff()
+    global _face_detector, _face_predictor
+    if _detectors_are_initialised() == False:
+        _initialize_detectors()
 
     gray_image = Utils.convert_to_gray_image(cv2_image)
     rects = _face_detector(gray_image, 0)
@@ -62,9 +62,9 @@ def extract_eyes(cv2_image):
 
 def extract_face(cv2_image):
     """Returns the face part extracted from the image"""
-    global _stuff_was_initialized, _face_detector
-    if detectors_are_initialised() == False:
-        initialize_stuff()
+    global _face_detector
+    if _detectors_are_initialised() == False:
+        _initialize_detectors()
 
     gray_image = Utils.convert_to_gray_image(cv2_image)
     rects = _face_detector(gray_image, 0)
@@ -77,9 +77,9 @@ def extract_face(cv2_image):
 
 def extract_eye_strip(cv2_image):
     """Returns a horizontal image containing the two eyes extracted from the image"""
-    global _stuff_was_initialized, _face_detector, _face_predictor
-    if detectors_are_initialised() == False:
-        initialize_stuff()
+    global _initialised, _face_detector, _face_predictor
+    if _detectors_are_initialised() == False:
+        _initialize_detectors()
 
     gray_image = Utils.convert_to_gray_image(cv2_image)
     rects = _face_detector(gray_image, 0)
@@ -112,9 +112,9 @@ def extract_eye_strip(cv2_image):
 
 
 def extract_eyes_for_heatmap(cv2_image):
-    global _stuff_was_initialized, _face_detector, _face_predictor
-    if detectors_are_initialised() == False:
-        initialize_stuff()
+    global _face_detector, _face_predictor
+    if _detectors_are_initialised() == False:
+        _initialize_detectors()
 
     gray_image = Utils.convert_to_gray_image(cv2_image)
     rects = _face_detector(gray_image, 0)
@@ -208,14 +208,14 @@ def _are_eyes_opened(shape):
 def get_img_info(cv2_image):
     """Returns a dictionary with necessary info about the image:
     eye strip, if mouth is opened, if eyes are opened."""
-    global _stuff_was_initialized, _face_detector, _face_predictor
+    global _face_detector, _face_predictor
     res = {
         "image": cv2_image,
         "mouth_is_opened": [None, None],
         "eyes_are_opened": [None, None],
     }
-    if detectors_are_initialised() == False:
-        initialize_stuff()
+    if _detectors_are_initialised() == False:
+        _initialize_detectors()
 
     gray_image = Utils.convert_to_gray_image(cv2_image)
     rects = _face_detector(gray_image, 0)

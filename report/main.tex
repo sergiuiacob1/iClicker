@@ -9,9 +9,13 @@
 \usepackage{indentfirst}        % indentation
 \usepackage[nottoc]{tocbibind}  % table of contents style
 \usepackage[unicode]{hyperref}  % references from the table of contents
-% \usepackage{csquotes}
-% \usepackage[backend=biber]{biblatex}
-% \addbibresource{bibliography.bib} % bibliography
+\usepackage{enumitem} % to customize lists
+\setlist[1]{itemsep=-5pt}
+\usepackage{csquotes} % needed dependency
+\usepackage[backend=biber, style=apa, natbib]{biblatex} % bibliography
+\addbibresource{bibliography.bib} % bibliography
+\usepackage{listings} % for inline code
+\usepackage{xcolor} % to define colors
 
 % includes options
 \geometry{  a4paper,            % scientific thesis standard
@@ -27,8 +31,29 @@
 \linespread{1.5}                % space between lines
 \renewcommand*\contentsname{Cuprins}    % table of contents name
 
-\let\OLDitemize\itemize
-\renewcommand\itemize{\OLDitemize\addtolength{\itemsep}{0pt}}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
 
 % the document content
 \begin{document}
@@ -56,7 +81,11 @@
     \input{chapters/chapter1}
     \input{chapters/chapter2}
     \input{chapters/chapter3}
+    \input{chapters/chapter4}
+    \input{chapters/chapter5}
     
     \input{chapters/conclusions}
-    \input{chapters/bibliography}
+    % \input{chapters/bibliography}
+    \printbibliography[title=Bibliografie]
+
 \end{document}

@@ -1,42 +1,38 @@
-\chapter{Planul de dezvoltare}
+\chapter{Problema}
 
 \section{Definirea problemei}
 
 \paragraph{}
 Problema pe care am încercat să o rezolv constă în primul rând în a urmări cu acuratețe ochii utilizatorului, astfel încât cursorul să poată fi mișcat în concordanță cu privirea acestuia.
-Această problemă este parte dintr-o gamă mai largă de probleme de \emph{Viziune Computerizată} (în engleză \emph{Computer Vision}), mai exact \emph{Urmărirea ochilor}, după cum a fost menționat și în introducere.
+Această problemă face parte dintr-o gamă mai largă de probleme de \emph{Viziune Computerizată} (în engleză \emph{Computer Vision}), mai exact \emph{Urmărirea ochilor}, după cum a fost menționat și în introducere.
 Conform \cite{eye_tracking}, urmărirea ochilor este ``procesul de măsurare a punctului de privire (unde se uită o persoană) sau a mișcării unui ochi relativ la cap''.\footnote{Textul original este din engleză: ``the process of measuring either the point of gaze (where one is looking) or the motion of an eye relative to the head''}
 
 \paragraph{}
-Știind acestea, am abordat problema ca o problemă din domeniul \emph{Inteligenței Artificiale}, deoarece aceasta constituie un mod viabil de a rezolva o astfel de problemă.
-Vom lucra, așadar, cu o problemă de \emph{Învățare Automată}, mai exact cu una de \emph{Învățare Profundă} (în engleză \emph{Deep Learning}).
+Tehnicile de ultimă oră (\emph{state of the art}) de a rezolva această problemă se bazează pe \emph{Inteligența Artificială} și sunt, mai exact, tehnici de \emph{Învățare Automată}.
+\cite{liviu_ciortuz_ml} explică în termeni foarte simpli acest subdomeniu al informaticii: ``Învățarea Automată este programare bazată pe date''\footnote{Traducere liberă; text original: ``ML is data-driven programming''}.
+Învățarea poate fi la rândul ei supervizată, semi-supervizată sau nesupervizată, aceste tehnici încearcând să prezică, să producă, să generalizeze niște rezultate pe baza unor exemple sau a unor relații dintr-o mulțime de date deja cunoscută.
+Diferența cheie între acestea constă în structura acestei mulțimi de date, structură care la rândul ei influențează abordările de învățare.
 
 \paragraph{}
-Despre Deep Learning
+În acest caz, m-am concentrat asupra învățării supervizate, care presupune cunoașterea unei mulțimi de date $$D = \{(i, o) | i \in I, o \in O\}$$
+unde $i$ reprezintă o instanță, un exemplu care conține o informație care trebuie prezisă, calculată, iar $o$ reprezintă acea informație, un \emph{adevăr de bază} deja cunoscut.
+Astfel, primul pas spre rezolvarea problemei este \emph{colectarea datelor de antrenament}.
+
+\paragraph{}
+TODO <--------------------- asta de mutat in cap 2, la adunare de date
+Pentru această aplicație, mulțimea $I$ de mai sus va fi alcătuită din imagini alea utilizatorului, iar mulțimea $O$ va conține, spre exemplu, coordonatele $(x, y)$ ale poziției la care se uita utilizatorul pe ecran atunci când acea imagine va fi capturată.
+Vom considera că pentru orice imagine din mulțimea $I$ nu conține imagini în care utilizatorul nu se uita la ecran.
 
 \paragraph{}
 Învățarea profundă se preocupă, printre altele, de procesarea și analizarea imaginilor prin folosirea unor \emph{arhitecturi profunde} bazate pe \emph{rețele neuronale}.
-Această învățare poate fi la rândul ei supervizată, semi-supervizată sau nesupervizată.
-În termeni simpli, 
+Învățarea poate fi la rândul ei supervizată, semi-supervizată sau nesupervizată.
+În termeni simpli, aceste tehnici încearcă să prezică sau să producă un rezultat pe baza unor exemple sau a unor relații între datele care trebuiesc procesate.
 
+\subsection{Neuronul Artificial}
 \paragraph{}
-Les tâches d'Apprentissage Profond peuvent être supervisées, semi-supervisées ou non supervisées.
-Nous nous concentrerons sur les tâches \emph{supervisées} et nous traiterons notre problème comme l'une d'entre elles.
-Cela signifie que nous allons d'abord acquérir quelques données d'apprentissage, qui consisteront en des images de webcam marquées par la position du curseur de la souris.
-De cette façon, notre algorithme apprendra où le curseur de la souris doit se trouver, en fonction de l'endroit où l'utilisateur regardait lorsque l'image a été prise.
-% The Deep Learning tasks can be either supervised, semi-supervised or unsupervised.
-% We'll focus on the \emph{supervised} tasks and we'll treat our problem as one of those.
-% That means that we will first acquire some \emph{learning data}, which will consist in webcam images labeled with the position of the mouse cursor.
-% That way, our algorithm will learn where the mouse cursor should be, depending on where the user was looking when the image was taken.
-
-\subsection{Le neurone artificiel}
-\paragraph{}
-Avant d'entrer dans des architectures d'Apprentissage Profond plus sophistiquées, nous devons d'abord examiner le neurone artificiel.
-En bref, il s'agit d'un modèle formel et simplifié de neurone biologique.
-Il peut nous aider à faire la \emph{classification binaire} à l'aide de la formule suivante:
-% Before going into more sofisticated deep learning architectures, we first have to take a look at the artificial neuron.
-% Put shortly, it is a formal, simplified model of a biological neuron.
-% It can help us do \emph{binary classification} using the following formula:
+Înainte de a analiza arhitecturi de învățare profundă mai sofisticate, trebuie să aruncăm o privire rapidă asupra neuronului artificial.
+Pe scurt, este un model formal, simplificat al unui neuron biologic.
+Ne poate ajuta să realizăm \emph{clasificare binară} folosind următoarea formulă:
 $$
 y = \varphi (w * x + b)
 $$
@@ -49,81 +45,59 @@ $$
 % \end{equation}
 
 \paragraph{}
-Dans la formule ci-dessus, $x$ est un vecteur de valeurs réelles, représentant notre entrée, $w$ est un vecteur de valeurs réelles, appelé \emph{poids} et $b$ est le \emph{biais}.
-Le produit $w * x$ représente le produit scalaire et est égal à $w * x = \sum _{i=1}^{n}w_{i}x_{i}$, $n$ étant la longueur de notre entrée.
-% In the formula above, $x$ is a vector of real values, representing our input, $w$ is a vector of real values, called \emph{weights} and $b$ is the \emph{bias}.
-% The product $w * x$ represents the scalar product and is equal to $w * x = \sum _{i=1}^{n}w_{i}x_{i}$, with $n$ being the length of our input.
+În formula de mai sus, $x$ este un vector de valori reale, reprezentând datele de intrare, iar $w$ este un vector de valori reale denumit \emph{vectorul ponderilor} (în engleză \emph{weights}) și $b$ este \emph{parțialitatea} (în engleză \emph{bias-ul}).
+Produsul $w * x$ reprezintă produsul scalar și este egal cu $w * x = \sum _{i=1}^{n}w_{i}x_{i}$, $n$ fiind lungimea vectorului $x$.
 
 \paragraph{}
-Le résultat de la classification est donné par $\varphi$, qui est appelé une \emph{fonction d'activation}.
-Si cette fonction sert de seuil, elle effectuera une classification binaire, donnant soit $0$ soit $1$.
-Nous pourrions même utiliser une fonction d'activation telle que $\varphi(x) = x$ qui ne nous donnera pas une classification binaire, mais pourrait nous aider à résoudre des problèmes de régression linéaire.
-% The result of the classification is given by $\varphi$, which is called an \emph{activation function}.
-% If that acts as a threshold, then it will make binary classification, giving either $0$ or $1$.
-% We could even use an activation function such as $\varphi(x) = x$ which will not give us a binary classification, but could help us solve linear regression problems.
+Rezultatul clasificării este dat de $\varphi$, denumit \emph{funcție de activare}.
+Daca aceasta se comportă ca un prag, o limită, un \emph{threshold}, atunci funcția de activare se va traduce într-o clasificare binară, cu rezultat $0$ sau $1$.
+Putem folosi și $\varphi(x) = x$, ecuație care ne poate ajuta la rezolvarea problemelor de tip \emph{regresie liniară}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{artificial_neuron.png}
-    \caption{Schéma d'un neurone artificiel\\Source: \href{https://www.researchgate.net/figure/Scheme-of-a-perceptron-A-nonlinear-activation-function-BULLET-is-applied-to-the_fig3_315788933}{ResearchGate}}
+    \caption{Algoritmul perceptron, bazat pe neuronul artificial. Imagine preluată de pe site-ul \href{https://www.researchgate.net/figure/Scheme-of-a-perceptron-A-nonlinear-activation-function-BULLET-is-applied-to-the_fig3_315788933}{ResearchGate}}
 \end{figure}
 
 
-\subsection{Les réseaux de neurones}
+\subsection{Rețele neuronale}
 \paragraph{}
-Le ``cheval de bataille'' des problèmes de vision par ordinateur est le réseau de neurones artificiels.
-Celui-ci est, comme son nom l'indique, composé de plusieurs neurones artificiels, répartis sur plusieurs couches.
-% The main ``workhorse'' for Computer Vision problems is the Artificial Neural Network.
-% This is, as the name suggest, composed of multiple artificial neurons, distributed over multiple layers.
+``Calul de bătaie'' pentru problemele de Viziune Computerizată este Rețeaua Neuronală Artificială.
+Ea este, dupa cum sugerează și numele, compusă din mai multi neuroni artificiali, distribuiți pe mai multe \emph{straturi}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{ann.png}
-    \caption{Schéma d'un neurone artificiel\\Source: \href{https://www.researchgate.net/figure/Deep-learning-diagram_fig5_323784695}{ResearchGate}}
+    \caption{Structură generală a unei rețele neuronale. Imagine preluată de pe site-ul \href{https://www.researchgate.net/figure/Deep-learning-diagram_fig5_323784695}{ResearchGate}}
 \end{figure}
 
-% ========== Strategy Section ==========
 \section{Strategie}
 
-\subsection{Obtenir des données}
+\subsection{Obținerea datelor de antrenament}
 \paragraph{}
-Il est bien connu qu'un algorithme d'Apprentissage Automatique n'est bon que si les données que nous lui fournissons le sont aussi.
-C'est incroyablement important, c'est pourquoi je vais m'efforcer de rassembler autant de \emph{données brutes} que possible, ainsi que d'autres informations que je pourrais trouver importantes.
-% It is widely known that a Machine Learning algorithm is only as good as the data we feed it.
-% This is incredibly important, so I will focus on gathering as much \emph{raw data} as possible, along with other information I might find important.
+Este foarte bine cunoscut că un algoritm de Învățare Automată este pe atât de bun pe cât sunt datele pe care i le furnizăm.
+Acestea sunt incredibil de importante, așa că m-am concentrat pe a dezvolta niște modalități facile de a aduna o mulțime consistentă de date
 
 \paragraph{}
-Un autre point essentiel est \emph{traitement des données} et \emph{analyse des données}.
-Le premier concerne le nettoyage de l'ensemble des données des instances inutiles et la mise en forme des données recueillies dans un format utilisable pour nos réseaux neuronaux.
-Nous examinerons également comment nous pouvons obtenir des informations supplémentaires qui pourraient être utiles à partir de nos images.
-% Another essential point is \emph{data processing} and \emph{data analysis}.
-% The first one is concerned about cleansing the dataset of useless instances and bringing the data we gathered into a usable format for our neural networks.
-% We will also look into how we can derive additional information that could be useful based on our images.
+O altă etapă esențială este \emph{procesarea de date}.
+Aceasta se preocupă cu simplificarea și curățarea setului de date, cu eliminarea instanțelor de antrenament care sunt inutile și cu extragerea exclusiv a informațiilor care sunt de folos și cu înlăturarea a ceea ce rămâne.
+Opțional, în această etapă se mai realizează și diferite transformări pentru a aduce datele dintr-o formă neprelucrată într-o formă convenabilă algoritmilor pe care îi folosim.
 
-\subsection{Perceptrons multicouches}
+\subsection{Rețeaua de tip perceptron multistrat}
 \paragraph{}
-Un type particulier de réseaux neuronaux est le réseau multicouche Perceptron.
-Ce sera ma première expérience et le point de départ pour tenter de résoudre le problème.
-% A special kind of neural networks is the Multilayer Perceptron Network.
-% This will be my first experiment and the starting point for trying to solve the problem.
+Un tip special de rețea neuronală este \emph{Perceptronul Multistrat} (\emph{Multilayer Perceptron Network}).
+Am folosit această arhitectură ca un punct de pornire spre a rezolva problema și ca un prim experiment.
 
 \paragraph{}
-En utilisant ceci, je vais essayer de résoudre le premier objectif \ref{chapter-introduction-first-objective}, et c'est approximativement de prédire où l'utilisateur regarde.
-Je vais d'abord essayer avec une grille plus petite de 2x2, puis je passerai à une grille de 3x3.
-% Using this, I'll try to solve the first objective \ref{chapter-introduction-first-objective}, and that is approximately predicting where the user is looking.
-% I'll try first with a smaller 2x2 grid, then move up to a 3x3 grid.
+Folosind acest tip de rețea, am încercat să ating cel mai important obiectiv al acestei lucrări al licenței, și anume de a prezice aproximativ zona în care se uită utilizatorul, pentru a putea deplasa cursorul în acea zonă.
+Din experimentele efectuate, această arhitectură a rezultat într-o primă soluție promițătoare, fiind capabilă să urmărească, într-o anumită măsura, privirea utilizatorului.
 
-\subsection{Réseau neurones convolutifs}
+\subsection{Rețele neuronale convoluționale}
 \paragraph{}
-Une étape supplémentaire consistera à utiliser les réseaux neuronaux convolutifs, une architecture de pointe pour travailler avec des images.
-Cela pourrait permettre d'atteindre un objectif plus préférable, à savoir prévoir exactement l'emplacement du curseur de la souris en fonction de l'endroit où l'utilisateur regarde.
-% A step further will be to use Convolutional Neural Networks, a state of the art architecture for working with images.
-% This could help to reach a more preferable objective, and that is predicting exactly where the mouse cursor would be based on where the user is looking.
+Un următor pas a fost studierea și aplicarea \emph{rețelelor neuronale convoluționale}, o arhitectură de bază pentru multe metode ``state of the art'' pentru problemele din domeniul Viziunii Computerizate.
+Cu ajutorul acestora, urmărirea ochilor a devenit mai robustă și mai puțin sensibilă la diferențele dintre imagini, precum lumină sau poziționare.
 
-% \subsection{Recherche d'autres méthodes}
-% \paragraph{}
-% Après avoir expérimenté les méthodes ci-dessus, je vais rechercher de meilleures façons de résoudre ce problème.
-% Cela pourrait signifier un meilleur traitement des données, un meilleur réglage des réseaux de neurones, etc.
-% After experimenting with the methods above, I will research on better ways of solving this problem.
-% That could mean better data processing, better tuning of the neural networks and so on.
-% ~~~~~~~~~~ Strategy Section ~~~~~~~~~~
+\subsection{Cercetare și analizare a bibliotecilor folosite}
+\paragraph{}
+În lucrarea de licență am folosit diverse biblioteci printre care și \lstinline{dlib}, pe care am folosit-o pentru a identifica reperele faciale ale utilizatorului.
+Am fost curios despre cum anume funcționează această bibliotecă și am făcut un mic experiment în care am încercat să reconstruiesc funcționalitatea acestei librării.
