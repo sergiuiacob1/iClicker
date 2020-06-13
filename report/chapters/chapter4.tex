@@ -97,41 +97,34 @@ def extract_face(cv2_image):
         return cv2_image[y:y+h, x:x+w]
     return None
 \end{lstlisting}
-% Un travail en cours porte sur la façon dont je peux utiliser le visage entier comme intrant pour un Réseau Neuronal Convolutif et sur la question de savoir si je dois y appliquer un traitement quelconque.
-% Je reviendrai lorsque j'aurai des résultats à ce sujet, car il s'agit d'un travail en cours.
-% A current work in progress is researching on how I can use the whole face as an input for a Convolutional Neural Network and whether I should apply any kind of processing to it or not.
-% I will come back when I have some results for this, as this is work in progress.
 
-\section{``Bandeau oculaire''}
+\section{``Bandă oculară''}
 \paragraph{}
-Ensuite, je vais essayer de n'utiliser que les yeux comme données, mais sans les modifier.
-Voici à quoi cela ressemble :
-% Next, I'll try to use only the eyes as data, but without modifying them.
-% Here's how that looks:
+Următoarea opțiune și cea care a rămas integrată în soluția finală a fost să folosesc ambii ochi, fără modificări adiționale.
+Procesul de extragere a ochilor arată astfel:
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     \includegraphics[width = \textwidth]{extract_eye_strip_process.png}
-    \caption{Extraction de ``bandeau oculaire''}
+    \caption{Extragerea ``bandei oculare''}
     \label{fig_extracting_eye_strip}
 \end{figure}
 
 \paragraph{}
-J'extrais les deux yeux du visage détecté, j'élargis la boîte de délimitation pour avoir plus d'informations, puis je la convertis en échelle de gris et la normalise.
-% I extract both eyes from the detected face, I expand the bounding box to have more information, then I convert it to grayscale and normalise it.
+După ce am detectat fața, am extras ambii ochi, am mărit zona dreptunghiulară care încadrează ochii, pentru a avea mai multă informație, apoi am convertit imaginea în gri și am normalizat valorile pixelilor.
 
-\begin{lstlisting}[language=Python, caption=Extraction de ``bandeau oculaire'' en Python3]
+\begin{lstlisting}[language=Python, caption=Extragerea ``bandei oculare'' în Python3]
 def extract_eye_strip(cv2_image):
-    """Returns a horizontal image with the two eyes extracted from the image"""
-    global stuff_was_initialized, face_detector, face_predictor
-    if stuff_was_initialized == False:
-        initialize_stuff()
+    """Returns a horizontal image containing the two eyes extracted from the image"""
+    global _face_detector, _face_predictor
+    if _detectors_are_initialised() == False:
+        _initialize_detectors()
 
     gray_image = Utils.convert_to_gray_image(cv2_image)
-    rects = face_detector(gray_image, 0)
+    rects = _face_detector(gray_image, 0)
     if len(rects) > 0:
         # only for the first face found
-        shape = face_predictor(gray_image, rects[0])
+        shape = _face_predictor(gray_image, rects[0])
         shape = face_utils.shape_to_np(shape)
         (left_eye_start,
          left_eye_end) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
@@ -155,4 +148,5 @@ def extract_eye_strip(cv2_image):
             end[i] += int(percents[i]/100 * distance[i])
         return cv2_image[start[1]:end[1], start[0]:end[0]]
     return None
+
 \end{lstlisting}

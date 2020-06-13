@@ -77,7 +77,7 @@ def extract_face(cv2_image):
 
 def extract_eye_strip(cv2_image):
     """Returns a horizontal image containing the two eyes extracted from the image"""
-    global _initialised, _face_detector, _face_predictor
+    global _face_detector, _face_predictor
     if _detectors_are_initialised() == False:
         _initialize_detectors()
 
