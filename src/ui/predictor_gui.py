@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QPainter, QColor, QPen, QBrush, QFont
-from PyQt5.QtCore import Qt, QBasicTimer
+from PyQt5.QtCore import Qt, QBasicTimer, QLineF, QPointF
+from pynput.mouse import Controller
 
 
 # My files
@@ -9,6 +10,8 @@ from src.ui.base_gui import BaseGUI
 import config as Config
 
 screen_width, screen_height = get_screen_dimensions()
+
+_mouse_controller = Controller()
 
 
 class PredictorGUI(BaseGUI):
@@ -37,17 +40,18 @@ class PredictorGUI(BaseGUI):
 
     def showEvent(self, event):
         # start the timer
-        self._timer.start(1000 / Config.UPDATE_FPS, self)   # setting up timer ticks to 60 fps
+        # setting up timer ticks to 60 fps
+        self._timer.start(1000 / Config.UPDATE_FPS, self)
 
     # TODO only update this widget from here
     def create_window(self):
-        self.setWindowTitle('Predictor')
+        self.setWindowTitle('Simulator')
         self.resize(screen_width, screen_height)
 
     def update_prediction(self, prediction):
         self.prediction = prediction
 
-    def update_info (self, info):
+    def update_info(self, info):
         self.info = info
 
     def paintCells(self):
@@ -78,11 +82,26 @@ class PredictorGUI(BaseGUI):
         # i need width and height for the last two, but I currently have the coordinates for the bottom right point
         painter.drawRect(c[0], c[1], c[2] - c[0], c[3] - c[1])
 
+        # self._draw_arrow(event, painter)
+
         # draw info about the mouth
         self._draw_mouth_info(event, painter)
         painter.end()
 
+    def _draw_arrow(self, event, painter):
+        if self.info["mouth_is_opened"][0] == False or self.prediction == 4:
+            return
+
+        angles = [135, 90, 45, 180, None, 0, 225, 270, 0]
+        angleline = QLineF()
+        angleline.setP1(QPointF(*_mouse_controller.position))
+        angleline.setAngle(angles[self.prediction])
+        angleline.setLength(100)
+        painter.setPen(QPen(Qt.red, 5, Qt.SolidLine))
+        painter.drawLine(angleline)
+
     def _draw_mouth_info(self, event, qp):
         # qp.setPen(QColor(168, 34, 3))
         # qp.drawText(event.rect(), Qt.AlignTop, f'Mouth is opened: {self.info["mouth_is_opened"]}\nLeft eye ratio: {int(self.info["eyes"][1][0]*100)/100}')
-        qp.drawText(event.rect(), Qt.AlignTop, f'Mouth is opened: {self.info["mouth_is_opened"]}\nEyes open: {self.info["eyes_are_opened"]}')
+        qp.drawText(event.rect(), Qt.AlignTop,
+                    f'Mouth is opened: {self.info["mouth_is_opened"]}\nEyes open: {self.info["eyes_are_opened"]}')

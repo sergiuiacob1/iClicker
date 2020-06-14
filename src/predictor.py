@@ -14,8 +14,8 @@ import config as Config
 
 _screen_width, _screen_height = get_screen_dimensions()
 _mouse_controller = Controller()
-_dx_value = _screen_width * 0.01
-_dy_value = _screen_height * 0.01
+_dx_value = _screen_width * Config.CURSOR_DX
+_dy_value = _screen_height * Config.CURSOR_DY
 _frames_closed = [0, 0]
 _should_click = [True, True]
 _prediction_info = None
