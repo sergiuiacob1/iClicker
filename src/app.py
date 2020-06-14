@@ -60,7 +60,7 @@ class App(QtWidgets.QMainWindow):
         main_widget.setLayout(QtWidgets.QVBoxLayout())
         self.top_menu_part = QtWidgets.QWidget()
         self.top_menu_part.setLayout(QtWidgets.QVBoxLayout())
-        self.top_menu_part.layout().addWidget(QtWidgets.QLabel('iClicker'))
+        # self.top_menu_part.layout().addWidget(QtWidgets.QLabel('iClicker'))
         self.log_widget = self.create_log_widget()
         self.top_menu_part.layout().addWidget(self.log_widget)
         self.top_menu_part.resize(100, 200)
@@ -74,21 +74,21 @@ class App(QtWidgets.QMainWindow):
 
     def add_control_buttons(self):
         self.bottom_menu_part.setLayout(QtWidgets.QGridLayout())
-        collect_data_button = QtWidgets.QPushButton('Collect data')
-        collect_data_button.setToolTip('Collect training data')
+        collect_data_button = QtWidgets.QPushButton('Colectare date')
+        collect_data_button.setToolTip('Colectează date')
         collect_data_button.clicked.connect(self.collect_data)
 
-        process_data_button = QtWidgets.QPushButton('Process data')
-        process_data_button.setToolTip('Process the collected data')
+        process_data_button = QtWidgets.QPushButton('Procesare date')
+        process_data_button.setToolTip('Procesează datele colectate')
         process_data_button.clicked.connect(lambda _: run_function_on_thread(self.process_collected_data))
 
-        train_button = QtWidgets.QPushButton('Train model')
-        train_button.setToolTip('Train model based on collected data')
+        train_button = QtWidgets.QPushButton('Antrenare model')
+        train_button.setToolTip('Antrenează modelul bazat pe datele procesate')
         train_button.clicked.connect(
             lambda: run_function_on_thread(self.train_model))
 
-        predict_button = QtWidgets.QPushButton('Predict')
-        predict_button.setToolTip('Predict cursor position')
+        predict_button = QtWidgets.QPushButton('Simulare')
+        predict_button.setToolTip('Simulează funcționalitățile mouse-ului')
         predict_button.clicked.connect(self.predictor.start)
 
         # view_data_button = QtWidgets.QPushButton('View data')

@@ -1,7 +1,7 @@
 \documentclass[12pt]{report}
 
 % includes
-\usepackage{geometry}           % page size
+\usepackage[a4paper, top=2cm, bottom=2cm, left=3cm, right=2cm]{geometry} % page size
 \usepackage[utf8]{inputenc}     % encoding
 \usepackage{palatino}           % font
 \usepackage[romanian]{babel}    % language
@@ -12,18 +12,13 @@
 \usepackage{enumitem} % to customize lists
 \setlist[1]{itemsep=-5pt}
 \usepackage{csquotes} % needed dependency
-\usepackage[backend=biber, style=apa, natbib]{biblatex} % bibliography
+\usepackage[backend=biber, natbib]{biblatex} % bibliography
 \addbibresource{bibliography.bib} % bibliography
 \usepackage{listings} % for inline code
 \usepackage{xcolor} % to define colors
+\usepackage{float} % for figure placement
+\usepackage{microtype} % improves typography
 
-% includes options
-\geometry{  a4paper,            % scientific thesis standard
-            left=3cm,
-            right=2cm,
-            top=2cm,
-            bottom=2cm,
- }
 \graphicspath{{images/}}        % path where the images are located
 \setlength{\parindent}{1cm}     % paragraph indentation
 
@@ -77,6 +72,7 @@
     
     % \input{chapters/motivation}
     \input{chapters/introduction}
+    \input{chapters/contributions}
     
     \input{chapters/chapter1}
     \input{chapters/chapter2}

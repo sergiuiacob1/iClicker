@@ -3,18 +3,16 @@
 
 \section*{Context}
 \addcontentsline{toc}{section}{Context}
-\paragraph{}
+
 Știință și tehnologie.
 Acest duo se regăsește la orice pas al secolului XXI și interacționăm cu el zilnic, mai mult sau mai puțin, prin intermediul multor dispozitive precum telefonul, televizorul sau calculatorul personal.
 Într-o formă sau alta, dispozitivele de acest fel (\emph{împreună} cu mulțimea de aplicații software pe care le rulează) fac lumea mai \emph{accesibilă} pentru utilizatorii lor – de pildă, să verificăm vremea zilei de mâine pe un laptop sau să ne bazăm pe comenzile online în timpul unei pandemii.
 Astfel de exemple ne arată cum tehnologia modelează felul în care ne desfășurăm activitățile zilnice și ``scurtăturile'' pe care le putem lua pentru a îndeplini anumite sarcini – desigur, în anumite cazuri, cu niște costuri aferente.
 
-\paragraph{}
 În paragraful de mai sus este accentuat termenul ``accesibil'' care, prin definiție\footnote{Definiție preluată din DEX 2009}, înseamnă ceva ``care este la îndemâna cuiva; care poate fi ușor procurat''.
 Am văzut cum lumea poate fi ``mai la îndemâna cuiva'' – dar cum facem ca tehnologia să fie, la rândul ei, accesibilă?
 Cum ar putea, spre exemplu, o persoană paralizată să folosească un laptop?
 
-\paragraph{}
 După o analiză retrospectivă putem constata că oamenii au lucrat dintotdeauna la modalități (de exemplu la dezvoltarea de software) pentru a face tehnologia mai accesibilă oamenilor.
 Un exemplu ar fi ``Cititorul de ecran'' (în engleză ``Screen reader''), care este incorporat în majoritatea smartphone-urilor recent lansate, sau asistentul inteligent precum Siri, Bixby sau Google Assistant.
 Acestea pot permite persoanelor fără vedere să interpreteze conținutul unui ecran digital sau unei persoane imobilizate să asculte muzică, să afle noutăți ș.a.m.d.
@@ -22,53 +20,55 @@ Acest tip de software este un factor cheie pentru a permite unor categorii diver
 
 \section*{Idee}
 \addcontentsline{toc}{section}{Idee}
-\paragraph{}
+
 Dacă este să analizăm laptop-urile care sunt acum pe piață, am constata că toate sunt echipate cu o cameră frontală de luat vederi pentru videoconferințe, denumită uzual \emph{webcam}.
 Pentru calculatoarele obișnuite, precum un ``sistem desktop'' cu un monitor care nu dispune de această cameră integrată, exista webcam-uri care se pot conecta printr-un port USB (de cele mai multe ori) și aduc aceeași funcționalitate și unui calculator ``tradițional''.
 
-\paragraph{}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{webcam.jpg}
+    \caption{Exemplu de webcam ce poate fi montat pe monitorul unui calculator. Imagine preluată de pe \href{https://www.pcgarage.ro/camere-web/logitech/streamcam-off-white/}{PC Garage}}
+\end{figure}
+
 Lucrarea de față ia în considerare popularitatea acestui webcam și propune o soluție pentru a putea folosi parțial un calculator fără ajutorul mâinilor.
 O mare parte din interacțiunea dintre om și calculator se petrece \emph{prin intermediul mouse-ului}, așadar m-am concentrat pe simularea comportamentului acestuia \emph{folosind doar caracteristici ale feței}.
 Ideea de bază constă în a prelua imagini ale utilizatorului de la webcam și, pe baza trăsăturilor faciale, de a simula funcționalități ale acestuia, spre exemplu de a muta cursorul în direcția în care privește utilizatorul.
 Exemplul cel din urmă este cunoscut în litera științifică drept \emph{``Urmărirea ochilor''} (din engleză, \emph{``Eye tracking''}) și problema poate fi abordată prin tehnici de \emph{Învățare Automată}, o ramură a \emph{Inteligenței Artificiale}.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{idee.png}
-    \caption{Procedură generală pentru deplasarea mouse-ului}
+    \caption{Procedură generală pentru deplasarea cursorului}
 \end{figure}
 
-\paragraph{}
 Această idee nu este nouă și există deja soluții pentru această problemă, bazate pe aceeași idee.
 Totuși, cele mai multe dintre ele sunt create ori doar pentru un anumit sistem de operare (în acest caz, Windows), ori nu sunt gratuite și au un cost atașat semnificativ, sau chiar necesită componente hardware adiționale.
 
-\paragraph{}
-\emph{Camera Mouse}\footnote{\url{http://www.cameramouse.org}} este o propunere viabilă care urmărește o porțiune fixată a feței (spre exemplu un ochi) și, când acea porțiune își schimbă poziția, se schimbă și poziția cursorului.
-Oferă și functionalități de simulare a apăsării pe butoanele mouse-ului, însă funcționează doar pentru sistemele care rulează Windows.
-Printre alternative se mai găsesc \emph{IntelliGaze}\footnote{\url{https://www.intelligaze.com/en/}} și produse dezvoltate de \emph{Tobii Dynavox}\footnote{\url{https://www.tobiidynavox.com/software/windows-software/windows-control-2/}}, dar acestea necesită în primul rând hardware adițional și rulează doar pe Windows.
+\emph{Camera Mouse}\footnote{\url{http://www.cameramouse.org}} este o propunere viabilă care urmărește o porțiune fixată a feței (spre exemplu vârful nasului) și, când acea porțiune își schimbă poziția, se schimbă și poziția cursorului.
+Pentru ca acest lucru să funcționeze, utilizatorul trebuie să efectueze mișcări ale capului.
+Oferă și functionalități de simulare a apăsării pe butoanele mouse-ului, însă aplicația funcționează doar pentru sistemele care rulează Windows.
+Printre alternative se mai găsesc \emph{IntelliGaze}\footnote{\url{https://www.intelligaze.com/en/}} și produse dezvoltate de \emph{Tobii Dynavox}\footnote{\url{https://www.tobiidynavox.com/software/windows-software/windows-control-2/}}, dar acestea necesită în primul rând hardware adițional, lucrează doar pentru sistemul de operare Windows și au și un cost atașat.
 
 \section*{Motivație}
 \addcontentsline{toc}{section}{Motivație}
-\paragraph{}
+
 Când a trebuit să mă decid asupra temei lucrării de licență, am luat în calcul doi factori cheie: viitoarea mea carieră profesională și utilitatea proiectului.
 Mi-am dorit să lucrez la un proiect care mi-ar alimenta interesul în Inteligența Artificială și care mi-ar oferi șansa de a aplica cercetarea pe care aș face-o în acest domeniu.
 Mai mult, mi-am dorit de asemenea să am și o abordare practică asupra lucrării, astfel încât să construiesc ceva ce ar fi folositor.
 
-\paragraph{}
 Cât despre Inteligența Artificială, este inutil să-i subliniem importanța contemporană.
 De la aplicabilitatea medicală, conducere/pilotare autonomă, agricultură inteligentă până la frigidere inteligente care-ți spun când ai rămas fără lapte, Inteligența Artificială este larg răspândită și extinderea ei nu se va opri prea curând.
 Pentru mine, acesta este un motiv în plus pentru a o studia și a o înțelege mai bine, mai ales că o găsim integrată în viața noastră de zi cu zi.
 
-% % As a bonus, I'll have the chance of using some of the knowledge I've gathered as a student throughout the time.
-% % to individually work on a project that will showcase my software development skills, but also the abilities of practical knowledge applying and researching on certain topics.
-
-\clearpage
-
 \section*{Obiective}
 \addcontentsline{toc}{section}{Obiective}
-\paragraph{}
-Obiectivul principal al aplicației este acela de a simula folosirea unui mouse.
-Așadar, aplicația dezvoltată suportă cele mai importante funcționalități ale acestuia:
+
+Cel mai important obiectiv al acestei lucrări de licență este înțelegerea și aplicarea cu succes a cunoștințelor și a noțiunilor dobândite ca student al \facultyg.
+Câteva exemple de concepte de care am ținut cont sunt legate de principii de \emph{software design} (precum principiile de programare \emph{SOLID}), de concepte de analizare a complexității timp/spațiu sau de noțiuni matematice legate de învățarea automată.
+Toate aceste noțiuni, teoretice și practice, trebuie să se regăsească într-o combinație armonioasă pentru a putea permite dezvoltarea unui software de calitate.
+
+Obiectivul principal al aplicației este acela de a simula folosirea unui mouse doar prin gesturi ale feței.
+Așadar, mai jos este o listă a celor mai importante funcționalități ale acestuia pe care mi-am propus să le replic prin această lucrare:
 \begin{itemize}
     \item mișcarea cursorului
     \item apăsarea butonului stâng
@@ -81,25 +81,40 @@ Așadar, aplicația dezvoltată suportă cele mai importante funcționalități 
     \caption{Funcționalități principale ale unui mouse. Imagine preluată și adaptată de pe \href{https://www.flaticon.com}{Flaticon}, autor: \href{https://www.flaticon.com/authors/kiranshastry}{Kiranshastry}}
 \end{figure}
 
-\paragraph{}
-În urma analizei produselor deja existente, am vrut să dezvolt o aplicație care constituie un pachet atractiv de beneficii.
-Am construit o listă cu obiectivele principale ale aplicației:
-\begin{itemize}
-    \item să fie cross-platform: aplicația ar trebui să ruleze pe toate sistemele de operare populare: Windows, Linux și MacOS
-    \item să țină cont de diferențele fizionomice dintre utilizatori
-    \item să aibă o interfață grafică
-    \item să fie ușor și intuitiv de folosit
-    \item să fie ușor de instalat
-\end{itemize}
-
 \section*{Metodologie}
 \addcontentsline{toc}{section}{Metodologie}
 
-\section*{Descriere sumară a soluției (Eventual principalele probleme?)}
-\addcontentsline{toc}{section}{TODO TODO TODO}
+\section*{Descriere sumară a soluției}
+\addcontentsline{toc}{section}{Descriere sumară a soluției}
+
+Fața umană poate fi analizată pe baza mai multor \emph{repere faciale}.
+Acestea sunt reprezentate prin anumite puncte de pe față precum centrul ochiului, centrul nasului, centrul buzei superioare etc.
+Cunoscând acestea, putem delimita zone ale feței precum un singur ochi.
+În figura de mai jos\ref{figure:facial-landmarks}, ochiul stâng al unei persoane este delimitat de înfășurătoarea convexă a punctelor cu indicii $[43, 48]$.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.49\textwidth]{facial_landmarks_1.jpg}
+    \includegraphics[width=0.49\textwidth]{facial_landmarks_2.png}
+    \caption{Repere faciale. Imagini preluate de aici: \url{https://ibug.doc.ic.ac.uk/resources/300-W/}}
+    \label{figure:facial-landmarks}
+\end{figure}
+
+Folosind anumiți algoritmi deja existenți am detectat aceste puncte faciale din imagini ale utilizatorului aplicației (în acest caz, imagini cu mine însumi) iar apoi am extras regiuni dreptunghiulare care conțineau fie întreaga față, fie ochii persoanei.
+Apoi am etichetat aceste imagini decupate cu coordonatele punctelor de pe ecran pe care le privea utilizatorul în fiecare imagine și am dezvoltat un model matematic care poate calcula zona ecranului pe care o privește utilizatorul.
+
+Mai departe am făcut uz de restul reperelor faciale pentru a putea atinge obiectivele prezentate mai devreme.
+Fiind capabilă să urmărească ochii, aplicația trebuie și să poată deplasa cursorul, dar într-un mod controlat, care să nu deranjeze privirea normală a ecranului.
+Astfel, deplasarea cursorului se realizează doar în momentul în care distanța dintre buza superioară și cea inferioară este nenulă și reprezintă un anumit procent din distanța dintre extremitățile buzelor (care coincid).
+În termeni mai populari și mai simpli, relația se traduce prin gestul de deschidere a gurii.
+
+Pentru apăsarea butoanelor am avut o abordare similară.
+Prin închiderea ochiului stâng pentru o anumită perioadă de timp se realizează apăsarea butonului stâng.
+Analog, apăsarea butonului drept se realizează similar.
 
 \section*{Structura lucrării}
 \addcontentsline{toc}{section}{Structura lucrării}
+
 \paragraph{Capitolul 1}
 Aici va fi prezentată... iar apoi...
 

@@ -25,10 +25,11 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
     def show_how_to_collect_data(self):
         widget = QtWidgets.QWidget()
         widget.setLayout(QtWidgets.QVBoxLayout())
-        text = QtWidgets.QLabel('Active collection:\nIn this type of collection, the mouse cursor will be moving on the screen and you have to follow it.\nYou can pause it using the SPACEBAR. You can increase or decrease it\'s speed using UP_ARROW and DOWN_ARROW.\n\nBackground collection:\nEvery time you click somewhere, a picture from the webcam will be taken and saved with the mouse cursor position.\nTo finish data collection, close the window.\n')
+        # text = QtWidgets.QLabel('Active collection:\nIn this type of collection, the mouse cursor will be moving on the screen and you have to follow it.\nYou can pause it using the SPACEBAR. You can increase or decrease it\'s speed using UP_ARROW and DOWN_ARROW.\n\nBackground collection:\nEvery time you click somewhere, a picture from the webcam will be taken and saved with the mouse cursor position.\nTo finish data collection, close the window.\n')
+        text = QtWidgets.QLabel('Colectare activă:\nÎn acest mod de colectare, cursorul mouse-ului se va mișca pe ecran și va trebui să îl urmăriți cu ochii.\n Pentru a face o pauză, apăsați tasta SPACEBAR. Puteți crește/micșora viteza cursorului folosind tastele SĂGEATĂ SUS și SĂGEATĂ JOS.\n\nColectare pasivă:\nDe fiecare dată când apăsați click stânga undeva, o imagine capturată prin intermediul webcam-ului va fi salvată împreună cu poziția cursorului.\nPentru a termina colectarea de date, închideți fereastra ce se va deschide.\n')
         widget.layout().addWidget(text)
-        active_button = build_button('Active collection', 'Start collecting data in active mode', self.start_collecting, f_args = ('active'))
-        background_button = build_button('Background collection', 'Start collecting data in background mode', self.start_collecting, f_args = ('background'))
+        active_button = build_button('Colectare activă', 'Începere colectare activă', self.start_collecting, f_args = ('active'))
+        background_button = build_button('Colectare pasivă', 'Începere colectare pasivă', self.start_collecting, f_args = ('background'))
 
         widget.layout().addWidget(active_button)
         widget.layout().addWidget(background_button)
