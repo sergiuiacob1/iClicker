@@ -1,4 +1,5 @@
 \chapter{Date de antrenament}
+\label{chapter3}
 \section{Colectarea și salvarea datelor}
 Datele de antrenament sunt extrem de importante.
 O expresie populară\footnote{Expresia este ``garbage in, garbage out'', iar o expresie românească similară ar fi ``semeni vânt, culegi furtună''} ne spune că dacă datele furnizate algorimilor de învățare automată sunt de proastă calitate, atunci așa va fi și performanța acelor algoritmi, sau mai bine spus a modelelor matematice și a generalizărilor create de aceștia.
@@ -99,7 +100,7 @@ def extract_eyes(cv2_image):
 Pentru prezicerea zonei în care se uită utilizatorul ne interesează mai mult contrastul dintre pupilă și iris.
 Pentru aceasta, am aplicat un \emph{prag binar} (\emph{binary threshold}) imaginilor ochilor (care au fost convertite în prealabil în imagini gri) pentru a scoate în evidență poziția pupilei, relativ la întregul ochi.
 
-\section{TODO}
+\subsection{TODO}
 TODO despre binary threshold, ce am folosit
 
 \begin{lstlisting}[language=Python, caption=Aplicarea unui \emph{binary threshold}]
