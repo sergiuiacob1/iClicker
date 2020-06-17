@@ -1430,3 +1430,5 @@
 2020-06-17 15:54:59,730: Training model with <function train_cnn_regression_with_keras at 0x7fb0d9f36170> on eye_strips_regression.pkl
 2020-06-17 15:54:59,734: Loading train data...
 2020-06-17 15:55:00,508: Starting epoch 0
+2020-06-17 16:12:19,517: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-17 16:12:24,621: Model chosen: model_27.pkl

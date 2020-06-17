@@ -88,7 +88,7 @@ class App(QtWidgets.QMainWindow):
 
         predict_button = QtWidgets.QPushButton('Simulare')
         predict_button.setToolTip('Simulează funcționalitățile mouse-ului')
-        predict_button.clicked.connect(self.predictor.start)
+        predict_button.clicked.connect(self.predict)
 
         # view_data_button = QtWidgets.QPushButton('View data')
         # view_data_button.setToolTip('View collected data')
@@ -99,6 +99,13 @@ class App(QtWidgets.QMainWindow):
             for j in range(0, 2):
                 self.bottom_menu_part.layout().addWidget(
                     buttons[i * 2 + j], i, j)
+
+    def predict(self):
+        if self.predictor.can_predict() == False:
+            self.error_dialog = QtWidgets.QErrorMessage()
+            self.error_dialog.showMessage('Nu există niciun model antrenat.\nApăsați pe butonul "Antrenare" pentru a antrena un model.')
+            return
+        self.predictor.start()
 
     def process_collected_data(self):
         if can_process_data() == False:

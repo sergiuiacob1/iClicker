@@ -366,16 +366,14 @@ def get_best_trained_model(prediction_type, trained_with=None, data_used=None, g
     try:
         if best_model_info['trained_with'] == 'keras':
             # Lazy library loading so app starts faster
-            import tensorflow as tf
-            model = tf.keras.models.load_model(
-                os.path.join(path, best_model_name))
+            from tensorflow.keras.models import load_model
+            model = load_model(os.path.join(path, best_model_name))
             # this below is for version 1.4 of tensorflow/keras
             # from tensorflow.keras.backend import clear_session
             # # This is necessary if I want to load a model multiple times
             # clear_session()
             # model = joblib.load(os.path.join(path, best_model_name))
         else:
-            # TODO maybe trained with pytorch, do this case too
             return None
     except Exception as e:
         train_logger.info(f'Could not load model {best_model_name}: {str(e)}')

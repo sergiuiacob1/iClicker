@@ -1,3 +1,5 @@
+import json
+import os
 import numpy as np
 import time
 from threading import Thread
@@ -35,6 +37,12 @@ class Predictor():
     def __init__(self):
         self.gui = PredictorGUI(self)
         _clear_prediction_info()
+        self.prediction_type = 'regression'
+        self.trained_with = 'keras'
+        self.data_used = f'eye_strips_regression.pkl'
+        # self.data_used = f'eye_strips_{Config.grid_size}.pkl'
+        # self.data_used = f'thresholded_eyes_{Config.grid_size}.pkl'
+        # self.data_used = f'extracted_faces_{Config.grid_size}.pkl'
 
     def ui_was_closed(self):
         WebcamCapturer.stop_capturing()
@@ -44,14 +52,41 @@ class Predictor():
         WebcamCapturer.start_capturing()
         Thread(target=self.predict).start()
 
+    def can_predict(self):
+        path = os.path.join(os.getcwd(), Config.models_directory_path)
+        if os.path.exists(path) is False:
+            return False
+
+        # Check if there is a model corresponding to the type of prediction I'm trying to
+        models_info = [x for x in os.listdir(path) if x.endswith(".json")]
+        if len(models_info) == 0:
+            return False
+
+        for x in models_info:
+            model_info_path = os.path.join(path, x)
+            with open(model_info_path, 'r') as f:
+                data = json.load(f)
+
+            if self.trained_with is not None:
+                if data['trained_with'] != self.trained_with:
+                    continue
+            if self.data_used is not None:
+                if data['data_used'] != self.data_used:
+                    continue
+            if data['grid_size'] != Config.grid_size:
+                continue
+            if data['prediction_type'] != self.prediction_type:
+                continue
+
+            # I fould at least 1 model that matches the description
+            return True
+        return False
+
     def predict(self):
         print('Loading last trained model...')
-        prediction_type = 'regression'
-        trained_with = 'keras'
-        data_used = f'eye_strips_regression.pkl'
-        # data_used = f'eye_strips_{Config.grid_size}.pkl'
-        # data_used = f'thresholded_eyes_{Config.grid_size}.pkl'
-        # data_used = f'extracted_faces_{Config.grid_size}.pkl'
+        prediction_type = self.prediction_type
+        trained_with = self.trained_with
+        data_used = self.data_used
         model = get_best_trained_model(
             prediction_type=prediction_type, trained_with=trained_with, data_used=data_used, get_last_or_best="last")
         if model is None:
@@ -111,7 +146,7 @@ class Predictor():
                 'mouth_is_opened', 'eyes_are_opened')))
             if _prediction_info["mouth_is_opened"][0] == True:
                 self._move_mouse()
-            for i in range (2):
+            for i in range(2):
                 if _prediction_info["eyes_are_opened"][i] == False and _should_click[i] == True:
                     _frames_closed[i] += 1
                 else:
@@ -119,7 +154,6 @@ class Predictor():
                     if time.time() - _time_last_opened[i] >= 0.5:
                         _should_click[i] = True
                     _time_last_opened[i] = time.time()
-                    
 
             self._check_mouse_clicks()
             time.sleep(1/Config.UPDATE_FPS)
