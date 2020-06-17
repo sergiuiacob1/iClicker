@@ -222,6 +222,16 @@ def process_data_for_regression(data, how_to_process_it):
         name = f'thresholded_eyes_regression.pkl'
     save_processed_data((X, y), name)
 
+def can_process_data():
+    data_path = os.path.join(os.getcwd(), Config.data_directory_path)
+    sessions_path = (os.path.join(data_path, 'sessions.json'))
+    if os.path.exists(data_path) is False:
+        return False
+    if os.path.exists(sessions_path) is False:
+        return False
+    if os.stat(sessions_path).st_size == 0:
+        return False
+    return True
 
 def main():
     # load the data

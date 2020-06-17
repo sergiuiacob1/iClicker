@@ -11,7 +11,7 @@ import logging
 # My files
 from src import trainer as Trainer
 from src.data_collector import DataCollector, DataObject
-from src.data_processing import main as data_processing_main, dp_logger
+from src.data_processing import main as data_processing_main, dp_logger, can_process_data
 from src.data_viewer import DataViewer
 from src.utils import get_screen_dimensions, run_function_on_thread
 from src.predictor import Predictor
@@ -80,12 +80,11 @@ class App(QtWidgets.QMainWindow):
 
         process_data_button = QtWidgets.QPushButton('Procesare date')
         process_data_button.setToolTip('Procesează datele colectate')
-        process_data_button.clicked.connect(lambda _: run_function_on_thread(self.process_collected_data))
+        process_data_button.clicked.connect(self.process_collected_data)
 
         train_button = QtWidgets.QPushButton('Antrenare model')
         train_button.setToolTip('Antrenează modelul bazat pe datele procesate')
-        train_button.clicked.connect(
-            lambda: run_function_on_thread(self.train_model))
+        train_button.clicked.connect(self.train_model)
 
         predict_button = QtWidgets.QPushButton('Simulare')
         predict_button.setToolTip('Simulează funcționalitățile mouse-ului')
@@ -102,24 +101,24 @@ class App(QtWidgets.QMainWindow):
                     buttons[i * 2 + j], i, j)
 
     def process_collected_data(self):
-        try:
-            data_processing_main()
-        except Exception as e:
-            ...
-            # self.error_dialog = QtWidgets.QErrorMessage()
-            # self.error_dialog.showMessage(str(e))
-
-
+        if can_process_data() == False:
+            self.error_dialog = QtWidgets.QErrorMessage()
+            self.error_dialog.showMessage('Nu există date pentru a putea fi procesate.\n Apăsați pe butonul "Colectare date" mai întâi pentru a obține date.')
+            return
+        run_function_on_thread(data_processing_main)
+        
     def view_data(self):
-        # TODO put this on a thread?
         print('Getting collected data...')
         data = self.data_collector.get_collected_data()
         print(f'Displaying random photos from {len(data)} samples')
         self.data_viewer.view_data(data)
 
     def train_model(self):
+        if Trainer.can_train_model() == False:
+            self.error_dialog = QtWidgets.QErrorMessage()
+            self.error_dialog.showMessage('Nu există date procesate pentru a putea antrena un model.\n Apăsați pe butonul "Procesare date" pentru a procesa datele.')
+            return
         run_function_on_thread(Trainer.main)
-        # Trainer.main()
 
     def collect_data(self):
         self.data_collector.collect_data()

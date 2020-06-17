@@ -42,19 +42,32 @@ def get_last_model_number():
     return max(numbers)
 
 
+data_needed_name = 'eye_strips_regression.pkl'
+# data_needed_name = f'eye_strips_{Config.grid_size}.pkl'
+# data_needed_name = f'extracted_faces_{Config.grid_size}.pkl'
+# data_needed_name = f'thresholded_eyes_{Config.grid_size}.pkl'
+
+
+def can_train_model():
+    global data_needed_name
+    path = os.path.join(os.getcwd(), Config.train_data_path, data_needed_name)
+    return not os.path.exists(path)
+
+
 def train_model(train_parameters):
+    global data_needed_name
     st = time.time()
     f = train_cnn_regression_with_keras
     # f = train_cnn_with_keras
-    f_args = (f'eye_strips_regression.pkl', (Config.EYE_STRIP_HEIGHT,
-                                             Config.EYE_STRIP_WIDTH, 1), train_parameters)
+    f_args = (data_needed_name, (Config.EYE_STRIP_HEIGHT,
+                                 Config.EYE_STRIP_WIDTH, 1), train_parameters)
     # f = train_mlp
     # Loading the data specific to the config's grid size
-    # f_args = (f'eye_strips_{Config.grid_size}.pkl',
+    # f_args = (data_needed_name,
     #           (Config.EYE_STRIP_HEIGHT, Config.EYE_STRIP_WIDTH, 1))
-    # f_args = (f'extracted_faces_{Config.grid_size}.pkl',
+    # f_args = (data_needed_name,
     #           (Config.FACE_HEIGHT, Config.FACE_WIDTH, 1))
-    # f_args = (f'thresholded_eyes_{Config.grid_size}.pkl',)
+    # f_args = (data_needed_name,)
     train_logger.info(f'Training model with {f} on {f_args[0]}')
     res = f(*f_args)
     res['training_time'] = time.time() - st
