@@ -1,3 +1,4 @@
+import math
 import joblib
 import cv2
 import random
@@ -6,12 +7,7 @@ import matplotlib.pyplot as plt
 import json
 import seaborn as sns
 import os
-import torch
 import numpy as np
-from torchvision import datasets
-import torchvision.transforms as transforms
-import torch.nn as nn
-import torch.nn.functional as F
 
 
 # which = 'eye_strips_regression.pkl'
@@ -42,16 +38,30 @@ for x in os.listdir('./models'):
     with open(f'models/{x}', 'r') as f:
         info = json.load(f)
 
+    print (f'Treating {x}')
+
     # multiple line plot
     if info["prediction_type"] == "grid":
         lines = ['train_accuracy', 'test_accuracy',
-                 'train_loss_categorical_crossentropy', 'test_loss_categorical_crossentropy']
+                 'train_loss_categorical_crossentropy',
+                 'test_loss_categorical_crossentropy',
+                 ]
         colors = ["coral", "blue", "green", "red"]
+
+        for line in lines:
+            for index, val in enumerate(info[line]):
+                info[line][index] = math.log(info[line][index])
+
         epochs = range(0, len(info['train_accuracy']))
     else:
         lines = ['train_loss_mean_squared_error',
                  'test_loss_mean_squared_error']
         colors = ["green", "red"]
+
+        for line in lines:
+            for index, val in enumerate(info[line]):
+                info[line][index] = math.log(info[line][index])
+
         epochs = range(0, len(info['train_loss_mean_squared_error']))
     for i in range(0, len(lines)):
         ax = sns.lineplot(
@@ -60,4 +70,5 @@ for x in os.listdir('./models'):
     figname = x.replace('.json', '.png')
     plt.xlabel('epochs')
     plt.savefig(f'report/images/graphs/{figname}')
+    # plt.savefig(f'/Users/sergiuiacob/Desktop/models/{figname}')
     plt.clf()

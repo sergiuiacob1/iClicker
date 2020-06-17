@@ -14,8 +14,8 @@ Am văzut cum lumea poate fi ``mai la îndemâna cuiva'' – dar cum facem ca te
 Cum ar putea, spre exemplu, o persoană paralizată să folosească un laptop?
 
 După o analiză retrospectivă putem constata că oamenii au lucrat dintotdeauna la modalități (de exemplu la dezvoltarea de software) pentru a face tehnologia mai accesibilă oamenilor.
-Un exemplu ar fi ``Cititorul de ecran'' (în engleză ``Screen reader''), care este incorporat în majoritatea smartphone-urilor recent lansate, sau asistentul inteligent precum Siri, Bixby sau Google Assistant.
-Acestea pot permite persoanelor fără vedere să interpreteze conținutul unui ecran digital sau unei persoane imobilizate să asculte muzică, să afle noutăți ș.a.m.d.
+Un exemplu ar fi Cititorul de ecran (în engleză \emph{Screen reader}), care este incorporat în majoritatea smartphone-urilor recent lansate, sau asistentul inteligent precum Siri, Bixby sau Google Assistant.
+Acestea pot permite persoanelor fără vedere să interpreteze conținutul unui ecran digital sau persoanelor imobilizate să asculte muzică, să afle noutăți ș.a.m.d.
 Acest tip de software este un factor cheie pentru a permite unor categorii diverse de oameni să poată profita de avantajele tehnologiei.
 
 \section*{Idee}
@@ -38,7 +38,7 @@ Exemplul cel din urmă este cunoscut în litera științifică drept \emph{``Urm
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{idee.png}
-    \caption{Idee inițială pentru deplasarea cursorului}
+    \caption{Schemă generală pentru deplasarea cursorului}
 \end{figure}
 
 Această idee nu este nouă și există deja soluții pentru această problemă, bazate pe aceeași idee.
@@ -62,13 +62,13 @@ Pentru mine, acesta este un motiv în plus pentru a o studia și a o înțelege 
 
 \section*{Obiective}
 \addcontentsline{toc}{section}{Obiective}
-
-Cel mai important obiectiv al acestei lucrări de licență este înțelegerea și aplicarea cu succes a cunoștințelor și a noțiunilor dobândite ca student al \facultyg.
-Câteva exemple de concepte de care am ținut cont sunt legate de principii de \emph{software design} (precum principiile de programare \emph{SOLID}), de concepte de analizare a complexității timp/spațiu sau de noțiuni matematice legate de învățarea automată.
-Toate aceste noțiuni, teoretice și practice, trebuie să se regăsească într-o combinație armonioasă pentru a putea permite dezvoltarea unui software de calitate.
+Cel mai important obiectiv al acestei lucrări de licență este înțelegerea și aplicarea cu succes a cunoștințelor și a noțiunilor dobândite ca student al Facultății de Informatică, Iași.
+Toate noțiunile teoretice și practice acumulate trebuie să se regăsească într-o combinație armonioasă pentru a putea permite dezvoltarea unui software de calitate.
+Am încercat, în acest sens, să țin cont de concepte precum principii de \emph{software design} (spre exemplu principiile de programare \emph{SOLID}), de \emph{design patterns} precum \emph{MVP}, de concepte de analizare a complexității timp/spațiu, de noțiuni legate de învățarea automată (spre exemplu tratarea \emph{overfitting-ului}) și altele.
 
 Obiectivul principal al aplicației este acela de a simula folosirea unui mouse doar prin gesturi ale feței.
-Așadar, mai jos este o listă a celor mai importante funcționalități ale acestuia pe care mi-am propus să le replic prin această lucrare:
+Prima parte a obiectivului se traduce în urmărirea ochilor utilizatorului, pentru a ști în ce direcție să deplasăm cursorul, și este partea pe care se concentrează cel mai mult această lucrare.
+Având această capacitate, aplicația trebuie apoi să pună la dispoziție utilizatorului modalități de a simula, prin folosirea feței, cele mai importante funcționalități ale unui mouse:
 \begin{itemize}
     \item mișcarea cursorului
     \item apăsarea butonului stâng
@@ -81,8 +81,8 @@ Așadar, mai jos este o listă a celor mai importante funcționalități ale ace
     \caption{Funcționalități principale ale unui mouse. Imagine preluată și adaptată de pe \href{https://www.flaticon.com}{Flaticon}, autor: \href{https://www.flaticon.com/authors/kiranshastry}{Kiranshastry}}
 \end{figure}
 
-\section*{Metodologie}
-\addcontentsline{toc}{section}{Metodologie}
+% \section*{Metodologie}
+% \addcontentsline{toc}{section}{Metodologie}
 
 \section*{Descriere sumară a soluției}
 \addcontentsline{toc}{section}{Descriere sumară a soluției}
@@ -104,26 +104,27 @@ Folosind anumiți algoritmi deja existenți am detectat aceste puncte faciale di
 Apoi am etichetat aceste imagini decupate cu coordonatele punctelor de pe ecran pe care le privea utilizatorul în fiecare imagine și am dezvoltat un model matematic care poate calcula zona ecranului pe care o privește utilizatorul.
 
 Mai departe am făcut uz de restul reperelor faciale pentru a putea atinge obiectivele prezentate mai devreme.
-Fiind capabilă să urmărească ochii, aplicația trebuie și să poată deplasa cursorul, dar într-un mod controlat, care să nu deranjeze privirea normală a ecranului.
+Fiind capabilă să urmărească ochii, aplicația trebuie și să poată deplasa cursorul, dar într-un mod controlat, care să nu deranjeze privirea normală a ecranului (nu întotdeauna când privim ecranul dorim să deplasăm cursorul).
 Astfel, deplasarea cursorului se realizează doar în momentul în care distanța dintre buza superioară și cea inferioară este nenulă și reprezintă un anumit procent din distanța dintre extremitățile buzelor (care coincid).
 În termeni mai populari și mai simpli, relația se traduce prin gestul de deschidere a gurii.
 
 Pentru apăsarea butoanelor am avut o abordare similară.
 Prin închiderea ochiului stâng pentru o anumită perioadă de timp se realizează apăsarea butonului stâng.
 Analog, apăsarea butonului drept se realizează similar.
+Aceste lucruri au dus la îndeplinirea obiectivelor prezentate mai devreme, întrucât aplicația poate fi minipulată exclusiv prin fața utilizatorului.
 
 \section*{Structura lucrării}
 \addcontentsline{toc}{section}{Structura lucrării}
-În primul capitol\ref{chapter1} am prezentat principala problemă pe care o analizează această lucrare, și anume urmărirea ochilor (\emph{eye tracking}).
+În primul capitol am prezentat principala problemă pe care o analizează această lucrare, și anume urmărirea ochilor (\emph{eye tracking}).
 Este prezentată de asemenea strategia pe care am abordat-o spre rezolvarea acestei probleme.
 
-Următorul capitol\ref{chapter2} prezintă soluția propusă împreună cu limitele și constrângerile acesteia.
-Am ilustrat structura acesteia, componentele principale și șablonul arhitectural (\emph{design pattern}) folosit pentru a ghida dezvoltarea aplicației.
+Următorul capitol prezintă soluția propusă împreună cu limitele și constrângerile acesteia.
+Am ilustrat structura acesteia, componentele principale și șablonul arhitectural (\emph{design pattern-ul}) folosit pentru a ghida dezvoltarea aplicației.
 
-Capitolele 3\ref{chapter3}, 4\ref{chapter4} și 5\ref{chapter5} urmăresc pașii luați în rezolvarea unei probleme de învățare automată.
+Capitolele 3, 4 și 5 urmăresc pașii luați în rezolvarea unei probleme de învățare automată.
 Am început cu modul în care am obținut datele de antrenament, modul în care le-am procesat iar apoi am continuat cu prezentarea modului de antrenare și de dezvoltare a arhitecturilor de învățare profundă pe care le-am folosit.
 Capitolul 5 prezintă modul în care am folosit predicțiile de urmărire a ochilor în combinație cu repere faciale pentru a simula funcționalitatea unui mouse.
 
-În cele din urmă, capitolul 6\ref{chapter6} ilustrează un experiment pe care l-am făcut pentru identificarea reperelor faciale.
+În cele din urmă, capitolul 6 ilustrează un experiment pe care l-am făcut pentru identificarea reperelor faciale.
 Acesta m-a ajutat la o înțelegere mai bună a modului în care reperele faciale sunt identificate.
 

@@ -2,7 +2,7 @@
 \label{chapter1}
 \section{Urmărirea ochilor}
 Problema pe care am încercat să o rezolv constă în primul rând în a urmări cu acuratețe ochii utilizatorului, astfel încât cursorul să poată fi mișcat în concordanță cu privirea acestuia.
-Această problemă face parte dintr-o gamă mai largă de probleme de \emph{Viziune Computerizată} (în engleză \emph{Computer Vision}), mai exact \emph{Urmărirea ochilor}, după cum a fost menționat și în introducere.
+Această problemă face parte dintr-o gamă mai largă de probleme de \emph{Viziune Computerizată} (în engleză \emph{Computer Vision}), denumită chiar \emph{urmărirea ochilor}, după cum a fost menționat și în introducere.
 Conform \cite{eye_tracking}, urmărirea ochilor este ``procesul de măsurare a punctului de privire (unde se uită o persoană) sau a mișcării unui ochi relativ la cap''.\footnote{Textul original este din engleză: ``the process of measuring either the point of gaze (where one is looking) or the motion of an eye relative to the head''}
 
 Tehnicile de ultimă oră (\emph{state of the art}) de a rezolva această problemă se bazează pe \emph{Inteligența Artificială} și sunt, mai exact, tehnici de \emph{Învățare Automată}.
@@ -12,12 +12,11 @@ Diferența cheie între acestea constă în structura acestei mulțimi de date, 
 
 Această ramură a Inteligenței Artificiale poate fi mai departe divizată în mai multe secțiuni, una dintre ele fiind \emph{Invățarea Profundă}.
 Ea se preocupă, printre altele, de procesarea și analizarea imaginilor prin folosirea unor \emph{arhitecturi profunde} bazate pe \emph{rețele neuronale}.
-Învățarea poate fi la rândul ei supervizată, semi-supervizată sau nesupervizată.
-În termeni simpli, aceste tehnici încearcă să prezică sau să producă un rezultat pe baza unor exemple sau a unor relații între datele care trebuiesc procesate.
 
 Am formulat problema ca una de învățare profundă supervizată, care presupune cunoașterea unei mulțimi de date
 $$D = \{(i, o) | i \in I, o \in O\}$$
-unde $I$ reprezintă mulțimea exemplelor pe care le avem iar $O$ mulțimea rezultatelor, a \emph{adevărurilor de bază} deja cunoscute, pe care trebuie să le putem reproduce și prezice corect pentru imagini noi.
+unde $(i, o)$ reprezină un exemplu, o asociere între un tip de date și un rezultat pe care vrem să îl prezicem, să îl reconstruim.
+Pentru fiecare element din mulțimea $I$, avem un element asociat în $O$ care reprezintă mulțimea \emph{adevărurilor de bază} deja cunoscute, pe care trebuie să le putem reproduce și prezice corect pentru alte elemente de tipul celor din mulțimea $I$.
 
 Am definit obiectivul ca fiind acela de a prezice zona de pe ecran pe care o privește utilizatorul.
 Pentru acest lucru am plasat o ``grilă'' pe ecran și am numerotat fiecare celulă corespunzătoare.
@@ -32,13 +31,24 @@ Am experimentat cu mai multe dimensiuni ale grilei, precum 2x2, 3x2 și 4x4.
     \label{grid-example}
 \end{figure}
 
-Așadar, mulțimea $I$ de mai sus va fi alcătuită din imagini alea utilizatorului, iar mulțimea $O$ va conține, spre exemplu, numărul celulei pe care o privea utilizatorul în imaginea respectivă.
-Mulțimea $O$ este discretă și finită, așadar problema inițială este una de \emph{clasificare}.
-Vom considera că pentru orice imagine din mulțimea $I$ nu conține imagini în care utilizatorul nu se uita la ecran.
+Așadar, mulțimea $I$ de mai sus va fi alcătuită din imagini ale utilizatorului, care ar permite ``extragerea privirii'' acestuia, iar mulțimea $O$ va conține, spre exemplu, numărul celulei pe care o privea utilizatorul în imaginea respectivă.
+Mulțimea $O$ conține valori discrete și este finită, așadar problema inițială este una de \emph{clasificare}.
+Vom considera că mulțimea $I$ nu conține imagini în care utilizatorul nu se uită la un punct de pe ecran.
 
 Prima parte a problemei se traduce, așadar, astfel: dându-se o imagine cu utilizatorul privind ecranul, să se calculeze numărul celulei (în funcție de grila folosită) pe care utilizatorul o privește.
-A doua parte a problemei ridică următoarea întrebare: cum putem simula funcționalitățile unui mouse doar prin gesturi ale feței?
-Cum asigurăm o mișcare fluidă a cursorului spre o ``zonă țintă'', dar în același timp cursorul să rămână fix atunci când utilizatorul doar dorește să privească ceva de pe ecran sau să efectueze un click stânga/dreapta?
+
+\section{Simularea funcționalităților mouse-ului}
+A doua parte a problemei ridică următoarea întrebare: cum putem simula un mouse folosind reperele faciale?
+Cum asigurăm o mișcare fluidă a cursorului spre o ``zonă țintă'', dar în același timp cursorul să poată rămâne fix?
+Dacă am deplasa constant cursorul pe ecran, în funcție de punctul de privire, atunci utilizatorul ar putea fi distras atunci când doar ar privi ecranul (de exemplu când ar citi un document) sau ar efectua operația de click stânga/dreapta accidental, asupra altor elemente grafice.
+
+Fiecare zonă a ecranului conține un număr finit de pixeli pe care utilizatorul i-ar putea privi.
+Trebuie să-i putem oferi astfel utilizatorului posibilitatea de a deplasa cursorul asupra acestor pixeli.
+Un buton plasat pe câțiva pixeli ar fi aproape imposibil de apăsat pe orice ecran digital contemporan și ar și obosi ochii, așa că orice element grafic al unei aplicații software se întinde pe un număr mai mare de pixeli.
+Profitând de acest lucru, putem spune că aplicația trebuie să poată deplasa cursorul \emph{aproape} de orice pixel al ecranului.
+
+În cele din urmă mai rămâne doar simularea apăsării butoanelor de pe mouse.
+Utilizatorul trebuie să poată solicita într-un mod explicit acest lucru, folosindu-se doar de față, iar aplicația trebuie să asigure evitarea cazurilor de tipul \emph{false positive}, adică a apăsărilor butoanelor atunci când acest lucru nu este dorit.
 
 % \subsection{Neuronul Artificial}
 
@@ -79,32 +89,32 @@ Cum asigurăm o mișcare fluidă a cursorului spre o ``zonă țintă'', dar în 
 
 \subsection{Obținerea datelor de antrenament}
 Primul pas spre rezolvarea problemei este \emph{colectarea datelor de antrenament}.
-Este foarte bine cunoscut că un algoritm de Învățare Automată este pe atât de bun pe cât sunt datele pe care i le furnizăm.
+Este foarte bine cunoscut că un algoritm de învățare automată este pe atât de bun pe cât sunt datele pe care i le furnizăm.
 Acestea sunt incredibil de importante, așa că m-am concentrat pe a dezvolta niște modalități facile de a aduna o mulțime consistentă de date.
 
 O altă etapă esențială este \emph{procesarea de date}.
 Aceasta se preocupă cu simplificarea și curățarea setului de date, cu eliminarea instanțelor de antrenament care sunt inutile și cu extragerea exclusiv a informațiilor care sunt de folos și cu înlăturarea a ceea ce rămâne.
 Opțional, în această etapă se mai realizează și diferite transformări pentru a aduce datele dintr-o formă neprelucrată într-o formă convenabilă algoritmilor pe care îi folosim.
+În acest sens, am procesat datele neprelucrate în diverse moduri pentru a determina cea mai utilă stare în care le pot aduce.
 
 \subsection{Predicția zonei de privire}
 Următorul pas a fost cel de antrenare și de dezvoltare a unui model matematic capabil să prezică zona de privire a utilizatorului.
-Pentru acest lucru m-am concentrat pe a studia \emph{rețeaua neuronală} care este ``calul de bătaie'' pentru problemele de Viziune Computerizată.
+Pentru acest lucru m-am concentrat pe studiul \emph{rețelei neuronale}, văzută drept ``calul de bătaie'' și baza pentru problemele de Viziune Computerizată.
+% Un tip special de rețea neuronală este \emph{Rețeaua Neuronală Artificială} (\emph{Multilayer Perceptron Network}).
+% Ea este, dupa cum sugerează și numele, compusă din mai multi neuroni artificiali, distribuiți pe mai multe \emph{straturi}.
+Am folosit o arhitectură bazată pe aceasta (rețeaua de tip \emph{MLP}) ca un punct de pornire spre a rezolva problema și ca un prim experiment.
 
-Un tip special de rețea neuronală este \emph{Rețeaua Neuronală Artificială} (\emph{Multilayer Perceptron Network}).
-Ea este, dupa cum sugerează și numele, compusă din mai multi neuroni artificiali, distribuiți pe mai multe \emph{straturi}.
-Am folosit această arhitectură ca un punct de pornire spre a rezolva problema și ca un prim experiment.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{ann.png}
-    \caption{Structură generală a unei rețele neuronale. Imagine preluată de pe site-ul \href{https://www.researchgate.net/figure/Deep-learning-diagram_fig5_323784695}{ResearchGate}}
-\end{figure}
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[width=\textwidth]{ann.png}
+%     \caption{Structură generală a unei rețele neuronale. Imagine preluată de pe site-ul \href{https://www.researchgate.net/figure/Deep-learning-diagram_fig5_323784695}{ResearchGate}}
+% \end{figure}
 
 Folosind acest tip de rețea, am încercat să ating cel mai important obiectiv al acestei lucrări al licenței, și anume de a prezice aproximativ zona în care se uită utilizatorul, pentru a putea deplasa cursorul în acea zonă.
 Din experimentele efectuate, această arhitectură a rezultat într-o primă soluție promițătoare, fiind capabilă să urmărească, într-o anumită măsura, privirea utilizatorului.
 
-Apoi a urmat studierea și aplicarea \emph{rețelelor neuronale convoluționale}, o arhitectură de bază pentru multe metode ``state of the art'' pentru problemele din domeniul Viziunii Computerizate.
-Cu ajutorul acestora, urmărirea ochilor a devenit mai robustă și mai puțin sensibilă la diferențele dintre imagini, precum lumină sau poziționare.
+Apoi a urmat studierea și aplicarea \emph{rețelelor neuronale convoluționale}, o arhitectură de bază pentru multe metode \emph{state of the art} pentru problemele din domeniul Viziunii Computerizate.
+Cu ajutorul acestora, urmărirea ochilor a devenit mai robustă și mai puțin sensibilă la diferențele dintre imagini, precum lumină sau poziționarea persoanei în fața webcam-ului.
 
 \subsection{Simularea funcționalităților mouse-ului}
 Având un model care poate satisface nevoia de mai sus, de urmărire a ochilor, am analizat apoi cum pot simula efectiv funcționalitatea unui mouse.

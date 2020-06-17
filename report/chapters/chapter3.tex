@@ -1,201 +1,107 @@
-\chapter{Date de antrenament}
-\label{chapter3}
-\section{Colectarea și salvarea datelor}
-Datele de antrenament sunt extrem de importante.
-O expresie populară\footnote{Expresia este ``garbage in, garbage out'', iar o expresie românească similară ar fi ``semeni vânt, culegi furtună''} ne spune că dacă datele furnizate algorimilor de învățare automată sunt de proastă calitate, atunci așa va fi și performanța acelor algoritmi, sau mai bine spus a modelelor matematice și a generalizărilor create de aceștia.
-Mulțimea de date trebuie să conțină varietate, în cazul de față însemnând poze cu fundaluri diferite, condiții de iluminare diverse ș.a.m.d.
+\chapter{Soluția propusă}
+\label{chapter2}
+\section{Informații preliminare}
+\subsection{Informații tehnice}
+Pentru dezvoltarea, structurarea și versionarea codului sursă al lucrării, am folosit platforma gratuită Github\footnote{\url{https://github.com}}.
+\emph{Repository-ul} proiectului poate fi accesat la această adresă: \url{https://github.com/sergiuiacob1/iClicker/}.
 
-Am lucrat cu imagini cu utilizatorul, capturate prin webcam.
-Apoi, am extras fie doar fața acestuia din imagine, fie doar un ochi, fie o porțiune dreptunghiulară în care se regăsesc ambii ochi.
-Pentru fiecare experiment realizat, am menționat ce date au fost folosite și în ce mod au fost procesate acestea.
+Rezultatele prezentate aici au fost bazate pe imagini capturate prin intermediul unei camere webcam capabile de o rezoluție maximă HD (1280x720 pixeli).
+Experimentele realizate au fost făcute în general în medii bine luminate, întrucât o dată cu scăderea intensității luminii suferă și utilitatea aplicației prezentate aici din cauza calității webcam-ului.
 
-\begin{lstlisting}[language=Python, caption=Colectarea datelor]
-def start_collecting(self, collection_type):
-    dc_logger.info(f'Start collecting data in {collection_type} mode')
-    WebcamCapturer.start_capturing()
-    self.gui.start()
-    dc_logger.info('DataCollectorGUI started')
-    if collection_type == 'background':
-        self.mouse_listener.start_listening()
-        dc_logger.info('Mouse listener started')
-    elif collection_type == 'active':
-        threading.Thread(target=self.start_active_collection).start()
-\end{lstlisting}
+\subsection{Python \& Conda}
+Unul dintre cele mai populare limbaje de programare când vine vorba de învățare profundă este Python\footnote{\url{https://www.python.org}}.
+Astfel, am ales să dezvolt aplicația folosind acest limbaj, deoarece suportul din partea comunității este unul foarte bun și resursele găsite online pentru a rezolva probleme comune sunt vaste.
+De asemenea, este un limbaj potrivit pentru teste, experimente și pentru o prototipizare rapidă a anumitor funcționalități, iar pe parcursul dezvoltării am făcut numeroase astfel de teste.
 
-Când colectarea datelor este gata, acestea sunt salvate sub forma unei ``sesiuni''.
-Fiecare sesiune este definită de numărul imaginilor care au fost capturate, de rezoluția ecranului și rezoluția webcam-ului.
-Mai jos se poate observa structura directoarelor și modul în care aceste date sunt salvate, fără a aplica vreo modificare.
+Am facut uz de asemenea de tehnologia Conda\footnote{\url{https://docs.conda.io/en/latest/}} care ajută în gestionarea mediilor de dezvoltare.
+Cu ajutorul acestora am putut crea un mediu de dezvoltare separat, care se poate instala cu ușurință pe orice calculator fără a crea conflicte cu alte pachete deja existente pe mașina unui utilizator.
+Această combinație a ajutat la îndeplinirea necesității aplicației de a rula pe mai multe sisteme de operare, întrucât Python deja satisface această nevoie.
+Versiunile folosite au fost \lstinline{Python 3.7} și Conda \lstinline{4.8.0}.
 
-\begin{lstlisting}[language=Python, caption=Salvarea datelor]
-def save_collected_data(self):
-    if len(self.collected_data) == 0:
-        return
-    dc_logger.info(
-        f'Acquiring lock for data collection. Locked = {self.collect_data_lock.locked()}')
-    self.collect_data_lock.acquire()
-    dc_logger.info('Lock acquired')
-    session_no = self.get_session_number()
-    dc_logger.info(f"Saving data for session_{session_no}")
-    self.save_session_info(session_no)
-    self.save_images_info(session_no)
-    self.save_images(session_no)
-    self.collect_data_lock.release()
-    self.collected_data = []
-    dc_logger.info('Saving data done')
-\end{lstlisting}
+\subsection{OpenCV}
+Una dintre bibliotecile Python care au adus funcționalități cruciale acestui proiect este OpenCV\footnote{\url{https://pypi.org/project/opencv-python/}}.
+Aceasta conține diferite funcționalități legate de Viziunea Computerizată, precum captura de imagini prin intermediul webcam-ului.
+Am folosit-o de asemenea pentru a realiza redimensionări de imagini, pentru a le converti în gri sau în imagini alb-negru prin aplicarea unui \emph{binary threshold}.
+Versiunea folosită a fost \lstinline{4.1.2}.
 
+\subsection{PyQt5}
+Aplicația dezvoltată are și o interfață grafică ce a fost implementată folosind biblioteca PyQt5\footnote{\url{https://pypi.org/project/PyQt5/}}.
+Unul dintre avantajele acestei biblioteci este acela că oferă un nivel înalt de abstractizare și componentele (butoanele, ferestrele etc.) grafice au un aspect diferit în funcție de sistemul de operare pe care rulează aplicația, fără a fi nevoie ca acest lucru să fie implementat de dezvoltator.
+Versiunea folosită a fost \lstinline{5.14}.
+
+\subsection{Keras \& PyTorch}
+Keras\footnote{\url{https://keras.io}} și PyTorch\footnote{\url{https://pytorch.org}} au fost folosite pentru a facilita antrenarea rețelelor neuronale (de tip \emph{MLP} sau \emph{CNN}).
+Acestea au mărit cu mult realizarea arhitecturilor pentru învățarea automată, Keras având un nivel de abstractizare decât PyTorch.
+Am folosit cele două tehnologii pentru a căpăta experiență în utilizarea amândurora, întrucât nu există o ``cea mai bună unealtă'', ci mai degrabă contextul nevoii dictează uneltele, tehnologiile ce ar trebui folosite.
+Versiunile folosite au fost Keras \lstinline{2.2.4} și PyTorch \lstinline{1.4}.
+
+\subsection{dlib}
+Cea mai importantă bibliotecă de care am făcut uz în această lucrare este dlib\footnote{\url{https://pypi.org/project/dlib/}}.
+Cu ajutorul acesteia, am putut realiza identificarea reperelor faciale într-o imagine care conținea fața unei persoane.
+Reperele respective sunt furnizate de către sub forma unei liste de coordonate $(x, y)$ corespunzătoare pixelilor acelor caracteristici faciale.
+Mai departe, pe baza acestora, am putut decupa fie fața, fie ochii persoanei în imagini mai mici pe care le-am folosit mai apoi ca date de antrenament.
+Versiunea folosită a fost \lstinline{19.19.0}.
+
+\section{Limite și constrângeri}
+Aplicația are niște limite și lucrează de asemenea cu niște presupuneri, precum faptul că utilizatorul folosește un singur monitor și un singur webcam.
+De asemenea, imaginile folosite sunt cu mine însumi, deci trebuie luat în vedere acest lucru pentru orice rezultat prezentat.
+
+Aplicația este menită să se poată ``mula'' pe fizionomia utilizatorului, însă este posibil să aibă performanțe mai slabe pentru persoanele care poartă ochelari, spre exemplu.
+Motivul pentru care se întâmplă acest lucru este acela că aplicația lucrează cu ochii utilizatorului, iar dacă lumina se reflectă în lentilele ochelarilor, ochii ar putea fi indistinctibili.
+Ca o ultimă mențiune, aplicația se concentrează majoritar pe poziția pupilelor relativ la ochi (glob ocular + anexe ale globului ocular), deci se va considera că poziția capului nu va suferi schimbări majore între datele de antrenament și datele de test.
+
+\section{Structura aplicației}
+Aplicația are 4 mari componente, corespunzătoare pașilor luați în rezolvarea unei probleme de învățarea automată: colectarea de date, procesarea acestora, antrenarea unui model care realizează urmărirea ochilor și simularea funcționalităților mouse-ului.
+Utilizatorul poate interacționa cu aceste componente prin intermediul interfaței grafice realizată în PyQt5.
+Fereastra principală a aplicației are și o parte în care vor fi afișate informații utile.
+
+Pentru a construi aplicația m-am ghidat după modelul de proiectare \emph{MVP} (\emph{Model–View–Presenter}).
+Fiecare componentă care poate fi folosită de utilizator are o interfață grafică atașată (\emph{View}) ce poate cere aplicației (prin intermediul unui \emph{Presenter}) să realizeze anumite proceduri.
+Partea de \emph{Model} al acestui șablon de dezvoltare constă în datele colectate neprelucrate și a celor rezultate din partea de procesare a datelor, precum și în modelele antrenate folosind aceste date.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.49\textwidth]{data_structure_1.png}
-    \includegraphics[width=0.49\textwidth]{data_structure_2.png}
-    \includegraphics[width=0.7\textwidth]{data_structure_3.png}
-    \caption{Cum am structurat datele}
+    \includegraphics[width=\textwidth]{mvp.png}
+    \caption{Arhitectura MVP a aplicației}
 \end{figure}
 
-\section{Procesarea datelor}
-\subsection{Avantajele unei preprocesări}
-Procesarea datelor joacă un rol important în soluționarea unei probleme de învățare automată.
-În primul rând, este  să eliminăm orice fel de ``zgomot'' sau informație neesențială din mulțimea noastră de date.
-Apoi, putem deriva alte informații din datele inițiale, neprelucrate, informații care pot aduce un plus de performanță în soluția finală a problemei.
-
-\subsection{Folosirea exclusivă a ochilor}
-\label{data-processing:eyes}
-În unele experimente, care urmează a fi prezentate în capitolul următor, m-am axat pe extragerea ochilor din imagini.
-Pentru asta, am făcut uz de două biblioteci Python: dlib și imutils.
-Bazându-mă pe reperele faciale care au fost prezentate în introducere\ref{figure:facial-landmarks}, am extras doar porțiunile imaginilor care delimitează ochii.
-
-\begin{lstlisting}[language=Python, caption=Extragerea ochilor dintr-o imagine]
-def extract_eyes(cv2_image):
-    """Returns a list of images that contain the eyes extracted from the original image.
-
-    First result is the left eye, second result is the right eye."""
-    global _face_detector, _face_predictor
-    if _detectors_are_initialised() == False:
-        _initialize_detectors()
-
-    gray_image = Utils.convert_to_gray_image(cv2_image)
-    rects = _face_detector(gray_image, 0)
-    if len(rects) > 0:
-        shape = _face_predictor(gray_image, rects[0])
-        shape = face_utils.shape_to_np(shape)
-
-        eyes = []
-        for eye in ["left_eye", "right_eye"]:
-            # get the points for the contour
-            (eye_start, eye_end) = face_utils.FACIAL_LANDMARKS_IDXS[eye]
-            contour = shape[eye_start:eye_end]
-            # get the upper left point, lower right point for this eye
-            start = [min(contour, key=lambda x: x[0])[0],
-                     min(contour, key=lambda x: x[1])[1]]
-            end = [max(contour, key=lambda x: x[0])[0],
-                   max(contour, key=lambda x: x[1])[1]]
-            # extract the current eye
-            eyes.append(cv2_image[start[1]:end[1], start[0]:end[0]])
-        return eyes
-
-    return None
-\end{lstlisting}
-
-Pentru prezicerea zonei în care se uită utilizatorul ne interesează mai mult contrastul dintre pupilă și iris.
-Pentru aceasta, am aplicat un \emph{prag binar} (\emph{binary threshold}) imaginilor ochilor (care au fost convertite în prealabil în imagini gri) pentru a scoate în evidență poziția pupilei, relativ la întregul ochi.
-
-\subsection{TODO}
-TODO despre binary threshold, ce am folosit
-
-\begin{lstlisting}[language=Python, caption=Aplicarea unui \emph{binary threshold}]
-def get_binary_thresholded_image(cv2_image):
-    img = convert_to_gray_image(cv2_image)
-    img = cv2.medianBlur(img, 5)
-    img = cv2.adaptiveThreshold(
-        img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
-    return img
-\end{lstlisting}
-
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \includegraphics[width=0.49\textwidth]{eye_binary_threshold.png}
-    \includegraphics[width=0.49\textwidth]{threshold_process.png}
-    \caption{Obținerea de informații din imaginile ochilor}
+    \includegraphics[width=\textwidth]{iClicker.png}
+    \caption{Fereastra principală a aplicației}
 \end{figure}
 
-\subsection{Folosirea întregii feți}
-Următoarea idee a fost să folosesc fața completă a utilizatorului, apoi să o transmit unei rețele neuronale convoluționale.
-Procesul de extragere a feței arată astfel:
+Pentru a realiza funcția de colectare a datelor, utilizatorul trebuie să apese pe butonul denumit sugestiv ``Colectare date''.
+Există două moduri în care poate fi realizată această funcție: modul activ și modul pasiv.
 
-\begin{figure}[h]
+Modul activ presupune ca utilizatorul să urmărească cursorul mouse-ului pe ecran în timp ce acesta se mișcă pe un traseu fix, prin mișcări glisante, de la stânga la dreapta, apoi de la dreapta la stânga, astfel încât să acopere toată suprafața ecranului.
+De fiecare dată când cursorul își schimbă poziția, aplicația salvează o imagine preluată de la webcam împreună cu poziția cursorului în acel moment.
+Pentru a evita obosirea ochilor și a asigura o colectare de date consistentă, utilizatorul poate lua o pauză (întreruperea mișcării cursorului și a colectării datelor) prin apăsarea tastei \emph{SPACEBAR}.
+De asemenea, viteza cu care glisează cursorul poate fi schimbată prin apăsarea tastelor \emph{SĂGEATĂ SUS} și \emph{SĂGEATĂ JOS}.
+
+Metoda pasivă este menită să nu deranjeze rutina utilizatorului, astfel încât de fiecare dată când utilizatorul apasă pe butonul stâng al mouse-ului, aplicația salvează, în același mod ca mai sus, o imagine capturată prin intermediul webcam-ului și poziția cursorului pe ecran.
+Această variantă poate fi contraintuitivă, având în vedere că aplicația ar trebui folosită fără ajutorul mâinilor, dar m-a ajutat pe mine în obținerea datelor în timp ce realizam alte sarcini.
+Este important de menționat că de multe ori nu ne uităm acolo unde apăsăm cu mouse-ul, așa că, deși este o metodă gândită să ruleze pe fundal, este bine ca utilizatorul să țină cont de prezența acesteia și să realizeze apăsări de buton acolo unde se uită, pentru a construi \emph{date consistente}.
+
+Partea de procesare de date și de antrenare a modelelor se folosesc în același mod, prin apăsarea butoanelor denumite sugestiv.
+Acestea vor informa utilizatorul despre progresul realizat prin intermediul ferestrei principale.
+
+Toate aceste funcționalități rulează pe câte un \emph{fir de execuție} separat.
+Dacă acest lucru nu s-ar petrece, atunci firul principal de execuție (care se ocupă și de afișarea componentelor grafice) ar fi ``blocat'' până la terminarea execuției acelor funcționalități și aplicația ar ``îngheța''.
+
+Ultima componentă este și cea mai importantă, cea de simulare a funcționalităților mouse-ului.
+Prin intermediul acesteia, aplicația începe să urmărească ochii utilizatorului și să-i analizeze gesturile faciale.
+Utilizatorului i se va arăta pe ecran și o grilă (de dimensiune 3x3) pentru a vedea în timp real predicțiile rețelei convoluționale legate de zona ecranului pe care acesta o privește.
+
+\begin{figure}[H]
     \centering
-    \includegraphics{extract_face_process.png}
-    \caption{Extraire le visage}
-    \label{fig_extracted_faces}
+    \includegraphics[width=0.49\textwidth]{pred1.png}
+    \includegraphics[width=0.49\textwidth]{pred2.png}
+    \caption{Testarea predicțiilor ale zonei de privire ale utilizatorului}
 \end{figure}
 
-Imaginea finală este în forma unui pătrat, conținând fața extrasă din imagine, convertită apoi in gri.
-Este, de asemenea, normalizată, pentru a lua valori între $0$ și $1$.
-
-\begin{lstlisting}[language=Python, caption=Extragerea feței dintr-o imagine]
-def extract_face(cv2_image):
-    """Returns the face part extracted from the image"""
-    global _face_detector
-    if _detectors_are_initialised() == False:
-        _initialize_detectors()
-
-    gray_image = Utils.convert_to_gray_image(cv2_image)
-    rects = _face_detector(gray_image, 0)
-    if len(rects) > 0:
-        # only for the first face found
-        (x, y, w, h) = face_utils.rect_to_bb(rects[0])
-        return cv2_image[y:y+h, x:x+w]
-    return None
-\end{lstlisting}
-
-\subsection{``Bandă oculară''}
-Următoarea opțiune și cea care a rămas integrată în soluția finală a fost să folosesc ambii ochi, fără modificări adiționale.
-Procesul de extragere a ochilor arată astfel:
-
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \includegraphics[width = \textwidth]{extract_eye_strip_process.png}
-    \caption{Extragerea ``bandei oculare''}
-    \label{fig_extracting_eye_strip}
+    \includegraphics[width=\textwidth]{flowchart.png}
+    \caption{Organigrama aplicației}
 \end{figure}
-
-După ce am detectat fața, am extras ambii ochi, am mărit zona dreptunghiulară care încadrează ochii, pentru a avea mai multă informație, apoi am convertit imaginea în gri și am normalizat valorile pixelilor.
-
-\begin{lstlisting}[language=Python, caption=Extragerea ``bandei oculare'' în Python3]
-def extract_eye_strip(cv2_image):
-    """Returns a horizontal image containing the two eyes extracted from the image"""
-    global _face_detector, _face_predictor
-    if _detectors_are_initialised() == False:
-        _initialize_detectors()
-
-    gray_image = Utils.convert_to_gray_image(cv2_image)
-    rects = _face_detector(gray_image, 0)
-    if len(rects) > 0:
-        # only for the first face found
-        shape = _face_predictor(gray_image, rects[0])
-        shape = face_utils.shape_to_np(shape)
-        (left_eye_start,
-         left_eye_end) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
-        (right_eye_start,
-            right_eye_end) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
-        # get the contour
-        start, end = min(left_eye_start, right_eye_start), max(
-            left_eye_end, right_eye_end)
-        strip = shape[start:end]
-        # get the upper left point, lower right point
-        start = [min(strip, key=lambda x: x[0])[0],
-                 min(strip, key=lambda x: x[1])[1]]
-        end = [max(strip, key=lambda x: x[0])[0],
-               max(strip, key=lambda x: x[1])[1]]
-        # go a little outside the bounding box, to capture more details
-        distance = (end[0] - start[0], end[1] - start[1])
-        # 20 percent more details on the X axis, 60% more details on the Y axis
-        percents = [20, 60]
-        for i in range(0, 2):
-            start[i] -= int(percents[i]/100 * distance[i])
-            end[i] += int(percents[i]/100 * distance[i])
-        return cv2_image[start[1]:end[1], start[0]:end[0]]
-    return None
-
-\end{lstlisting}
