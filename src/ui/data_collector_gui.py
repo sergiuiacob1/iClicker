@@ -80,7 +80,6 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
         """
         # Only do this as long as the window is visible
         dc_logger.info('Displaying images from webcam...')
-        fps = 30
         while self.isVisible():
             success, image = get_webcam_image()
             if success is False:
@@ -91,7 +90,6 @@ class DataCollectorGUI(QtWidgets.QMainWindow):
             qt_image = get_qimage_from_cv2(image)
             self.webcam_image_widget.setPixmap(
                 QtGui.QPixmap.fromImage(qt_image))
-            time.sleep(1.0/fps)
         dc_logger.info('Stop displaying images from the webcam')
 
     def update_eye_contours(self, image):

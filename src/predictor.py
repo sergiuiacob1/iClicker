@@ -45,9 +45,11 @@ class Predictor():
         # self.data_used = f'extracted_faces_{Config.grid_size}.pkl'
 
     def ui_was_closed(self):
+        self._gui_not_closed = False
         WebcamCapturer.stop_capturing()
 
     def start(self):
+        self._gui_not_closed = True
         self.gui.show()
         WebcamCapturer.start_capturing()
         Thread(target=self.predict).start()
@@ -102,7 +104,10 @@ class Predictor():
     def _update_prediction(self, model, prediction_type, data_used):
         """Currently uses eye strips to predict where the user is looking"""
         global _prediction_info
-        while self.gui.isVisible():
+        # how much time an iteration should take
+        interval = 1/Config.PREDICT_LOOK_FPS
+        while self._gui_not_closed:
+            start = time.time()
             image = _prediction_info["image"]
             if image is None:
                 continue
@@ -124,24 +129,36 @@ class Predictor():
                 print(f'Exception: {str(e)}')
             self.gui.update_prediction(prediction)
             self.last_prediction = prediction
-            time.sleep(1/Config.PREDICT_LOOK_FPS)
+            end = time.time()
+            if interval - (end - start) > 0:
+                time.sleep(interval - (end - start))
 
     def _update_info_for_prediction(self):
         """Every 60 FPS, update the info necessary to make predictions.
         Info updated are things like eye strips, if mouth is opened, if eyes are opened etc."""
         global _prediction_info
+
+        # this is how much an iteration should take
+        interval = 1/Config.UPDATE_FPS
         while self.gui.isVisible():
+            start = time.time()
             success, image = WebcamCapturer.get_webcam_image()
             if success is False:
                 _clear_prediction_info()
                 continue
             _prediction_info = get_img_info(image)
-            time.sleep(1/Config.UPDATE_FPS)
+            end = time.time()
+            if interval - (end - start) > 0:
+                time.sleep(interval - (end - start))
 
     def _check_info(self):
         """Moves the mouse cursor if it's the case"""
         global _frames_closed, _prediction_info, _should_click, _time_last_opened
+
+        # how much an iteration should take
+        interval = 1/Config.UPDATE_FPS
         while self.gui.isVisible():
+            start = time.time()
             self.gui.update_info(dict((k, _prediction_info[k]) for k in (
                 'mouth_is_opened', 'eyes_are_opened')))
             if _prediction_info["mouth_is_opened"][0] == True:
@@ -156,7 +173,9 @@ class Predictor():
                     _time_last_opened[i] = time.time()
 
             self._check_mouse_clicks()
-            time.sleep(1/Config.UPDATE_FPS)
+            end = time.time()
+            if interval - (end - start) > 0:
+                time.sleep(interval - (end - start))
 
     def _check_mouse_clicks(self):
         global _frames_closed, _should_click, _time_last_opened

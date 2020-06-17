@@ -34,14 +34,18 @@ def start_capturing():
 
 def update():
     global webcam_lock, last_image, last_success
+    interval = 1/Config.UPDATE_FPS
     while True:
+        start = time.time()
         webcam_lock.acquire()
         if webcam_is_started() is False:
             webcam_lock.release()
             break
         last_success, last_image = cam.read()
         webcam_lock.release()
-        time.sleep(1.0/Config.UPDATE_FPS)
+        end = time.time()
+        if interval - (end - start) > 0:
+            time.sleep(interval - (end - start))
 
 
 def stop_capturing():
