@@ -174,21 +174,27 @@ def _extract_eye_strip_from_image(image, shape):
 def _dist2d(a, b):
     return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2
 
-# TODO use MAR here
 def _is_mouth_opened(shape):
-    up1 = _dist2d(shape[50], shape[61])
-    up2 = _dist2d(shape[51], shape[62])
-    up3 = _dist2d(shape[52], shape[63])
-    bottom1 = _dist2d(shape[67], shape[58])
-    bottom2 = _dist2d(shape[66], shape[57])
-    bottom3 = _dist2d(shape[65], shape[56])
-    m1 = _dist2d(shape[61], shape[67])
-    m2 = _dist2d(shape[62], shape[66])
-    m3 = _dist2d(shape[63], shape[65])
-    up_height = (up1 + up2 + up3) / 3
-    bottom_height = (bottom1 + bottom2 + bottom3) / 3
-    mouth_height = (m1 + m2 + m3) / 3
-    return bool(mouth_height > up_height + bottom_height), mouth_height / (up_height + bottom_height)
+    """Uses the MAR (Mouth Aspect Ratio)"""
+    cd = _dist2d(shape[61], shape[67])
+    ef = _dist2d(shape[62], shape[66])
+    gh = _dist2d(shape[63], shape[65])
+    ab = _dist2d(shape[60], shape[64])
+    mar = (cd + ef + gh) / (3 * ab)
+    return bool(mar > Config.MAR_THRESHOLD), mar
+    # up1 = _dist2d(shape[50], shape[61])
+    # up2 = _dist2d(shape[51], shape[62])
+    # up3 = _dist2d(shape[52], shape[63])
+    # bottom1 = _dist2d(shape[67], shape[58])
+    # bottom2 = _dist2d(shape[66], shape[57])
+    # bottom3 = _dist2d(shape[65], shape[56])
+    # m1 = _dist2d(shape[61], shape[67])
+    # m2 = _dist2d(shape[62], shape[66])
+    # m3 = _dist2d(shape[63], shape[65])
+    # up_height = (up1 + up2 + up3) / 3
+    # bottom_height = (bottom1 + bottom2 + bottom3) / 3
+    # mouth_height = (m1 + m2 + m3) / 3
+    # return bool(mouth_height > up_height + bottom_height), mouth_height / (up_height + bottom_height)
 
 
 def _are_eyes_opened(shape):

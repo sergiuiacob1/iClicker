@@ -1432,3 +1432,11 @@
 2020-06-17 15:55:00,508: Starting epoch 0
 2020-06-17 16:12:19,517: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
 2020-06-17 16:12:24,621: Model chosen: model_27.pkl
+2020-06-17 16:27:02,517: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-17 16:27:07,097: Model chosen: model_27.pkl
+2020-06-17 16:28:03,811: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-17 16:28:09,081: Model chosen: model_27.pkl
+2020-06-17 16:30:53,805: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-17 16:30:58,479: Model chosen: model_27.pkl
+2020-06-17 16:31:38,030: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
+2020-06-17 16:31:40,592: Model chosen: model_27.pkl
