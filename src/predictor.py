@@ -134,7 +134,7 @@ class Predictor():
                 time.sleep(interval - (end - start))
 
     def _update_info_for_prediction(self):
-        """Every 60 FPS, update the info necessary to make predictions.
+        """Update the info necessary to make predictions.
         Info updated are things like eye strips, if mouth is opened, if eyes are opened etc."""
         global _prediction_info
 
