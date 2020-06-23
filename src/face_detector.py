@@ -174,6 +174,7 @@ def _extract_eye_strip_from_image(image, shape):
 def _dist2d(a, b):
     return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2
 
+
 def _is_mouth_opened(shape):
     """Uses the MAR (Mouth Aspect Ratio)"""
     cd = _dist2d(shape[61], shape[67])
@@ -208,7 +209,7 @@ def _are_eyes_opened(shape):
 
     left_ratio = (left_v1 + left_v2) / (2 * left_h)
     right_ratio = (right_v1 + right_v2) / (2 * right_h)
-    return (bool(left_ratio > Config.EAR_THRESHOLD), bool(right_ratio > Config.EAR_THRESHOLD))
+    return ((bool(left_ratio > Config.EAR_THRESHOLD), bool(right_ratio > Config.EAR_THRESHOLD)), (left_ratio, right_ratio))
 
 
 def get_img_info(cv2_image):
@@ -217,8 +218,8 @@ def get_img_info(cv2_image):
     global _face_detector, _face_predictor
     res = {
         "image": cv2_image,
-        "mouth_is_opened": [None, None],
-        "eyes_are_opened": [None, None],
+        "mouth_is_opened": (None, 0),
+        "eyes_are_opened": ((None, None), (0, 0)),
     }
     if _detectors_are_initialised() == False:
         _initialize_detectors()
