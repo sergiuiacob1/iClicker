@@ -43,7 +43,13 @@ $$
 $$
 unde $x$ este vectorul care coincide valorilor de pe ultimul strat (9 valori pentru o grilă 3x3) înainte de a trece prin funcția de activare softmax.
 
-% \section{TODO: despre ReLU \& kernel initializer \& cel mai important categorical crossentropy loss}
+Pentru restul straturilor am folosit funcția de activare \emph{ReLU (Rectified Linear Unit)}, aceasta fiind preferată în \emph{deep learning} datorită performanțelor ei.
+Pentru a evalua performanța modelelor am definit eroarea ca fiind \emph{Categorical Crossentropy Loss}, definită prin:
+$$
+E = -\sum_{i}{\sum_{c}{t_{ic} * log(y_{ic})}}
+$$
+unde $t_{ic}$ este $1$ doar dacă instanța $i$ aparține clasei $c$ și $y_{ic}$ este probabilitatea ca instanța $i$ să aparțină clasei $c$.
+Aceasta se comportă foarte bine în combinație cu funcția softmax, care ne furnizează exact probabilitățile $y_{ic}$ de care avem nevoie în formula de mai sus.
 
 \paragraph{OBSERVAȚIE}
 Pentru primele experimente din această secțiune am folosit doar imaginile în care utilizatorul se uita în colțurile ecranului.

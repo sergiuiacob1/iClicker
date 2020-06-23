@@ -6,11 +6,20 @@ Am decis să studiez puțin această problemă și, conform \cite{paper_stacked_
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{hourglass.png}
-    \caption{Exemplu de arhitectură Hourglass}
+    \caption{Exemplu de arhitectură Hourglass. Imagine preluată de pe \href{https://medium.com/@sunnerli/simple-introduction-about-hourglass-like-model-11ee7c30138}{Medium}}
 \end{figure}
 
 M-am concentrat doar pe prezicerea centrului unui ochi, plecând de la o mulțime de date care conține imagini ale ochiului.
 Ca date de antrenament am folosit mulțimea de date pusă la dispoziție pusă la dispoziție de \emph{crowdpupil}\footnote{\url{http://cs.uef.fi/pupoint/}}, care constă în 792 de imagini, fiecare imagine fiind etichetată cu poziția centrului ochiului în acea imagine.
+
+O metodă interesantă pentru identificarea reperelor faciale este prezentată de \cite{ccnn_paper}, care creează o arhitectură compusă din rețele convoluționale puse în cascadă, menite să creeze o \emph{estimare} a acestor puncte și apoi o \emph{rafinare} a lor.
+Această metodă se numește \emph{coarse–to–fine estimation}, iar partea de rafinare este tradusă într-o problemă de regresie.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{ccnn.png}
+    \caption{Arhitectura CCNN propusă de \cite{ccnn_paper}. Consistă într-o combinație între \emph{heatmap estimation} și \emph{landmark regression}.}
+\end{figure}
 
 Din căutările pe care le-am efectuat, am descoperit că există două metode de a încerca prezicerea reperelor faciale.
 Prima metoda se ocupă cu găsirea coordonatelor exacte $(x, y)$ a fiecărui reper facial prin regresie, iar a doua metodă încearcă construirea unor hărți termografice (\emph{heatmaps}) care codifică acele repere faciale.
