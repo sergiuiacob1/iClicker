@@ -395,3 +395,299 @@
 
 2020-05-12 15:18:32,819: Saving data done
 2020-05-12 15:18:32,819: Saving data done
+2020-06-23 20:51:42,910: Start collecting data in background mode
+2020-06-23 20:51:42,910: Start collecting data in background mode
+2020-06-23 20:51:43,666: Displaying images from webcam...
+2020-06-23 20:51:43,666: Displaying images from webcam...
+2020-06-23 20:51:43,666: DataCollectorGUI started
+2020-06-23 20:51:43,666: DataCollectorGUI started
+2020-06-23 20:51:43,691: Mouse listener started
+2020-06-23 20:51:43,691: Mouse listener started
+2020-06-23 20:55:34,123: Start collecting data in background mode
+2020-06-23 20:55:34,123: Start collecting data in background mode
+2020-06-23 20:55:34,845: Displaying images from webcam...
+2020-06-23 20:55:34,845: Displaying images from webcam...
+2020-06-23 20:55:34,845: DataCollectorGUI started
+2020-06-23 20:55:34,845: DataCollectorGUI started
+2020-06-23 20:55:34,870: Mouse listener started
+2020-06-23 20:55:34,870: Mouse listener started
+2020-06-23 20:56:45,644: Start collecting data in background mode
+2020-06-23 20:56:45,644: Start collecting data in background mode
+2020-06-23 20:56:46,367: Displaying images from webcam...
+2020-06-23 20:56:46,367: Displaying images from webcam...
+2020-06-23 20:56:46,367: DataCollectorGUI started
+2020-06-23 20:56:46,367: DataCollectorGUI started
+2020-06-23 20:56:46,370: Mouse listener started
+2020-06-23 20:56:46,370: Mouse listener started
+2020-06-23 20:57:04,341: Start collecting data in background mode
+2020-06-23 20:57:04,341: Start collecting data in background mode
+2020-06-23 20:57:05,066: Displaying images from webcam...
+2020-06-23 20:57:05,066: Displaying images from webcam...
+2020-06-23 20:57:05,067: DataCollectorGUI started
+2020-06-23 20:57:05,067: DataCollectorGUI started
+2020-06-23 20:57:05,069: Mouse listener started
+2020-06-23 20:57:05,069: Mouse listener started
+2020-06-23 20:57:51,385: Start collecting data in background mode
+2020-06-23 20:57:51,385: Start collecting data in background mode
+2020-06-23 20:57:52,092: Displaying images from webcam...
+2020-06-23 20:57:52,092: Displaying images from webcam...
+2020-06-23 20:57:52,092: DataCollectorGUI started
+2020-06-23 20:57:52,092: DataCollectorGUI started
+2020-06-23 20:57:52,118: Mouse listener started
+2020-06-23 20:57:52,118: Mouse listener started
+2020-06-23 20:58:02,163: Closing DataCollectorGUI
+2020-06-23 20:58:02,163: Closing DataCollectorGUI
+2020-06-23 20:58:02,164: EyeWidget was closed
+2020-06-23 20:58:02,164: EyeWidget was closed
+2020-06-23 20:58:02,165: DataCollectorGUI closed
+2020-06-23 20:58:02,165: DataCollectorGUI closed
+2020-06-23 20:58:02,166: Saving collected data: 4 items
+2020-06-23 20:58:02,166: Saving collected data: 4 items
+2020-06-23 20:58:02,540: Acquiring lock for data collection. Locked = False
+2020-06-23 20:58:02,540: Acquiring lock for data collection. Locked = False
+2020-06-23 20:58:02,541: Lock acquired
+2020-06-23 20:58:02,541: Lock acquired
+2020-06-23 20:58:02,543: Saving data for session_10
+2020-06-23 20:58:02,543: Saving data for session_10
+2020-06-23 20:58:02,548: Stop displaying images from the webcam
+2020-06-23 20:58:02,548: Stop displaying images from the webcam
+2020-06-23 20:58:02,548: 
+
+2020-06-23 20:58:02,548: 
+
+2020-06-23 20:58:02,550: Thread 1: Saving images from 0 to 1
+2020-06-23 20:58:02,550: Thread 1: Saving images from 0 to 1
+2020-06-23 20:58:02,550: Thread 2: Saving images from 1 to 2
+2020-06-23 20:58:02,550: Thread 2: Saving images from 1 to 2
+2020-06-23 20:58:02,550: Thread 3: Saving images from 2 to 3
+2020-06-23 20:58:02,551: Thread 4: Saving images from 3 to 4
+2020-06-23 20:58:02,550: Thread 3: Saving images from 2 to 3
+2020-06-23 20:58:02,551: Thread 4: Saving images from 3 to 4
+2020-06-23 20:58:02,621: 
+
+2020-06-23 20:58:02,621: 
+
+2020-06-23 20:58:02,622: Saving data done
+2020-06-23 20:58:02,622: Saving data done
+2020-06-24 10:04:20,739: Start collecting data in active mode
+2020-06-24 10:04:20,739: Start collecting data in active mode
+2020-06-24 10:04:21,487: Displaying images from webcam...
+2020-06-24 10:04:21,487: Displaying images from webcam...
+2020-06-24 10:04:21,487: DataCollectorGUI started
+2020-06-24 10:04:21,487: DataCollectorGUI started
+2020-06-24 10:43:16,289: Start collecting data in background mode
+2020-06-24 10:43:16,289: Start collecting data in background mode
+2020-06-24 10:43:17,060: Displaying images from webcam...
+2020-06-24 10:43:17,060: Displaying images from webcam...
+2020-06-24 10:43:17,060: DataCollectorGUI started
+2020-06-24 10:43:17,060: DataCollectorGUI started
+2020-06-24 10:43:17,074: Mouse listener started
+2020-06-24 10:43:17,074: Mouse listener started
+2020-06-24 11:10:37,825: Start collecting data in background mode
+2020-06-24 11:10:37,825: Start collecting data in background mode
+2020-06-24 11:10:38,471: Displaying images from webcam...
+2020-06-24 11:10:38,471: Displaying images from webcam...
+2020-06-24 11:10:38,471: DataCollectorGUI started
+2020-06-24 11:10:38,471: DataCollectorGUI started
+2020-06-24 11:10:38,475: Mouse listener started
+2020-06-24 11:10:38,475: Mouse listener started
+2020-06-24 11:10:59,157: Start collecting data in background mode
+2020-06-24 11:10:59,157: Start collecting data in background mode
+2020-06-24 11:10:59,879: Displaying images from webcam...
+2020-06-24 11:10:59,879: Displaying images from webcam...
+2020-06-24 11:10:59,879: DataCollectorGUI started
+2020-06-24 11:10:59,879: DataCollectorGUI started
+2020-06-24 11:10:59,900: Mouse listener started
+2020-06-24 11:10:59,900: Mouse listener started
+2020-06-24 11:12:16,255: Start collecting data in background mode
+2020-06-24 11:12:16,255: Start collecting data in background mode
+2020-06-24 11:12:16,977: Displaying images from webcam...
+2020-06-24 11:12:16,977: Displaying images from webcam...
+2020-06-24 11:12:16,977: DataCollectorGUI started
+2020-06-24 11:12:16,977: DataCollectorGUI started
+2020-06-24 11:12:17,003: Mouse listener started
+2020-06-24 11:12:17,003: Mouse listener started
+2020-06-24 11:12:40,467: Start collecting data in background mode
+2020-06-24 11:12:40,467: Start collecting data in background mode
+2020-06-24 11:12:41,183: Displaying images from webcam...
+2020-06-24 11:12:41,183: Displaying images from webcam...
+2020-06-24 11:12:41,183: DataCollectorGUI started
+2020-06-24 11:12:41,183: DataCollectorGUI started
+2020-06-24 11:12:41,203: Mouse listener started
+2020-06-24 11:12:41,203: Mouse listener started
+2020-06-24 11:14:20,562: Start collecting data in background mode
+2020-06-24 11:14:20,562: Start collecting data in background mode
+2020-06-24 11:14:21,290: Displaying images from webcam...
+2020-06-24 11:14:21,290: Displaying images from webcam...
+2020-06-24 11:14:21,290: DataCollectorGUI started
+2020-06-24 11:14:21,290: DataCollectorGUI started
+2020-06-24 11:14:21,312: Mouse listener started
+2020-06-24 11:14:21,312: Mouse listener started
+2020-06-24 11:25:11,483: Start collecting data in background mode
+2020-06-24 11:25:11,483: Start collecting data in background mode
+2020-06-24 11:25:12,284: Displaying images from webcam...
+2020-06-24 11:25:12,284: Displaying images from webcam...
+2020-06-24 11:25:12,284: DataCollectorGUI started
+2020-06-24 11:25:12,284: DataCollectorGUI started
+2020-06-24 11:25:12,313: Mouse listener started
+2020-06-24 11:25:12,313: Mouse listener started
+2020-06-24 11:25:33,658: Closing DataCollectorGUI
+2020-06-24 11:25:33,658: Closing DataCollectorGUI
+2020-06-24 11:25:33,659: EyeWidget was closed
+2020-06-24 11:25:33,659: EyeWidget was closed
+2020-06-24 11:25:33,660: DataCollectorGUI closed
+2020-06-24 11:25:33,660: DataCollectorGUI closed
+2020-06-24 11:25:33,661: Saving collected data: 11 items
+2020-06-24 11:25:33,661: Saving collected data: 11 items
+2020-06-24 11:25:34,040: Acquiring lock for data collection. Locked = False
+2020-06-24 11:25:34,040: Acquiring lock for data collection. Locked = False
+2020-06-24 11:25:34,041: Lock acquired
+2020-06-24 11:25:34,041: Lock acquired
+2020-06-24 11:25:34,047: Saving data for session_10
+2020-06-24 11:25:34,047: Saving data for session_10
+2020-06-24 11:25:34,054: 
+
+2020-06-24 11:25:34,054: 
+
+2020-06-24 11:25:34,055: Thread 1: Saving images from 0 to 2
+2020-06-24 11:25:34,055: Thread 1: Saving images from 0 to 2
+2020-06-24 11:25:34,058: Thread 2: Saving images from 2 to 4
+2020-06-24 11:25:34,058: Thread 2: Saving images from 2 to 4
+2020-06-24 11:25:34,075: Thread 3: Saving images from 4 to 6
+2020-06-24 11:25:34,075: Thread 3: Saving images from 4 to 6
+2020-06-24 11:25:34,084: Thread 4: Saving images from 6 to 11
+2020-06-24 11:25:34,084: Thread 4: Saving images from 6 to 11
+2020-06-24 11:25:34,128: Stop displaying images from the webcam
+2020-06-24 11:25:34,128: Stop displaying images from the webcam
+2020-06-24 11:25:34,356: 
+
+2020-06-24 11:25:34,356: 
+
+2020-06-24 11:25:34,358: Saving data done
+2020-06-24 11:25:34,358: Saving data done
+2020-06-24 11:26:32,373: Start collecting data in active mode
+2020-06-24 11:26:32,373: Start collecting data in active mode
+2020-06-24 11:26:33,236: Displaying images from webcam...
+2020-06-24 11:26:33,236: Displaying images from webcam...
+2020-06-24 11:26:33,236: DataCollectorGUI started
+2020-06-24 11:26:33,236: DataCollectorGUI started
+2020-06-24 11:26:37,108: Increasing speed
+2020-06-24 11:26:37,108: Increasing speed
+2020-06-24 11:26:37,307: Increasing speed
+2020-06-24 11:26:37,307: Increasing speed
+2020-06-24 11:26:37,427: Increasing speed
+2020-06-24 11:26:37,427: Increasing speed
+2020-06-24 11:26:37,606: Increasing speed
+2020-06-24 11:26:37,606: Increasing speed
+2020-06-24 11:26:37,927: Increasing speed
+2020-06-24 11:26:37,927: Increasing speed
+2020-06-24 11:26:38,406: Increasing speed
+2020-06-24 11:26:38,406: Increasing speed
+2020-06-24 11:26:40,064: Increasing speed
+2020-06-24 11:26:40,064: Increasing speed
+2020-06-24 11:26:43,599: Triggered pause
+2020-06-24 11:26:43,599: Triggered pause
+2020-06-24 11:26:46,925: Triggered pause
+2020-06-24 11:26:46,925: Triggered pause
+2020-06-24 11:26:47,901: Increasing speed
+2020-06-24 11:26:47,901: Increasing speed
+2020-06-24 11:26:48,074: Increasing speed
+2020-06-24 11:26:48,074: Increasing speed
+2020-06-24 11:26:48,223: Increasing speed
+2020-06-24 11:26:48,223: Increasing speed
+2020-06-24 11:26:48,375: Increasing speed
+2020-06-24 11:26:48,375: Increasing speed
+2020-06-24 11:26:49,245: Decreasing speed
+2020-06-24 11:26:49,245: Decreasing speed
+2020-06-24 11:26:49,376: Decreasing speed
+2020-06-24 11:26:49,376: Decreasing speed
+2020-06-24 11:26:49,485: Decreasing speed
+2020-06-24 11:26:49,485: Decreasing speed
+2020-06-24 11:26:49,619: Decreasing speed
+2020-06-24 11:26:49,619: Decreasing speed
+2020-06-24 11:26:49,758: Decreasing speed
+2020-06-24 11:26:49,758: Decreasing speed
+2020-06-24 11:26:49,889: Decreasing speed
+2020-06-24 11:26:49,889: Decreasing speed
+2020-06-24 11:26:50,008: Decreasing speed
+2020-06-24 11:26:50,008: Decreasing speed
+2020-06-24 11:26:50,166: Decreasing speed
+2020-06-24 11:26:50,166: Decreasing speed
+2020-06-24 11:26:50,274: Decreasing speed
+2020-06-24 11:26:50,274: Decreasing speed
+2020-06-24 11:26:50,408: Decreasing speed
+2020-06-24 11:26:50,408: Decreasing speed
+2020-06-24 11:26:50,543: Decreasing speed
+2020-06-24 11:26:50,543: Decreasing speed
+2020-06-24 11:26:50,690: Decreasing speed
+2020-06-24 11:26:50,690: Decreasing speed
+2020-06-24 11:26:50,932: Decreasing speed
+2020-06-24 11:26:50,932: Decreasing speed
+2020-06-24 11:26:50,972: Decreasing speed
+2020-06-24 11:26:50,972: Decreasing speed
+2020-06-24 11:26:51,014: Decreasing speed
+2020-06-24 11:26:51,014: Decreasing speed
+2020-06-24 11:26:51,043: Decreasing speed
+2020-06-24 11:26:51,043: Decreasing speed
+2020-06-24 11:26:51,094: Decreasing speed
+2020-06-24 11:26:51,094: Decreasing speed
+2020-06-24 11:26:51,135: Decreasing speed
+2020-06-24 11:26:51,135: Decreasing speed
+2020-06-24 11:26:51,183: Decreasing speed
+2020-06-24 11:26:51,183: Decreasing speed
+2020-06-24 11:26:51,243: Decreasing speed
+2020-06-24 11:26:51,243: Decreasing speed
+2020-06-24 11:26:51,290: Decreasing speed
+2020-06-24 11:26:51,290: Decreasing speed
+2020-06-24 11:26:51,394: Decreasing speed
+2020-06-24 11:26:51,394: Decreasing speed
+2020-06-24 11:26:51,477: Decreasing speed
+2020-06-24 11:26:51,477: Decreasing speed
+2020-06-24 11:26:52,693: Triggered pause
+2020-06-24 11:26:52,693: Triggered pause
+2020-06-24 11:26:55,113: Triggered pause
+2020-06-24 11:26:55,113: Triggered pause
+2020-06-24 11:26:57,245: Triggered pause
+2020-06-24 11:26:57,245: Triggered pause
+2020-06-24 11:26:58,031: Closing DataCollectorGUI
+2020-06-24 11:26:58,031: Closing DataCollectorGUI
+2020-06-24 11:26:58,034: EyeWidget was closed
+2020-06-24 11:26:58,034: EyeWidget was closed
+2020-06-24 11:26:58,035: DataCollectorGUI closed
+2020-06-24 11:26:58,035: DataCollectorGUI closed
+2020-06-24 11:26:58,036: Saving collected data: 199 items
+2020-06-24 11:26:58,036: Saving collected data: 199 items
+2020-06-24 11:26:58,420: Acquiring lock for data collection. Locked = False
+2020-06-24 11:26:58,420: Acquiring lock for data collection. Locked = False
+2020-06-24 11:26:58,431: Lock acquired
+2020-06-24 11:26:58,431: Lock acquired
+2020-06-24 11:26:58,433: Saving data for session_11
+2020-06-24 11:26:58,433: Saving data for session_11
+2020-06-24 11:26:58,449: 
+
+2020-06-24 11:26:58,449: 
+
+2020-06-24 11:26:58,453: Thread 1: Saving images from 0 to 50
+2020-06-24 11:26:58,453: Thread 1: Saving images from 0 to 50
+2020-06-24 11:26:58,455: Thread 2: Saving images from 50 to 100
+2020-06-24 11:26:58,455: Thread 2: Saving images from 50 to 100
+2020-06-24 11:26:58,465: Thread 3: Saving images from 100 to 150
+2020-06-24 11:26:58,465: Thread 3: Saving images from 100 to 150
+2020-06-24 11:26:58,472: Thread 4: Saving images from 150 to 202
+2020-06-24 11:26:58,472: Thread 4: Saving images from 150 to 202
+2020-06-24 11:26:58,503: Stop displaying images from the webcam
+2020-06-24 11:26:58,503: Stop displaying images from the webcam
+2020-06-24 11:27:00,491: Thread 1: saved 32/50 images
+2020-06-24 11:27:00,491: Thread 1: saved 32/50 images
+2020-06-24 11:27:00,493: Thread 2: saved 31/50 images
+2020-06-24 11:27:00,493: Thread 2: saved 31/50 images
+2020-06-24 11:27:00,599: Thread 4: saved 32/52 images
+2020-06-24 11:27:00,599: Thread 4: saved 32/52 images
+2020-06-24 11:27:00,699: Thread 3: saved 32/50 images
+2020-06-24 11:27:00,699: Thread 3: saved 32/50 images
+2020-06-24 11:27:01,890: 
+
+2020-06-24 11:27:01,890: 
+
+2020-06-24 11:27:01,909: Saving data done
+2020-06-24 11:27:01,909: Saving data done

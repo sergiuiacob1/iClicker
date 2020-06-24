@@ -31,7 +31,9 @@ class PredictorGUI(BaseGUI):
         self._timer = QBasicTimer()          # creating timer
 
     def timerEvent(self, QTimerEvent):
-        self.update()                        # refreshing the widget
+        if self.isActiveWindow():
+            # refresh the window
+            self.update()
 
     def closeEvent(self, event):
         super().closeEvent(event)
@@ -40,7 +42,7 @@ class PredictorGUI(BaseGUI):
 
     def showEvent(self, event):
         # start the timer
-        # setting up timer ticks to 60 fps
+        # setting up timer ticks to update fps
         self._timer.start(1000 / Config.UPDATE_FPS, self)
 
     # TODO only update this widget from here
