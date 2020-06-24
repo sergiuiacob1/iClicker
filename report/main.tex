@@ -60,9 +60,13 @@
     \pagenumbering{gobble}
     
     \input{front/cover}
-    \cleardoublepage
+    \newpage
+    \thispagestyle{plain} % empty
+    \mbox{}
     \input{front/titlepage}
-    \cleardoublepage
+    \newpage
+    \thispagestyle{plain} % empty
+    \mbox{}
     % \input{front/declaration1}
     % \clearpage
     % \input{front/declaration2}
@@ -70,6 +74,9 @@
     
     % table of contents
     \tableofcontents
+    \newpage
+    \thispagestyle{plain} % empty
+    \mbox{}
     
     % chapters
     \setcounter{page}{1}

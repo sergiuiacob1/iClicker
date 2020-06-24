@@ -673,3 +673,11 @@
 2020-06-17 15:49:48,594: After: 5677 items
 2020-06-17 15:49:48,634: Saving processed data: 5677 final items
 2020-06-17 15:49:50,028: Processing data with <function extract_eye_strips at 0x7f8eec58ec20> took 184.51221704483032 seconds for 5677 original items
+2020-06-24 20:58:16,663: Loading collected data...
+2020-06-24 21:00:43,260: Loading data took 146.59495282173157 seconds
+2020-06-24 21:00:43,263: Loaded 8465 items
+2020-06-24 21:00:43,269: Processing data using <function extract_eye_strips at 0x7fc11402d3b0>
+2020-06-24 21:06:30,227: Selecting data for which faces were found. Before: 8465 items
+2020-06-24 21:06:30,464: After: 8465 items
+2020-06-24 21:06:30,514: Saving processed data: 8465 final items
+2020-06-24 21:06:31,434: Processing data with <function extract_eye_strips at 0x7fc11402d3b0> took 348.16493225097656 seconds for 8465 original items

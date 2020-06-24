@@ -51,7 +51,7 @@ data_needed_name = 'eye_strips_regression.pkl'
 def can_train_model():
     global data_needed_name
     path = os.path.join(os.getcwd(), Config.train_data_path, data_needed_name)
-    return not os.path.exists(path)
+    return os.path.exists(path)
 
 
 def train_model(train_parameters):
@@ -384,7 +384,7 @@ def get_best_trained_model(prediction_type, trained_with=None, data_used=None, g
 
 def main():
     train_parameters = {
-        "epochs": 100,
+        "epochs": 125,
         "batch_size": 32,
     }
     res = train_model(train_parameters)

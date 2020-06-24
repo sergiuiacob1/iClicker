@@ -1540,3 +1540,10 @@
 2020-06-24 12:43:26,688: Model chosen: model_27.pkl
 2020-06-24 15:10:54,038: Loading model trained with keras on eye_strips_regression.pkl for a grid size of 3
 2020-06-24 15:11:00,801: Model chosen: model_27.pkl
+2020-06-24 21:08:02,583: Training model with <function train_cnn_regression_with_keras at 0x7f8420e383b0> on eye_strips_regression.pkl
+2020-06-24 21:08:02,588: Loading train data...
+2020-06-24 21:08:03,533: Starting epoch 0
+2020-06-24 21:09:45,346: Train loss: 343940.95258509304, test loss: 21549.062270424172
+2020-06-24 21:09:45,346: Starting epoch 1
+2020-06-24 21:12:19,197: Train loss: 22483.76471765634, test loss: 19373.446984711863
+2020-06-24 21:12:19,198: Starting epoch 2
