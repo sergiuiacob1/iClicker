@@ -182,14 +182,14 @@ class Predictor():
             # if the eye i wants to click and if it's "more closed" than the other
             if time.time() - _time_last_opened[i] >= Config.EYE_CLICK_TIME and _can_click[i] == True \
                     and _prediction_info["eyes_are_opened"][1][i] < _prediction_info["eyes_are_opened"][1][1 - i]:
-                print(f'Am dat click cu {i}')
+                # print(f'Am dat click cu {i}')
                 _mouse_controller.press(buttons[i])
                 _mouse_controller.release(buttons[i])
                 _can_click[i] = False
 
             if time.time() - _time_last_closed[i] >= Config.EYE_CLICK_TIME * 2 and _can_click[i] == False:
                 _can_click[i] = True
-                print(f'{i} can click!')
+                # print(f'{i} can click!')
 
     def _move_mouse(self):
         global _mouse_controller

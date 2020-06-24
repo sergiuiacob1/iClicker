@@ -12,7 +12,7 @@
 \usepackage{enumitem} % to customize lists
 \setlist[1]{itemsep=-5pt}
 \usepackage{csquotes} % needed dependency
-\usepackage[backend=biber, natbib, style=apa]{biblatex} % bibliography
+\usepackage[backend=biber, style=science, citestyle=authoryear]{biblatex} % bibliography
 \addbibresource{bibliography.bib} % bibliography
 \usepackage{listings} % for inline code
 \usepackage{xcolor} % to define colors
@@ -60,9 +60,9 @@
     \pagenumbering{gobble}
     
     \input{front/cover}
-    \clearpage
+    \cleardoublepage
     \input{front/titlepage}
-    \clearpage
+    \cleardoublepage
     % \input{front/declaration1}
     % \clearpage
     % \input{front/declaration2}

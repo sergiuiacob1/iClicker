@@ -64,7 +64,6 @@ class DataCollectorGUI(BaseGUI):
         dc_logger.info('DataCollectorGUI closed')
         self.controller.end_data_collection()
 
-    # TODO derive this from BaseGUI and delete this below
     def keyPressEvent(self, e):
         super().keyPressEvent(e)
         if e.key() == Qt.Key_Up:

@@ -59,7 +59,6 @@ def stop_capturing():
     if capture_requests <= 0:
         # nobody else is currently using the camera, so release it
         cam.release()
-        # TODO are these below necessary
         cam = None
         cv2.destroyAllWindows()
     # don't forget to release lock

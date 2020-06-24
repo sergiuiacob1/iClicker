@@ -256,7 +256,6 @@ def get_data(filename='train_data.pkl'):
     return X, y
 
 
-# TODO make sure that I'm saving models with score on validation data (not on train data)... or both
 def save_model(model, train_parameters={}):
     """
     `model` is a dictionary containing information about the model and the model itself.

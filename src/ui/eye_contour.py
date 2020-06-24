@@ -24,8 +24,9 @@ class EyeContour(QtWidgets.QWidget):
             self.points[-1][0], self.points[-1][1], self.points[0][0], self.points[0][1])
 
 
-# TODO do i need this?
 def sort_points_counter_clockwise(points):
+    import math
+    import functools
     if len(points) == 0:
         return []
 
