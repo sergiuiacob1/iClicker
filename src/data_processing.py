@@ -79,7 +79,7 @@ def load_collected_data():
             mouse_position = session_items[x]["mouse_position"]
             data.append(DataObject(
                 img, mouse_position, screen_size, Config.grid_size))
-        
+
     dp_logger.info(f'Loading data took {time.time() - st} seconds')
     return data
 
@@ -172,7 +172,8 @@ def process_data(data, how_to_process_it):
          for x in data]
     y = np.array(y)
     # it's possible that some instances couldn't be processed, therefore eliminate those
-    dp_logger.info(f'Selecting data for which faces were found. Before: {len(X)} items')
+    dp_logger.info(
+        f'Selecting data for which faces were found. Before: {len(X)} items')
     instances_success = [True] * len(X)
     for (index, x) in enumerate(X):
         if x is None:
@@ -181,7 +182,9 @@ def process_data(data, how_to_process_it):
     y = y[instances_success]
     dp_logger.info(f'After: {len(X)} items')
 
-    assert (np.amax(X) <= 1), "Data isn't normalised"
+    for i in range(len(X)):
+        assert (np.amax(X[i]) <=
+                1), f"Data isn't normalised: instance {i}/{len(X)}"
 
     # save processed data
     dp_logger.info(f'Saving processed data: {len(X)} final items')
@@ -201,7 +204,8 @@ def process_data_for_regression(data, how_to_process_it):
     y = [x.mouse_position for x in data]
     y = np.array(y)
     # it's possible that some instances couldn't be processed, therefore eliminate those
-    dp_logger.info(f'Selecting data for which faces were found. Before: {len(X)} items')
+    dp_logger.info(
+        f'Selecting data for which faces were found. Before: {len(X)} items')
     instances_success = [True] * len(X)
     for (index, x) in enumerate(X):
         if x is None:
@@ -210,7 +214,9 @@ def process_data_for_regression(data, how_to_process_it):
     y = y[instances_success]
     dp_logger.info(f'After: {len(X)} items')
 
-    assert (np.amax(X) <= 1), "Data isn't normalised"
+    for i in range(len(X)):
+        assert (np.amax(X[i]) <=
+                1), f"Data isn't normalised: instance {i}/{len(X)}"
 
     # save processed data
     dp_logger.info(f'Saving processed data: {len(X)} final items')
@@ -222,6 +228,7 @@ def process_data_for_regression(data, how_to_process_it):
         name = f'thresholded_eyes_regression.pkl'
     save_processed_data((X, y), name)
 
+
 def can_process_data():
     data_path = os.path.join(os.getcwd(), Config.data_directory_path)
     sessions_path = (os.path.join(data_path, 'sessions.json'))
@@ -232,6 +239,7 @@ def can_process_data():
     if os.stat(sessions_path).st_size == 0:
         return False
     return True
+
 
 def main():
     # load the data
@@ -251,6 +259,7 @@ def main():
     process_data_for_regression(data, f)
     s = f'Processing data with {f} took {time.time() - start} seconds for {len(data)} original items'
     dp_logger.info(s)
+
 
 if __name__ == '__main__':
     attach_logger_to_stdout()

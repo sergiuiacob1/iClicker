@@ -26,7 +26,9 @@ def _download_necessary_files():
     zipfile = bz2.BZ2File(zip_path) # open the file
     data = zipfile.read() # get the decompressed data
     newfilepath = zip_path[:-4] # assuming the filepath ends with .bz2
-    open(newfilepath, 'wb').write(data) # write a uncompressed file
+    with open(newfilepath, 'wb') as f:
+        f.write(data) # write a uncompressed file
+        f.close() # save the file
     print (f'Deleting the archive...')
     os.remove(zip_path)
     print ('Success!')
